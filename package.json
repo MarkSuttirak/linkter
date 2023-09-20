@@ -1,0 +1,18 @@
+{
+  "name": "linkter",
+  "version": "1.0.0",
+  "description": "For inserting links",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd linkpage && yarn dev",
+    "build": "cd linkpage && yarn build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {}
+}

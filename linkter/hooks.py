@@ -199,3 +199,5 @@ app_license = "MIT"
 # auth_hooks = [
 #	"linkter.auth.validate"
 # ]
+
+website_route_rules = [{'from_route': '/linkpage/<path:app_path>', 'to_route': 'linkpage'},]
