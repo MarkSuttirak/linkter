@@ -10,7 +10,9 @@ import EditProfile from './pages/edit-profile'
 
 function App() {
   return (
-    <FrappeProvider url={"https://linkter.vercel.app"}>
+    <FrappeProvider url={"https://linkter.vercel.app"} 
+      enableSocket={false}
+    >
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}/>
