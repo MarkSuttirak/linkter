@@ -5,15 +5,25 @@ import { Dialog, Transition, Switch, RadioGroup } from '@headlessui/react'
 import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, Link01, Grid01, Trash01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import DotsVertical from "../icons/dotsVertical";
-import Facebook from "../icons/facebook";
-import Instagram from "../icons/instagram";
-import Twitter from "../icons/twitter";
+import Facebook from '../icons/facebook';
+import Instagram from '../icons/instagram';
+import Twitter from '../icons/twitter';
+import Tiktok from '../icons/tiktok'
+import Spotify from '../icons/spotify'
 import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
 import EditProfile from "./edit-profile";
 import bio from '../icons/icon.svg'
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
+import templateOne from '../templates/template-one.png'
+import templateTwo from '../templates/template-two.png'
+import templateThree from '../templates/template-three.png'
+import templateFour from '../templates/template-four.png'
+import templateFive from '../templates/template-five.png'
+import templateSix from '../templates/template-six.png'
+import templateSeven from '../templates/template-seven.png'
+import templateEight from '../templates/template-eight.png'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -28,8 +38,17 @@ const Profile = () => {
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
   const [addBtnMenuActive, setAddBtnMenuActive] = useState(0)
+  const [addShortcut, setAddShortcut] = useState(false)
+
+  const [shortcutMenuActive, setShortcutMenuActive] = useState(0)
+
+  const [inputError, setInputError] = useState(false);
 
   const [enabled, setEnabled] = useState(false)
+
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight];
+  const [numTemplates, setNumTemplates] = useState(0);
+  const selectedTemplate = templates[numTemplates];
 
   const [goNextSlideLeft, setGoNextSlideLeft] = useState(false);
   const [goNextSlideRight, setGoNextSlideRight] = useState(false);
@@ -75,13 +94,17 @@ const Profile = () => {
     key:numOfIconInputs
   }])
 
+  const socialIcons = [
+    (<Facebook />), (<Instagram />), (<Twitter />), (<Tiktok />), (<Spotify />), (<Facebook />), (<Instagram />), (<Twitter />), (<Tiktok />), (<Spotify />)
+  ]
+
   const IconInput = ({key}) => {
     const iconInputs = [];
 
     for (let i = 0; i < numOfIconInputs; i++){
       iconInputs.push(
         <div key={key} className="mb-4">
-          <div className="px-4 flex items-center gap-x-[10px]">
+          <div className="flex items-center gap-x-[10px]">
             <div>
               <DotsVertical color='#75777A'/>
             </div>
@@ -385,33 +408,95 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenAddButton(false)}>
-                          <ChevronLeft color='#667085'/>
-                        </button>
-                        เพิ่มปุ่ม
+                        {addShortcut && (
+                          <button className="absolute left-0" onClick={() => setAddShortcut(false)}>
+                            <ChevronLeft color='#667085'/>
+                          </button>
+                        )}
+                        {addBtnMenuActive === 0 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'เพิ่มปุ่ม'}</>}
+                        {addBtnMenuActive === 1 && 'เทมเพลต'}
+                        {addBtnMenuActive === 2 && 'ปรับแต่ง'}
                       </Dialog.Title>
                     </div>
 
                     {addBtnMenuActive === 0 && (
-                      <div className="p-4">
-                        <Dialog.Description as='p' className='text-gray-600 text-sm text-center'>
-                          กรุณาเลือกไอคอนและระบุ Url ของไอคอน
-                        </Dialog.Description>
+                      <>
+                        {addShortcut ? (
+                          <div className="p-4">
+                            <nav className="relative mb-[30px]">
+                              <button onClick={() => setShortcutMenuActive(0)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 0 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                                ไอคอน
+                              </button>
+                              <button onClick={() => setShortcutMenuActive(1)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                                รูปภาพ
+                              </button>
+                              <label htmlFor='uploadImg' className={`inline-block text-center font-bold p-2 w-1/3 rounded-lg text-sm`}>
+                                อัปโหลด
+                                <input type='file' className="hidden" id='uploadImg' />
+                              </label>
+                            </nav>
 
-                        <div className="flex gap-x-[10px] items-center mt-4">
-                          <label htmlFor='uploadImg'>
-                            <div className="w-[86px] h-[86px] rounded-lg bg-[#FFE9DD] flex items-center justify-center text-[50px] text-white font-bold">
-                              <Image01 color='#FF4A00' />
+                            {shortcutMenuActive === 0 && (
+                              <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
+                                {socialIcons.map((icon) => 
+                                  <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="p-4">
+                            <Dialog.Description as='p' className='text-gray-600 text-sm text-center'>
+                              กรุณาเลือกไอคอนและระบุ Url ของไอคอน
+                            </Dialog.Description>
+
+                            <div className="flex gap-x-[10px] items-start mt-4">
+                              <div onClick={() => setAddShortcut(true)} className="min-w-[86px] h-[86px] rounded-lg bg-[#FFE9DD] flex items-center justify-center text-[50px] text-white font-bold">
+                                <Image01 color='#FF4A00' />
+                              </div>
+
+                              <div className="flex flex-col gap-y-[6px] w-full">
+                                <input type='text' className="form-input" placeholder="ชื่อปุ่ม"/>
+                                <input type='text' className={`form-input ${inputError ? 'error' : ''}`} placeholder="www.example.com" onChange={(e) => {
+                                  if (
+                                    e.target.value.includes(".com") ||
+                                    e.target.value.includes(".co.th") ||
+                                    e.target.value.includes(".net")
+                                  ){
+                                    setInputError(false)
+                                  } else {
+                                    setInputError(true)
+                                  }
+                                }}/>
+                                {inputError && (
+                                  <p className="noto text-[#F04438] text-sm">กรุณาระบุรูปแบบ Url ที่ถูกต้อง</p>
+                                )}
+                              </div>
                             </div>
 
-                            <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
-                          </label>
-
-                          <div className="flex flex-col gap-y-[6px] w-full">
-                            <input type='text' className="form-input" placeholder="ชื่อปุ่ม"/>
-                            <input type='text' className="form-input" placeholder="www.example.com"/>
+                            <div className="pt-4 flex">
+                              <button
+                                className="main-btn"
+                                onClick={() => setOpenAddButton(false)}
+                              >
+                                ยืนยัน
+                              </button>
+                            </div>
                           </div>
-                        </div>
+                        )}
+                      </>
+                    )}
+
+                    {addBtnMenuActive === 1 && (
+                      <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
+                        {templates.map((temp, index) => 
+                          <button key={index} onClick={() => {
+                            setNumTemplates(index);
+                            setOpen(true)
+                          }}>
+                            <img src={temp} width='100%'/>
+                          </button>
+                        )}
                       </div>
                     )}
 
@@ -425,14 +510,14 @@ const Profile = () => {
                         {shortcutIconInputs.map((index) => 
                           <IconInput key={index}/>
                         )}
-                        <div className="px-4">
+                        <div>
                           <button className="main-btn no-bg" onClick={() => {
                             setNumOfIconInputs(numOfIconInputs + 1)
                           }}>เพิ่มไอคอน</button>
                         </div>
                         <hr className="border-gray-200 my-6"/>
 
-                        <div className="mt-6 px-4">
+                        <div className="mt-6">
                           <RadioGroup value={selectedShortcutDisplay} onChange={setSelectedShortcutDisplay}>
                             <RadioGroup.Label className="text-[#344054] text-sm">ตำแหน่งของปุ่มลัด</RadioGroup.Label>
 
@@ -476,32 +561,34 @@ const Profile = () => {
                           </RadioGroup>
                         </div>
                       </div>
+
+                      <div className="pt-4 flex">
+                        <button
+                          className="main-btn"
+                          onClick={() => setOpenAddButton(false)}
+                        >
+                          ยืนยัน
+                        </button>
+                      </div>
                     </div>
                     )}
 
-                    <div className="p-4 flex">
-                      <button
-                        className="main-btn"
-                        onClick={() => setOpenAddButton(false)}
-                      >
-                        ยืนยัน
-                      </button>
-                    </div>
-
-                    <div className="px-4 py-[9px] border-t border-t-[#EAECF0] relative">
-                      <button onClick={() => setAddBtnMenuActive(0)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 0 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
-                        <Link01 className="mx-auto"/>
-                        เพิ่มปุ่ม
-                      </button>
-                      <button onClick={() => setAddBtnMenuActive(1)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
-                        <Grid01 className="mx-auto"/>
-                        เทมเพลต
-                      </button>
-                      <button onClick={() => setAddBtnMenuActive(2)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 2 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
-                        <Link01 className="mx-auto"/>
-                        ปรับแต่ง
-                      </button>
-                    </div>
+                    {!addShortcut && (
+                      <nav className="px-4 py-[9px] border-t border-t-[#EAECF0] relative">
+                        <button onClick={() => setAddBtnMenuActive(0)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 0 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                          <Link01 className="mx-auto"/>
+                          เพิ่มปุ่ม
+                        </button>
+                        <button onClick={() => setAddBtnMenuActive(1)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                          <Grid01 className="mx-auto"/>
+                          เทมเพลต
+                        </button>
+                        <button onClick={() => setAddBtnMenuActive(2)} className={`text-center p-2 w-1/3 rounded-lg text-xs ${addBtnMenuActive === 2 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                          <Link01 className="mx-auto"/>
+                          ปรับแต่ง
+                        </button>
+                      </nav>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

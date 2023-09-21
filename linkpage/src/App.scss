@@ -188,6 +188,9 @@ $primaryColor:#FF4A00;
     border-right:none;
     padding-right:0;
   }
+  &.error {
+    border-color:#FDA29B;
+  }
 }
 
 .go-next-slide-left {
