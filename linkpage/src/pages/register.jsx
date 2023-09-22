@@ -308,7 +308,7 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="overflow-y-auto" style={{height:"calc(100vh - 380px)"}}>
+            <div className="overflow-y-auto" style={{maxHeight:"calc(100vh - 380px)"}}>
               {listInputs.map((index) => 
                 <LinkInput key={index}/>
               )}
@@ -320,7 +320,7 @@ const Register = () => {
                   } else {
                     setNumOfLinkInputs(numOfLinkInputs)
                   }
-                }}>เพิ่มปุ่ม</button>
+                }} style={{color:"#FF4A00"}}>เพิ่มปุ่ม <span className='text-[#475467]'>({numOfLinkInputs}/10)</span></button>
               </div>
             </div>
           </div>

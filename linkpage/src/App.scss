@@ -374,3 +374,37 @@ $primaryColor:#FF4A00;
     transform:translateY(0)
   }
 }
+
+.saved-noti-fade-in {
+  animation:savedNotiFadeIn 400ms forwards;
+}
+
+.saved-noti-fade-out {
+  animation:savedNotiFadeOut 400ms forwards;
+}
+
+@keyframes savedNotiFadeIn {
+  from {
+    top:110px;
+    visibility:hidden;
+    opacity:0
+  }
+  to {
+    top:120px;
+    visibility:visible;
+    opacity:1
+  }
+}
+
+@keyframes savedNotiFadeOut {
+  from {
+    top:120px;
+    visibility:visible;
+    opacity:1
+  }
+  to {
+    top:110px;
+    visibility:hidden;
+    opacity:0
+  }
+}
