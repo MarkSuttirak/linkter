@@ -7,7 +7,6 @@ import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
 import bio from '../icons/icon.svg'
 import DotsVertical from "../icons/dotsVertical";
-import Spotify from '../icons/other/spotify'
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
 import templateOne from '../templates/template-one.png'
@@ -20,6 +19,7 @@ import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
+import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps } from '../icons/other-icons'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -84,6 +84,10 @@ const Profile = () => {
   const socialIcons = [
     (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
     (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />), (<Discord />), (<WhatsApp />), (<Snapchat />), (<Threads />), (<Twitch />)
+  ]
+
+  const otherIcons = [
+    (<YoutubeMusic />), (<Signal />), (<Soundcloud />), (<Spotify />), (<AppleMusic />), (<Telegram />), (<AppleFacetime />), (<GoogleMaps />)
   ]
 
   const [listInputs, setListInputs] = useState([{
@@ -485,6 +489,14 @@ const Profile = () => {
                               {shortcutMenuActive === 0 && (
                                 <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
                                   {socialIcons.map((icon) => 
+                                    <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
+                                  )}
+                                </div>
+                              )}
+
+                              {shortcutMenuActive === 2 && (
+                                <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
+                                  {otherIcons.map((icon) => 
                                     <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
                                   )}
                                 </div>
