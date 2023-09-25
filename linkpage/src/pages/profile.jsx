@@ -13,6 +13,7 @@ import XTwitter from '../icons/social/XTwitter';
 import Tiktok from '../icons/social/tiktok'
 import GoogleHangouts from '../icons/social/google-hangouts';
 import Messenger from '../icons/social/messenger'
+import WhatsApp from '../icons/social/whatsapp';
 import Spotify from '../icons/other/spotify'
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
@@ -34,6 +35,10 @@ import WeChat from '../icons/social/wechat';
 import Tinder from '../icons/social/tinder';
 import Reddit from '../icons/social/reddit'
 import Clubhouse from '../icons/social/clubhouse';
+import Discord from '../icons/social/discord'
+import Snapchat from '../icons/social/snapchat';
+import Threads from '../icons/social/threads'
+import Twitch from '../icons/social/twitch'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -97,7 +102,7 @@ const Profile = () => {
 
   const socialIcons = [
     (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
-    (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />)
+    (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />), (<Discord />), (<WhatsApp />), (<Snapchat />), (<Threads />), (<Twitch />)
   ]
 
   const [listInputs, setListInputs] = useState([{
@@ -491,10 +496,9 @@ const Profile = () => {
                                 <button onClick={() => setShortcutMenuActive(1)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   ชอปปิ้ง
                                 </button>
-                                <label htmlFor='uploadImg' className={`inline-block text-center font-bold p-2 w-1/3 rounded-lg text-sm`}>
+                                <button onClick={() => setShortcutMenuActive(2)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   อื่น ๆ
-                                  <input type='file' className="hidden" id='uploadImg' />
-                                </label>
+                                </button>
                               </nav>
 
                               {shortcutMenuActive === 0 && (
