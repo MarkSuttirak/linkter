@@ -1,4 +1,4 @@
-const GoogleHangouts = ({width = 24, height = 24, color = 'black'}) => {
+export const GoogleHangouts = ({width = 24, height = 24, color = 'black'}) => {
   return (
     <svg width={width} height={height} viewBox="0 0 20 20" fill={color} xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6465 8.63616C18.6465 3.86684 14.7727 0 10.0033 0C5.23402 0 1.36719 3.86684 1.36719 8.63616C1.36719 13.1543 5.48521 16.8179 10.0033 16.8179V20C15.2511 17.3386 18.6465 13.0559 18.6465 8.63616ZM10.6856 6.36352V10H12.731V12.0454C13.6228 12.0454 14.3221 10.9088 14.3221 9.7728V6.36352H10.6856ZM5.68527 10V6.36352H9.32175V9.7728C9.32175 10.9088 8.62248 12.0454 7.73071 12.0454V10H5.68527Z" fill={color}/>
@@ -9,5 +9,3 @@ const GoogleHangouts = ({width = 24, height = 24, color = 'black'}) => {
     </svg>
   )
 }
-
-export default GoogleHangouts;

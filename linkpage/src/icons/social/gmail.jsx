@@ -1,4 +1,4 @@
-const Gmail = ({width = 24, height = 24, color = 'black'}) => {
+export const Gmail = ({width = 24, height = 24, color = 'black'}) => {
   return (
     <svg width={width} height={height} viewBox="0 0 26 19" fill={color} xmlns="http://www.w3.org/2000/svg">
       <path d="M2.52698 18.3595H6.41806V8.90973L0.859375 4.74072V16.6919C0.859375 17.6146 1.60702 18.3595 2.52698 18.3595Z" fill={color}/>
@@ -9,5 +9,3 @@ const Gmail = ({width = 24, height = 24, color = 'black'}) => {
     </svg>
   )
 }
-
-export default Gmail

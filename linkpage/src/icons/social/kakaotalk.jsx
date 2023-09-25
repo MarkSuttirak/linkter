@@ -1,4 +1,4 @@
-const Kakaotalk = ({width = 24, height = 24, color = 'black'}) => {
+export const Kakaotalk = ({width = 24, height = 24, color = 'black'}) => {
   return (
     <svg width={width} height={height} viewBox="0 0 20 20" fill={color} xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_497_7213)">
@@ -13,5 +13,3 @@ const Kakaotalk = ({width = 24, height = 24, color = 'black'}) => {
     </svg>
   )
 }
-
-export default Kakaotalk

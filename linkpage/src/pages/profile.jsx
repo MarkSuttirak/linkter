@@ -7,13 +7,6 @@ import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
 import bio from '../icons/icon.svg'
 import DotsVertical from "../icons/dotsVertical";
-import Facebook from '../icons/social/facebook';
-import Instagram from '../icons/social/instagram';
-import XTwitter from '../icons/social/XTwitter';
-import Tiktok from '../icons/social/tiktok'
-import GoogleHangouts from '../icons/social/google-hangouts';
-import Messenger from '../icons/social/messenger'
-import WhatsApp from '../icons/social/whatsapp';
 import Spotify from '../icons/other/spotify'
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
@@ -26,19 +19,7 @@ import templateSix from '../templates/template-six.png'
 import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import QRCode from 'react-qr-code';
-import Youtube from '../icons/social/youtube';
-import Gmail from '../icons/social/gmail';
-import LinkedIn from '../icons/social/linkedin';
-import Kakaotalk from '../icons/social/kakaotalk';
-import Line from '../icons/social/line';
-import WeChat from '../icons/social/wechat';
-import Tinder from '../icons/social/tinder';
-import Reddit from '../icons/social/reddit'
-import Clubhouse from '../icons/social/clubhouse';
-import Discord from '../icons/social/discord'
-import Snapchat from '../icons/social/snapchat';
-import Threads from '../icons/social/threads'
-import Twitch from '../icons/social/twitch'
+import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

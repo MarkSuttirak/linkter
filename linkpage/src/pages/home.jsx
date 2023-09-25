@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { PlusIcon } from '@heroicons/react/20/solid'
-import Facebook from '../icons/social/facebook';
-import Instagram from '../icons/social/instagram';
-import XTwitter from '../icons/social/XTwitter';
-import Tiktok from '../icons/social/tiktok'
-import Spotify from '../icons/other/spotify'
+import { Facebook, Instagram, XTwitter, Tiktok } from '../icons/social-media'
+import Spotify from '../icons/other/spotify';
 import zaviago from '../icons/zaviago-com.svg'
 import { Link } from 'react-router-dom';
 
