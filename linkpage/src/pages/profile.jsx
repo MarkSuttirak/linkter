@@ -5,7 +5,7 @@ import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, Chevr
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
-import bio from '../icons/icon.svg'
+import bioIcon from '../icons/icon.svg'
 import DotsVertical from "../icons/dotsVertical";
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
@@ -216,7 +216,7 @@ const Profile = () => {
           ) : (
             <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
               <div className='flex gap-x-[10px]'>
-                <img src={bio} />
+                <img src={bioIcon} />
                 <h1 className='text-gray-900 inter font-semibold text-xl'>hitlink</h1>
               </div>
 
