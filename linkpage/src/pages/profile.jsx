@@ -27,6 +27,7 @@ function classNames(...classes) {
 }
 
 const Profile = () => {
+  const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)

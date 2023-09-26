@@ -62,7 +62,7 @@ export const Shopify = ({width = 24, height = 24, color = 'black'}) => {
 
 export const Linemyshop = ({width = 24, height = 24, color = 'black'}) => {
   return (
-    <svg width={width} height={height} viewBox="0 0 20 22" fill={color} xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M6.87109 8.17969V10.231M13.5378 8.17969V10.231" stroke={color} stroke-width="2"/>
       <path d="M6.87109 6.12824V3.30771C6.87109 2.53847 7.53777 1 10.2045 1C12.8711 1 13.7088 2.53847 13.7942 3.30771V5.61542" stroke={color} stroke-width="2"/>
       <path d="M9.17954 5.61523H17.8976L18.4104 21H2L2.51282 5.61523H4.56412" stroke={color} stroke-width="2"/>

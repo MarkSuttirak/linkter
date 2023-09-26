@@ -490,7 +490,10 @@ const Register = () => {
                   <div className="p-4 flex">
                     <button
                       className="main-btn"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        window.location.href = '/profile'
+                      }}
                     >
                       ยืนยัน
                     </button>
