@@ -19,7 +19,7 @@ import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
-import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps } from '../icons/other-icons'
+import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -87,7 +87,8 @@ const Profile = () => {
   ]
 
   const otherIcons = [
-    (<YoutubeMusic />), (<Signal />), (<Soundcloud />), (<Spotify />), (<AppleMusic />), (<Telegram />), (<AppleFacetime />), (<GoogleMaps />)
+    (<YoutubeMusic />), (<Signal />), (<Soundcloud />), (<Spotify />), (<AppleMusic />), (<Telegram />), (<AppleFacetime />), (<GoogleMaps />), (<Pinterest />),
+    (<Giphy />), (<Dropbox />), (<Onedrive />), (<WeTransfer />), (<Patreon />), (<Blogger />), (<Deviantart />), (<Invision />), (<Behance />), (<Dribbble />), (<GoogleDrive />)
   ]
 
   const [listInputs, setListInputs] = useState([{
