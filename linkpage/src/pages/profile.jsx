@@ -1,7 +1,7 @@
 import readyToUse from '../icons/ready-to-use.png'
 import { Fragment, useState } from 'react'
 import { Dialog, Transition, Switch, RadioGroup } from '@headlessui/react'
-import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
+import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
@@ -20,6 +20,7 @@ import templateEight from '../templates/template-eight.png'
 import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
+import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -76,7 +77,7 @@ const Profile = () => {
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
   const [numOfLinkInputs, setNumOfLinkInputs] = useState(1);
-  const [numOfIconInputs, setNumOfIconInputs] = useState(1);
+  const [numOfIconInputs, setNumOfIconInputs] = useState(0);
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
@@ -84,6 +85,10 @@ const Profile = () => {
   const socialIcons = [
     (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
     (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />), (<Discord />), (<WhatsApp />), (<Snapchat />), (<Threads />), (<Twitch />)
+  ]
+
+  const shoppingIcons = [
+    (<Amazon />), (<Lazada />), (<Shopee />), (<TiktokShop />), (<HomeSmile />), (<Ebay />), (<Shopify />), (<Globe02 />), (<Linemyshop />)
   ]
 
   const otherIcons = [
@@ -125,9 +130,8 @@ const Profile = () => {
     return linkInputs;
   }
 
-  const IconInput = ({key}) => {
+  const IconInput = ({key, icon}) => {
     const iconInputs = [];
-
     for (let i = 0; i < numOfIconInputs; i++){
       iconInputs.push(
         <div key={key} className="mb-4">
@@ -136,7 +140,18 @@ const Profile = () => {
               <DotsVertical color='#75777A'/>
             </div>
             <div className="flex flex-col gap-y-[6px] grow">
-              <input type='text' className="form-input with-shadow" name='icon-link' id='icon-link' placeholder="ชื่อลิงก์"/>
+              <div className="flex rounded-md flex-row-reverse">
+                <input
+                  type='text'
+                  name='icon-link' 
+                  id='icon-link'
+                  className="form-input with-prefix"
+                  placeholder="ชื่อลิงก์"
+                />
+                <span className="input-addon form-prefix">
+                  {icon}
+                </span>
+              </div>
             </div>
             <div>
               <Trash01 color='#F04438' onClick={() => {
@@ -482,23 +497,40 @@ const Profile = () => {
                                 <button onClick={() => setShortcutMenuActive(1)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   ชอปปิ้ง
                                 </button>
-                                <button onClick={() => setShortcutMenuActive(2)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
+                                <button onClick={() => setShortcutMenuActive(2)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 2 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   อื่น ๆ
                                 </button>
                               </nav>
 
                               {shortcutMenuActive === 0 && (
-                                <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
-                                  {socialIcons.map((icon) => 
-                                    <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {socialIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
+                                  )}
+                                </div>
+                              )}
+
+                              {shortcutMenuActive === 1 && (
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {shoppingIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
                                   )}
                                 </div>
                               )}
 
                               {shortcutMenuActive === 2 && (
-                                <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
-                                  {otherIcons.map((icon) => 
-                                    <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {otherIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
                                   )}
                                 </div>
                               )}
