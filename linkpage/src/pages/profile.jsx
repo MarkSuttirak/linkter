@@ -1,12 +1,12 @@
 import readyToUse from '../icons/ready-to-use.png'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, Transition, Switch, RadioGroup } from '@headlessui/react'
 import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
 import { Link } from "react-router-dom";
 import bio from '../icons/icon.svg'
-import DotsVertical from "../icons/dotsVertical";
+import DotsVertical from "../icons/dotsVertical"; 
 import Facebook from '../icons/social/facebook';
 import Instagram from '../icons/social/instagram';
 import XTwitter from '../icons/social/XTwitter';
@@ -24,6 +24,8 @@ import templateFive from '../templates/template-five.png'
 import templateSix from '../templates/template-six.png'
 import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
+import templateNine from '../templates/template-nine.png'
+import templateTen from '../templates/template-ten.png'
 import QRCode from 'react-qr-code';
 import Youtube from '../icons/social/youtube';
 import Gmail from '../icons/social/gmail';
@@ -32,15 +34,18 @@ import Kakaotalk from '../icons/social/kakaotalk';
 import Line from '../icons/social/line';
 import WeChat from '../icons/social/wechat';
 import Tinder from '../icons/social/tinder';
-import Reddit from '../icons/social/reddit'
+import Reddit from '../icons/social/reddit';
 import Clubhouse from '../icons/social/clubhouse';
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const Profile = () => {
-  const [openReady, setOpenReady] = useState(false)
+  const [template, setTemplate] = useState('1');
+  const [linkColor, setLinkColor] = useState('#000000');
+  const [openReady, setOpenReady] = useState(false);
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
   const [name, setName] = useState('Olivia');
@@ -67,7 +72,7 @@ const Profile = () => {
     }, 6000)
   }
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [openAddButtonModal, setOpenAddButtonModal] = useState(false)
   const [openChangeTitle, setOpenChangeTitle] = useState(false)
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -78,10 +83,13 @@ const Profile = () => {
   const [shortcutMenuActive, setShortcutMenuActive] = useState(0)
   const [addShortcut, setAddShortcut] = useState(false) // false
   const [inputError, setInputError] = useState(false);
+  const [modifiedSVG, setModifiedSVG] = useState(null);
 
-  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight];
-  const [numTemplates, setNumTemplates] = useState(0);
-  const selectedTemplate = templates[numTemplates];
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
+  const [numTemplates, setNumTemplates] = useState(1);
+  const [numSubTemplates, setSubNumTemplates] = useState(1);
+  const [imgPath, setImagepath] = useState([]);
+
 
   const shortcutDisplay = [
     { id: 1, title: 'ด้านบนของลิงก์', img: <UpperLink />},
@@ -94,15 +102,114 @@ const Profile = () => {
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
+  const [editTemplate, setEditTemplate] = useState(false);
 
   const socialIcons = [
     (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
     (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />)
   ]
 
+  const titleHTML = useRef(null)
   const [listInputs, setListInputs] = useState([{
     key:numOfIconInputs
   }])
+
+  const handleButtonClick = (templatenumber) => {
+    setTemplate(templatenumber)
+    // You can set the new template here
+    const value = Number(templatenumber);
+    changelinkColor(tabLinkColor[value - 1][0])
+    fetch(zaviago)
+    .then(response => response.text())
+    .then(svgData => {
+      // Modify the SVG data here
+      modifySVGColor(svgData, tabLinkColor[value - 1][1]);
+    })
+    .catch(error => {
+      console.error('Error loading SVG:', error);
+    });
+  };
+
+  const generateImagePaths = (id) => {
+    const imageFolder = `./src/templates/template${id}`;
+    const imagePaths = [];
+  
+    for (let i = 1; i <= 4; i++) {
+      const imagePath = `${imageFolder}/${i}.png`;
+      imagePaths.push(imagePath);
+    }
+  
+    return imagePaths;
+  }
+
+  // Function to modify SVG fill color
+  const modifySVGColor =  (svgString, newFillColor)  => {
+    // Use DOMParser to parse the SVG string
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(svgString, 'image/svg+xml');
+
+    // Modify the fill attribute of the relevant SVG elements
+    const elementsToModify = xmlDoc.querySelectorAll('[fill]');
+    elementsToModify.forEach((element) => {
+      element.setAttribute('fill', newFillColor);
+    });
+
+
+    // Serialize the modified SVG back to a string
+    const modifiedSVGString = new XMLSerializer().serializeToString(xmlDoc);
+    setModifiedSVG(modifiedSVGString);
+  }
+  const tabLinkColor = [
+    ['#04C900' ,'#000000'],
+    ['#C90000', '#000000'],
+    ['#0050C9','#000000'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000463','#000463'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#9E6BEC','#9E6BEC'],
+    ['#59267A','#59267A'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#F5804B','#F5804B'],
+    ['#FFDF00','#383838'],
+    ['#E9C0E9','#E9C0E9'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#1D232F','#1D232F'],
+    ['#062CD3','#062CD3'],
+    ['#E15CFF','#E15CFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#181818','#000000'],
+    ['#1DB2FF','#1DB2FF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#3461FF','#3461FF'],
+    ['#625A50','#625A50'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#663800','#663800'],
+    ['#393752','#393752'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+  ]
+  
+  useEffect(() => {
+    const initialTemplateNumber = '1'; // Choisissez le numéro de modèle initial par défaut
+    handleButtonClick(initialTemplateNumber);
+    }, []);
+
+  const changelinkColor = (color) => {
+    setLinkColor(color)
+  }
 
   const LinkInput = ({key}) => {
     const linkInputs = [];
@@ -195,10 +302,10 @@ const Profile = () => {
   }
 
   const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
-
   return (
     <>
-      <header className="border-b border-b-gray-200">
+    <div className={` template${template}`}>
+      <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
             <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
@@ -227,7 +334,7 @@ const Profile = () => {
             <section className="flex h-[33px] items-center justify-center bg-[#FF4A00]">
               <p className="text-sm text-white">สามารถกดเพื่อเลือกสิ่งที่ต้องการแก้ไข</p>
             </section>
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenEditProfile(true)}>
+            <section className="section" onClick={() => setOpenEditProfile(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
@@ -263,31 +370,31 @@ const Profile = () => {
               </div>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenChangeTitle(true)}>
+            <section className="section" onClick={() => setOpenChangeTitle(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
-              <h2 className="text-[#492B07] font-bold noto">{btnTitle}</h2>
+              <h2 className="font-bold noto">{btnTitle}</h2>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenAddButtonModal(true)}>
+            <section className="section" onClick={() => setOpenAddButtonModal(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="mt-3 flex flex-col gap-y-4">
                 <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+                  <button className="linkbutton">ลิงก์ Link</button>
                 </div>
                 <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+                  <button className="linkbutton">ลิงก์ Link</button>
                 </div>
                 <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+                  <button className="linkbutton">ลิงก์ Link</button>
                 </div>
               </div>
             </section>
 
-            <section className="px-4 py-3" onClick={() => {
+            <section className="section-2" onClick={() => {
               setOpenAddButtonModal(true);
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
@@ -296,15 +403,15 @@ const Profile = () => {
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="flex justify-center gap-x-5 mt-6">
-                <Facebook color='#492B07'/>
-                <Instagram color='#492B07'/>
-                <XTwitter color='#492B07'/>
+                <Facebook color={linkColor}/>
+                <Instagram color={linkColor} />
+                <XTwitter color={linkColor} />
               </div>
-            </section>
+            </section>  
           </>
         ) : (
           <>
-          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200">
+          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header">
             <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {name}</h1>
             <div className="flex gap-x-2 mt-4">
               <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
@@ -321,7 +428,7 @@ const Profile = () => {
             </div>
           </section>
 
-          <section className="mt-[30px]">
+          <section className="section-profile-1">
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
@@ -354,19 +461,19 @@ const Profile = () => {
             </div>
           </section>
 
-          <section className="mt-[34px] p-4">
-            <h2 className="text-[#492B07] font-bold noto">{btnTitle}</h2>
+          <section className="section-profile-2">
+            <h2 ref={titleHTML} className=" font-bold noto">{btnTitle}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
+              <button className="linkbutton" >ลิงก์ Link</button>
+              <button className="linkbutton">ลิงก์ Link</button>
+              <button className="linkbutton">ลิงก์ Link</button>
             </div>
 
             <div className="flex justify-center gap-x-5 mt-6">
-              <Facebook color='#492B07'/>
-              <Instagram color='#492B07'/>
-              <XTwitter color='#492B07'/>
+              <Facebook color={linkColor} />
+              <Instagram color={linkColor}/>
+              <XTwitter color={linkColor}/>
             </div>
           </section>
           </>
@@ -378,10 +485,18 @@ const Profile = () => {
       </button>
 
       <footer className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className='mt-10 mb-[30px] flex justify-center items-center gap-x-1 text-[8px]'>
-          Powered by <img src={zaviago} />
+        <h3 className=' footer'>
+          Powered by   <div>
+          {modifiedSVG && (
+            <div
+              dangerouslySetInnerHTML={{ __html: modifiedSVG }}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          )}
+        </div>
         </h3>
       </footer>
+    </div>
 
       <Transition.Root show={openAddButtonModal} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => {
@@ -418,13 +533,19 @@ const Profile = () => {
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
                         {addShortcut && (
-                          <button className="absolute left-0" onClick={() => setAddShortcut(false)}>
+                          <button className="absolute left-0" onClick={() => {setAddShortcut(false)}}>
                             <ChevronLeft color='#667085'/>
                           </button>
                         )}
                         {addBtnMenuActive === 0 && 'เพิ่มปุ่ม'}
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
+                        {addBtnMenuActive === 3 && <>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(0); setAddShortcut(true);setSubNumTemplates(1) }}>
+                            <ChevronLeft color='#667085'/>
+                          </button>
+                          เทมเพลต
+                        </>}
                       </Dialog.Title>
                     </div>
 
@@ -467,16 +588,55 @@ const Profile = () => {
 
                     {addBtnMenuActive === 1 && (
                       <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
-                        {templates.map((temp, index) => 
-                          <button key={index} onClick={() => {
-                            setNumTemplates(index);
-                            setOpen(true)
+                        {templates.map((temp, indexTemp) => 
+                          <button key={indexTemp} onClick={() => {    
+                            setNumTemplates(indexTemp)            
+                            setImagepath(generateImagePaths(indexTemp+1));
+                            setEditTemplate(true);
+                            setAddBtnMenuActive(3);
+                            setAddShortcut(2);
                           }}>
                             <img src={temp} width='100%'/>
                           </button>
                         )}
                       </div>
                     )}
+
+                    {addBtnMenuActive == 3 && (
+                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white " style={{height:"calc(100vh - 200px)"}}>
+                        <div className='row-span-3 flex items-center justify-center'>
+                          <button  className='h-75 flex items-center justify-center' onClick={() => {
+                              }}>
+                                <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
+                              </button>
+                        </div>
+                        <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
+                              {imgPath.map((path,Subindex) => 
+                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex + 1)][0]}]`}  key={Subindex} onClick={() => {
+                                setSubNumTemplates(Subindex + 1)
+                              }}>
+                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex + 1)][0]}]`} src={path} width='100%'/>
+                              </button>
+                            )}
+                          </div>
+                        <div className='flex flex-col mt-7 m-4'>
+                          <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
+                          <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
+                        </div>
+                        <div className='flex item-center justify-center shadow-md '>
+                          <button onClick={() => {
+                            handleButtonClick((numTemplates*4) + numSubTemplates);
+                            setAddBtnMenuActive(1); 
+                            setAddShortcut(true);
+                            setSubNumTemplates(1);
+                            setOpenAddButtonModal(false);
+                          }
+                            } className='main-btn w-288 h-12 p-2 mt-6 m-4'>ยืนยัน</button>
+                        </div>
+                      </div>
+                      
+                    )}
+
 
                     {addBtnMenuActive === 2 && (
                       <>
@@ -517,7 +677,7 @@ const Profile = () => {
                                 )}
                                 <div>
                                   <button className="main-btn no-bg" onClick={() => {
-                                    setAddShortcut(true)
+                                    setAddShortcut(false)
                                     // setNumOfIconInputs(numOfIconInputs + 1)
                                   }}>เพิ่มไอคอน</button>
                                 </div>
