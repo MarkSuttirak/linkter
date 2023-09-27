@@ -541,7 +541,7 @@ const Profile = () => {
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
                         {addBtnMenuActive === 3 && <>
-                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(true);setSubNumTemplates(1) }}>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1) }}>
                             <ChevronLeft color='#667085'/>
                           </button>
                           เทมเพลต
@@ -594,6 +594,7 @@ const Profile = () => {
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
                             setAddBtnMenuActive(3);
+                            setAddShortcut(true);
                           }}>
                             <img src={temp} width='100%'/>
                           </button>
@@ -626,7 +627,7 @@ const Profile = () => {
                           <button onClick={() => {
                             handleButtonClick((numTemplates*4) + numSubTemplates);
                             setAddBtnMenuActive(1); 
-                            setAddShortcut(true);
+                            setAddShortcut(false);
                             setSubNumTemplates(1);
                             setOpenAddButtonModal(false);
                           }
