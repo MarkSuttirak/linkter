@@ -1,10 +1,9 @@
 import readyToUse from '../icons/ready-to-use.png'
 import { Fragment, useState } from 'react'
-import { Dialog, Transition, Switch, RadioGroup } from '@headlessui/react'
+import { Dialog, Transition, RadioGroup } from '@headlessui/react'
 import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
-import { Link } from "react-router-dom";
 import bioIcon from '../icons/icon.svg'
 import DotsVertical from "../icons/dotsVertical";
 import UpperLink from "../icons/upperLink";
@@ -21,6 +20,11 @@ import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
+
+const shortcutDisplay = [
+  { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
+  { id: 2, title: 'ด้านล่างของลิงก์', img: LowerLink},
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -70,11 +74,6 @@ const Profile = () => {
   const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight];
   const [numTemplates, setNumTemplates] = useState(0);
   const selectedTemplate = templates[numTemplates];
-
-  const shortcutDisplay = [
-    { id: 1, title: 'ด้านบนของลิงก์', img: <UpperLink />},
-    { id: 2, title: 'ด้านล่างของลิงก์', img: <LowerLink /> },
-  ]
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
   const [numOfLinkInputs, setNumOfLinkInputs] = useState(1);
@@ -263,7 +262,7 @@ const Profile = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="mt-6">
                 <h2 className="noto font-bold text-xl">{name}</h2>
                 <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
@@ -575,7 +574,7 @@ const Profile = () => {
                                               <span className="flex flex-1 justify-center">
                                                 <span className="flex flex-col">
                                                   <RadioGroup.Label as="span" className="block mx-auto">
-                                                    {list.img}
+                                                    {list.img(checked)}
                                                   </RadioGroup.Label>
                                                   <RadioGroup.Description as="span" className="mt-[14px] text-sm text-[#344054]">
                                                     {list.title}

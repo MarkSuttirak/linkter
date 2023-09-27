@@ -17,8 +17,8 @@ import templateEight from '../templates/template-eight.png'
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 
 const shortcutDisplay = [
-  { id: 1, title: 'ด้านบนของลิงก์', img: <UpperLink />},
-  { id: 2, title: 'ด้านล่างของลิงก์', img: <LowerLink /> },
+  { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
+  { id: 2, title: 'ด้านล่างของลิงก์', img: LowerLink},
 ]
 
 function classNames(...classes) {
@@ -378,7 +378,7 @@ const Register = () => {
                             <span className="flex flex-1 justify-center">
                               <span className="flex flex-col">
                                 <RadioGroup.Label as="span" className="block mx-auto">
-                                  {list.img}
+                                  {list.img(checked)}
                                 </RadioGroup.Label>
                                 <RadioGroup.Description as="span" className="mt-[14px] text-sm text-[#344054]">
                                   {list.title}
