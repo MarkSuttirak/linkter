@@ -42,6 +42,7 @@ const Profile = () => {
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
+  const [selectedEmoji, setSelectedEmoji] = useState("");
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
