@@ -39,7 +39,7 @@ const Profile = () => {
   const [mylink, setMylink] = useState('hitlink.mylinkname');
   const [updateName, setUpdateName] = useState('');
   const [btnTitle, setBtnTitle] = useState('รวมลิงก์ต่าง ๆ');
-  const [updateBtnTitle, setUpdateBtnTitle] = useState('');
+  const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
 
@@ -76,7 +76,6 @@ const Profile = () => {
   const selectedTemplate = templates[numTemplates];
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
-  const [numOfLinkInputs, setNumOfLinkInputs] = useState(1);
   const [numOfIconInputs, setNumOfIconInputs] = useState(0);
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
@@ -98,80 +97,51 @@ const Profile = () => {
     (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
   ]
 
-  const LinkInput = () => {
-    const [linkInputs, setLinkInputs] = useState([
-      { linkName: '', url: '', inputError: false },
+  // Link Inputs
+
+  const [linkInputLists, setLinkInputLists] = useState([])
+  const [iconInputLists, setIconInputLists] = useState([])
+
+  const [linkNameError, setLinkNameError] = useState(false)
+  const [linkNameErrorText, setLinkNameErrorText] = useState('')
+  const [linkUrlError, setLinkUrlError] = useState(false)
+  const [linkUrlErrorText, setLinkUrlErrorText] = useState('')
+
+  const [linkInputs, setLinkInputs] = useState([
+    { linkName: '', url: '' },
+  ]);
+
+  const addLinkInput = () => {
+    setLinkInputs([
+      ...linkInputs,
+      { linkName: '', url: '' },
     ]);
-  
-    const addLinkInput = () => {
-      setLinkInputs([
-        ...linkInputs,
-        { linkName: '', url: '', inputError: false },
-      ]);
-    };
-  
-    const removeLinkInput = (index) => {
-      const updatedInputs = [...linkInputs];
-      updatedInputs.splice(index, 1);
-      setLinkInputs(updatedInputs);
-    };
-  
-    const handleInputChange = (index, event) => {
-      const { name, value } = event.target;
-      const updatedInputs = [...linkInputs];
-      updatedInputs[index][name] = value;
-      setLinkInputs(updatedInputs);
-    };
-  
-    return (
-      <div>
-        {linkInputs.map((input, index) => (
-          <div key={index}>
-            <div className="flex items-center gap-x-[10px]">
-              <div className="flex flex-col gap-y-[6px] grow">
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="linkName"
-                  placeholder="ชื่อลิงก์"
-                  value={input.linkName}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="url"
-                  placeholder="www.example.com"
-                  value={input.url}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                {input.inputError && (
-                  <p className="noto text-[#F04438] text-sm">
-                    กรุณาระบุรูปแบบ Url ที่ถูกต้อง
-                  </p>
-                )}
-              </div>
-              <div>
-                <Trash01
-                  color="#F04438"
-                  onClick={() => removeLinkInput(index)}
-                />
-              </div>
-            </div>
-  
-            <hr className="border-gray-200 my-6" />
-          </div>
-        ))}
-  
-        <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
-          เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
-        </button>
-      </div>
-    );
   };
 
+  const removeLinkInput = (index) => {
+    const updatedInputs = [...linkInputs];
+    updatedInputs.splice(index, 1);
+    setLinkInputs(updatedInputs);
+    setLinkInputLists(updatedInputs)
+  };
+
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedInputs = [...linkInputs];
+    updatedInputs[index][name] = value;
+    setLinkInputs(updatedInputs);
+  };
+
+  const saveLinkInputs = () => {
+    setLinkInputLists([...linkInputs]);
+  };
+
+  // Icon Inputs
+
   const IconInput = ({ icon }) => {
-    const [iconInputs, setIconInputs] = useState([{}]);
+    const [iconInputs, setIconInputs] = useState([
+      {icon: icon, url: ''}
+    ]);
   
     const addIconInput = () => {
       setIconInputs([...iconInputs, {}]);
@@ -182,32 +152,34 @@ const Profile = () => {
       updatedInputs.splice(index, 1);
       setIconInputs(updatedInputs);
     };
-  
+
     return (
-      <div>
-        {iconInputs.map((input, index) => (
-          <div key={index} className="mb-4">
-            <div className="flex items-center gap-x-[10px]">
-              <div className="flex flex-col gap-y-[6px] grow">
-                <div className="flex rounded-md flex-row-reverse">
-                  <input
-                    type="text"
-                    name="icon-link"
-                    className="form-input with-prefix"
-                    placeholder="ชื่อลิงก์"
-                  />
-                  <span className="input-addon form-prefix">{icon}</span>
+      <>
+        <div>
+          {iconInputs.map((input, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex items-center gap-x-[10px]">
+                <div className="flex flex-col gap-y-[6px] grow">
+                  <div className="flex rounded-md flex-row-reverse">
+                    <input
+                      type="text"
+                      name="icon-link"
+                      className="form-input with-prefix"
+                      placeholder="ชื่อลิงก์"
+                    />
+                    <span className="input-addon form-prefix">{input.icon}</span>
+                  </div>
+                </div>
+                <div>
+                  <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
                 </div>
               </div>
-              <div>
-                <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
-              </div>
             </div>
-          </div>
-        ))}
-  
-        <button onClick={addIconInput}>Add</button>
-      </div>
+          ))}
+    
+          <button onClick={addIconInput}>Add</button>
+        </div>
+      </>
     );
   };
 
@@ -325,15 +297,11 @@ const Profile = () => {
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="mt-3 flex flex-col gap-y-4">
-                <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
-                </div>
-                <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
-                </div>
-                <div className="flex items-center gap-x-2">
-                  <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
-                </div>
+                {linkInputLists.map((link) => 
+                  <div className="flex items-center gap-x-2">
+                    <button href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</button>
+                  </div>
+                )}
               </div>
             </section>
 
@@ -408,9 +376,11 @@ const Profile = () => {
             <h2 className="text-[#492B07] font-bold noto">{btnTitle}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto">ลิงก์ Link</button>
+              {linkInputLists.map((link) => 
+                <div className="flex items-center gap-x-2">
+                  <a href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-center gap-x-5 mt-6">
@@ -486,22 +456,70 @@ const Profile = () => {
 
                         <div className="mt-4">
                           <div className="overflow-y-auto" style={{maxHeight:"calc(100vh - 380px)"}}>
-                            <LinkInput />
-                          </div>
-                        </div>
+                            {linkInputs.map((input, index) => (
+                              <div key={index}>
+                                <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
+                                  <div className="flex flex-col gap-y-[6px] grow">
+                                    <input
+                                      type="text"
+                                      className="form-input with-shadow"
+                                      name="linkName"
+                                      placeholder="ชื่อลิงก์"
+                                      value={input.linkName}
+                                      onChange={(e) => handleInputChange(index, e)}
+                                    />
+                                    {linkNameError && (
+                                      <p className="noto text-[#F04438] text-sm">
+                                        {linkNameErrorText}
+                                      </p>
+                                    )}
+                                    <input
+                                      type="text"
+                                      className="form-input with-shadow"
+                                      name="url"
+                                      placeholder="www.example.com"
+                                      value={input.url}
+                                      onChange={(e) => handleInputChange(index, e)}
+                                    />
+                                    {linkUrlError && (
+                                      <p className="noto text-[#F04438] text-sm">
+                                        {linkUrlErrorText}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div>
+                                    {linkInputs.length > 1 && (
+                                      <Trash01
+                                        color="#F04438"
+                                        onClick={() => removeLinkInput(index)}
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                      
+                                <hr className="border-gray-200 my-6" />
+                              </div>
+                            ))}
+                      
+                            <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+                              เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+                            </button>
 
-                        <div className="pt-4 flex">
-                          <button
-                            className="main-btn"
-                            onClick={() => {
-                              setOpenAddButtonModal(false);
-                              setTimeout(() => {
-                                setSelectCustomise(false)
-                              }, 400)
-                            }}
-                          >
-                            ยืนยัน
-                          </button>
+                            <div className="pt-4 flex">
+                              <button
+                                className="main-btn"
+                                onClick={() => {
+                                  saveLinkInputs()
+                                  setOpenAddButtonModal(false)
+                                  setTimeout(() => {
+                                    setSelectCustomise(false)
+                                  }, 400)
+                                }}
+                              >
+                                ยืนยัน
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -989,7 +1007,7 @@ const Profile = () => {
                       <div className="flex flex-col gap-y-4 mt-[30px]">
                         <div>
                           <label htmlFor='username' className="mt-[6px] text-para text-[#344054]">ชื่อ Hitlink <span className="required">*</span></label>
-                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ"/>
+                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={name}/>
                         </div>
                         <div className="relative">
                           <label htmlFor='emoji' className="mt-[6px] text-para text-[#344054]">อิโมจิ</label>
@@ -1000,11 +1018,13 @@ const Profile = () => {
                             </div>
                           </button>
                           {showEmojiPicker ? (
-                            <div className="absolute z-10">
-                              <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
-                                setEmoji(true);
-                                setSelectedEmoji(emojiData.unified)
-                              }}/>
+                            <div className='flex h-screen fixed top-0 w-full left-0 justify-center items-center' onClick={() => setShowEmojiPicker(false)}>
+                              <div className="absolute z-10">
+                                <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
+                                  setEmoji(true);
+                                  setSelectedEmoji(emojiData.unified)
+                                }}/>
+                              </div>
                             </div>
                           ) : null}
                         </div>

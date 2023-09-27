@@ -117,43 +117,85 @@ const Register = () => {
   }
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [numOfLinkInputs, setNumOfLinkInputs] = useState(1);
   const [numOfIconInputs, setNumOfIconInputs] = useState(1);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
-  const [listInputs, setListInputs] = useState([{
-    key:numOfIconInputs
-  }])
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
+  const [linkInputs, setLinkInputs] = useState([
+    { linkName: '', url: '', inputError: false },
+  ]);
 
-  const LinkInput = ({key}) => {
-    const linkInputs = [];
-
-    for (let i = 0; i < numOfLinkInputs; i++){
-      linkInputs.push(
-        <div key={key}>
-          <div className="px-4 flex items-center gap-x-[10px]">
-            <div className="flex flex-col gap-y-[6px] grow">
-              <input type='text' className="form-input with-shadow" name='link-name' id='link-name' placeholder="ชื่อลิงก์"/>
-              <input type='text' className="form-input with-shadow" name='url' id='url' placeholder="www.example.com"/>
+  const LinkInput = () => {
+    const addLinkInput = () => {
+      setLinkInputs([
+        ...linkInputs,
+        { linkName: '', url: '', inputError: false },
+      ]);
+    };
+  
+    const removeLinkInput = (index) => {
+      const updatedInputs = [...linkInputs];
+      updatedInputs.splice(index, 1);
+      setLinkInputs(updatedInputs);
+    };
+  
+    const handleInputChange = (index, event) => {
+      const { name, value } = event.target;
+      const updatedInputs = [...linkInputs];
+      updatedInputs[index][name] = value;
+      setLinkInputs(updatedInputs);
+    };
+  
+    return (
+      <div>
+        {linkInputs.map((input, index) => (
+          <div key={index}>
+            <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
+              <div className="flex flex-col gap-y-[6px] grow">
+                <input
+                  type="text"
+                  className="form-input with-shadow"
+                  name="linkName"
+                  placeholder="ชื่อลิงก์"
+                  value={input.linkName}
+                  onChange={(e) => handleInputChange(index, e)}
+                />
+                <input
+                  type="text"
+                  className="form-input with-shadow"
+                  name="url"
+                  placeholder="www.example.com"
+                  value={input.url}
+                  onChange={(e) => handleInputChange(index, e)}
+                />
+                {input.inputError && (
+                  <p className="noto text-[#F04438] text-sm">
+                    กรุณาระบุรูปแบบ Url ที่ถูกต้อง
+                  </p>
+                )}
+              </div>
+              <div>
+                {linkInputs.length > 1 && (
+                  <Trash01
+                    color="#F04438"
+                    onClick={() => removeLinkInput(index)}
+                  />
+                )}
+              </div>
             </div>
-            <div>
-              <Trash01 color='#F04438' onClick={() => {
-                linkInputs.splice(key, 1);
-                setNumOfLinkInputs(numOfLinkInputs - 1)
-              }}/>
-            </div>
+  
+            <hr className="border-gray-200 my-6" />
           </div>
-
-          <hr className="border-gray-200 my-6"/>
-        </div>
-      )
-    }
-
-    return linkInputs;
-  }
+        ))}
+  
+        <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+          เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+        </button>
+      </div>
+    );
+  };
 
   const IconInput = ({key}) => {
     const iconInputs = [];
@@ -271,11 +313,13 @@ const Register = () => {
                     </div>
                   </button>
                   {showEmojiPicker ? (
-                    <div className="absolute z-10">
-                      <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
-                        setEmoji(true);
-                        setSelectedEmoji(emojiData.unified)
-                      }}/>
+                    <div className='flex h-screen fixed top-0 w-full left-0 justify-center items-center' onClick={() => setShowEmojiPicker(false)}>
+                      <div className="absolute z-10">
+                        <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
+                          setEmoji(true);
+                          setSelectedEmoji(emojiData.unified)
+                        }}/>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -308,20 +352,8 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="overflow-y-auto" style={{maxHeight:"calc(100vh - 380px)"}}>
-              {listInputs.map((index) => 
-                <LinkInput key={index}/>
-              )}
-
-              <div className="px-4">
-                <button className="main-btn no-bg" onClick={() => {
-                  if (numOfLinkInputs < 10){
-                    setNumOfLinkInputs(numOfLinkInputs + 1)
-                  } else {
-                    setNumOfLinkInputs(numOfLinkInputs)
-                  }
-                }} style={{color:"#FF4A00"}}>เพิ่มปุ่ม <span className='text-[#475467]'>({numOfLinkInputs}/10)</span></button>
-              </div>
+            <div className="overflow-y-auto px-4" style={{maxHeight:"calc(100vh - 380px)"}}>
+              <LinkInput />
             </div>
           </div>
 
