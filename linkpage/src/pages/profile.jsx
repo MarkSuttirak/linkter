@@ -379,7 +379,7 @@ const Profile = () => {
             <div className="mt-4 flex flex-col gap-y-4">
               {linkInputLists.map((link) => 
                 <div className="flex items-center gap-x-2">
-                  <a href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
+                  <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
                 </div>
               )}
             </div>
