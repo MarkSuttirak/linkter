@@ -541,7 +541,7 @@ const Profile = () => {
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
                         {addBtnMenuActive === 3 && <>
-                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(0); setAddShortcut(true);setSubNumTemplates(1) }}>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(true);setSubNumTemplates(1) }}>
                             <ChevronLeft color='#667085'/>
                           </button>
                           เทมเพลต
@@ -594,7 +594,6 @@ const Profile = () => {
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
                             setAddBtnMenuActive(3);
-                            setAddShortcut(2);
                           }}>
                             <img src={temp} width='100%'/>
                           </button>
@@ -612,10 +611,10 @@ const Profile = () => {
                         </div>
                         <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
                               {imgPath.map((path,Subindex) => 
-                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex + 1)][0]}]`}  key={Subindex} onClick={() => {
+                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`}  key={Subindex} onClick={() => {
                                 setSubNumTemplates(Subindex + 1)
                               }}>
-                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex + 1)][0]}]`} src={path} width='100%'/>
+                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`} src={path} width='100%'/>
                               </button>
                             )}
                           </div>
