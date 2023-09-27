@@ -17,7 +17,7 @@ import templateSix from '../templates/template-six.png'
 import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import QRCode from 'react-qr-code';
-import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch } from '../icons/social-media'
+import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch, OnlyFans } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
 
@@ -82,18 +82,20 @@ const Profile = () => {
     key:numOfIconInputs
   }])
 
+  const [mainIconColour, setMainIconColour] = useState('#2F2F2F')
+
   const socialIcons = [
-    (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
-    (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />), (<Discord />), (<WhatsApp />), (<Snapchat />), (<Threads />), (<Twitch />)
+    (<Facebook color={mainIconColour}/>), (<Instagram color={mainIconColour}/>), (<XTwitter color={mainIconColour}/>), (<Tiktok color={mainIconColour}/>), (<Youtube color={mainIconColour}/>), (<Gmail color={mainIconColour}/>), (<LinkedIn color={mainIconColour}/>), (<Kakaotalk color={mainIconColour}/>), (<GoogleHangouts color={mainIconColour}/>), (<Line color={mainIconColour}/>),
+    (<WeChat color={mainIconColour}/>), (<Messenger color={mainIconColour}/>), (<Tinder color={mainIconColour}/>), (<Reddit color={mainIconColour}/>), (<Clubhouse color={mainIconColour}/>), (<Discord color={mainIconColour}/>), (<WhatsApp color={mainIconColour}/>), (<Snapchat color={mainIconColour}/>), (<Threads color={mainIconColour}/>), (<Twitch color={mainIconColour}/>), (<OnlyFans color={mainIconColour}/>)
   ]
 
   const shoppingIcons = [
-    (<Amazon />), (<Lazada />), (<Shopee />), (<TiktokShop />), (<HomeSmile />), (<Ebay />), (<Shopify />), (<Globe02 />), (<Linemyshop />)
+    (<Amazon color={mainIconColour}/>), (<Lazada color={mainIconColour}/>), (<Shopee color={mainIconColour}/>), (<TiktokShop color={mainIconColour}/>), (<HomeSmile color={mainIconColour}/>), (<Ebay color={mainIconColour}/>), (<Shopify color={mainIconColour}/>), (<Globe02 color={mainIconColour}/>), (<Linemyshop color={mainIconColour}/>)
   ]
 
   const otherIcons = [
-    (<YoutubeMusic />), (<Signal />), (<Soundcloud />), (<Spotify />), (<AppleMusic />), (<Telegram />), (<AppleFacetime />), (<GoogleMaps />), (<Pinterest />),
-    (<Giphy />), (<Dropbox />), (<Onedrive />), (<WeTransfer />), (<Patreon />), (<Blogger />), (<Deviantart />), (<Invision />), (<Behance />), (<Dribbble />), (<GoogleDrive />)
+    (<YoutubeMusic color={mainIconColour}/>), (<Signal color={mainIconColour}/>), (<Soundcloud color={mainIconColour}/>), (<Spotify color={mainIconColour}/>), (<AppleMusic color={mainIconColour}/>), (<Telegram color={mainIconColour}/>), (<AppleFacetime color={mainIconColour}/>), (<GoogleMaps color={mainIconColour}/>), (<Pinterest color={mainIconColour}/>),
+    (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
   ]
 
   const [listInputs, setListInputs] = useState([{
