@@ -98,76 +98,118 @@ const Profile = () => {
     (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
   ]
 
-  const [listInputs, setListInputs] = useState([{
-    key:numOfIconInputs
-  }])
-
-  const LinkInput = ({key}) => {
-    const linkInputs = [];
-
-    for (let i = 0; i < numOfLinkInputs; i++){
-      linkInputs.push(
-        <div key={key}>
-          <div className="flex items-center gap-x-[10px]">
-            <div className="flex flex-col gap-y-[6px] grow">
-              <input type='text' className="form-input with-shadow" name='link-name' id='link-name' placeholder="ชื่อลิงก์"/>
-              <input type='text' className="form-input with-shadow" name='url' id='url' placeholder="www.example.com"/>
-              {inputError && (
-                <p className="noto text-[#F04438] text-sm">กรุณาระบุรูปแบบ Url ที่ถูกต้อง</p>
-              )}
-            </div>
-            <div>
-              <Trash01 color='#F04438' onClick={() => {
-                linkInputs.splice(key, 1);
-                setNumOfLinkInputs(numOfLinkInputs - 1)
-              }}/>
-            </div>
-          </div>
-
-          <hr className="border-gray-200 my-6"/>
-        </div>
-      )
-    }
-
-    return linkInputs;
-  }
-
-  const IconInput = ({key, icon}) => {
-    const iconInputs = [];
-    for (let i = 0; i < numOfIconInputs; i++){
-      iconInputs.push(
-        <div key={key} className="mb-4">
-          <div className="flex items-center gap-x-[10px]">
-            <div>
-              <DotsVertical color='#75777A'/>
-            </div>
-            <div className="flex flex-col gap-y-[6px] grow">
-              <div className="flex rounded-md flex-row-reverse">
+  const LinkInput = () => {
+    const [linkInputs, setLinkInputs] = useState([
+      { linkName: '', url: '', inputError: false },
+    ]);
+  
+    const addLinkInput = () => {
+      setLinkInputs([
+        ...linkInputs,
+        { linkName: '', url: '', inputError: false },
+      ]);
+    };
+  
+    const removeLinkInput = (index) => {
+      const updatedInputs = [...linkInputs];
+      updatedInputs.splice(index, 1);
+      setLinkInputs(updatedInputs);
+    };
+  
+    const handleInputChange = (index, event) => {
+      const { name, value } = event.target;
+      const updatedInputs = [...linkInputs];
+      updatedInputs[index][name] = value;
+      setLinkInputs(updatedInputs);
+    };
+  
+    return (
+      <div>
+        {linkInputs.map((input, index) => (
+          <div key={index}>
+            <div className="flex items-center gap-x-[10px]">
+              <div className="flex flex-col gap-y-[6px] grow">
                 <input
-                  type='text'
-                  name='icon-link' 
-                  id='icon-link'
-                  className="form-input with-prefix"
+                  type="text"
+                  className="form-input with-shadow"
+                  name="linkName"
                   placeholder="ชื่อลิงก์"
+                  value={input.linkName}
+                  onChange={(e) => handleInputChange(index, e)}
                 />
-                <span className="input-addon form-prefix">
-                  {icon}
-                </span>
+                <input
+                  type="text"
+                  className="form-input with-shadow"
+                  name="url"
+                  placeholder="www.example.com"
+                  value={input.url}
+                  onChange={(e) => handleInputChange(index, e)}
+                />
+                {input.inputError && (
+                  <p className="noto text-[#F04438] text-sm">
+                    กรุณาระบุรูปแบบ Url ที่ถูกต้อง
+                  </p>
+                )}
+              </div>
+              <div>
+                <Trash01
+                  color="#F04438"
+                  onClick={() => removeLinkInput(index)}
+                />
               </div>
             </div>
-            <div>
-              <Trash01 color='#F04438' onClick={() => {
-                iconInputs.splice(key, 1);
-                setNumOfIconInputs(numOfIconInputs - 1)
-              }}/>
+  
+            <hr className="border-gray-200 my-6" />
+          </div>
+        ))}
+  
+        <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+          เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+        </button>
+      </div>
+    );
+  };
+
+  const IconInput = ({ icon }) => {
+    const [iconInputs, setIconInputs] = useState([{}]);
+  
+    const addIconInput = () => {
+      setIconInputs([...iconInputs, {}]);
+    };
+  
+    const removeIconInput = (index) => {
+      const updatedInputs = [...iconInputs];
+      updatedInputs.splice(index, 1);
+      setIconInputs(updatedInputs);
+    };
+  
+    return (
+      <div>
+        {iconInputs.map((input, index) => (
+          <div key={index} className="mb-4">
+            <div className="flex items-center gap-x-[10px]">
+              <div className="flex flex-col gap-y-[6px] grow">
+                <div className="flex rounded-md flex-row-reverse">
+                  <input
+                    type="text"
+                    name="icon-link"
+                    className="form-input with-prefix"
+                    placeholder="ชื่อลิงก์"
+                  />
+                  <span className="input-addon form-prefix">{icon}</span>
+                </div>
+              </div>
+              <div>
+                <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
+              </div>
             </div>
           </div>
-        </div>
-      )
-    }
-
-    return iconInputs;
-  }
+        ))}
+  
+        <button onClick={addIconInput}>Add</button>
+      </div>
+    );
+  };
 
   const [enabled, setEnabled] = useState(false)
 
@@ -444,16 +486,7 @@ const Profile = () => {
 
                         <div className="mt-4">
                           <div className="overflow-y-auto" style={{maxHeight:"calc(100vh - 380px)"}}>
-                            {listInputs.map((index) => 
-                              <LinkInput key={index}/>
-                            )}
-                            <button className="main-btn no-bg" onClick={() => {
-                              if (numOfLinkInputs < 10){
-                                setNumOfLinkInputs(numOfLinkInputs + 1)
-                              } else {
-                                setNumOfLinkInputs(numOfLinkInputs)
-                              }
-                            }} style={{color:"#FF4A00"}}>เพิ่มปุ่ม <span className='text-[#475467]'>({numOfLinkInputs}/10)</span></button>
+                            <LinkInput />
                           </div>
                         </div>
 
