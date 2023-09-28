@@ -11,7 +11,7 @@ import ViewProfile from './pages/view-profile'
 
 function App() {
   return (
-    <FrappeProvider>
+    <FrappeProvider >
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}/>
