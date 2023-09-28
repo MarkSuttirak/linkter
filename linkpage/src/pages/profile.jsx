@@ -100,26 +100,21 @@ const Profile = () => {
   }])
   const [editTemplate, setEditTemplate] = useState(false);
 
-  const [mainIconColour, setMainIconColour] = useState('#2F2F2F')
-
   const socialIcons = [
-    (<Facebook color={mainIconColour}/>), (<Instagram color={mainIconColour}/>), (<XTwitter color={mainIconColour}/>), (<Tiktok color={mainIconColour}/>), (<Youtube color={mainIconColour}/>), (<Gmail color={mainIconColour}/>), (<LinkedIn color={mainIconColour}/>), (<Kakaotalk color={mainIconColour}/>), (<GoogleHangouts color={mainIconColour}/>), (<Line color={mainIconColour}/>),
-    (<WeChat color={mainIconColour}/>), (<Messenger color={mainIconColour}/>), (<Tinder color={mainIconColour}/>), (<Reddit color={mainIconColour}/>), (<Clubhouse color={mainIconColour}/>), (<Discord color={mainIconColour}/>), (<WhatsApp color={mainIconColour}/>), (<Snapchat color={mainIconColour}/>), (<Threads color={mainIconColour}/>), (<Twitch color={mainIconColour}/>), (<OnlyFans color={mainIconColour}/>)
+    (<Facebook color={linkColor}/>), (<Instagram color={linkColor}/>), (<XTwitter color={linkColor}/>), (<Tiktok color={linkColor}/>), (<Youtube color={linkColor}/>), (<Gmail color={linkColor}/>), (<LinkedIn color={linkColor}/>), (<Kakaotalk color={linkColor}/>), (<GoogleHangouts color={linkColor}/>), (<Line color={linkColor}/>),
+    (<WeChat color={linkColor}/>), (<Messenger color={linkColor}/>), (<Tinder color={linkColor}/>), (<Reddit color={linkColor}/>), (<Clubhouse color={linkColor}/>), (<Discord color={linkColor}/>), (<WhatsApp color={linkColor}/>), (<Snapchat color={linkColor}/>), (<Threads color={linkColor}/>), (<Twitch color={linkColor}/>), (<OnlyFans color={linkColor}/>)
   ]
 
   const shoppingIcons = [
-    (<Amazon color={mainIconColour}/>), (<Lazada color={mainIconColour}/>), (<Shopee color={mainIconColour}/>), (<TiktokShop color={mainIconColour}/>), (<HomeSmile color={mainIconColour}/>), (<Ebay color={mainIconColour}/>), (<Shopify color={mainIconColour}/>), (<Globe02 color={mainIconColour}/>), (<Linemyshop color={mainIconColour}/>)
+    (<Amazon color={linkColor}/>), (<Lazada color={linkColor}/>), (<Shopee color={linkColor}/>), (<TiktokShop color={linkColor}/>), (<HomeSmile color={linkColor}/>), (<Ebay color={linkColor}/>), (<Shopify color={linkColor}/>), (<Globe02 color={linkColor}/>), (<Linemyshop color={linkColor}/>)
   ]
 
   const otherIcons = [
-    (<YoutubeMusic color={mainIconColour}/>), (<Signal color={mainIconColour}/>), (<Soundcloud color={mainIconColour}/>), (<Spotify color={mainIconColour}/>), (<AppleMusic color={mainIconColour}/>), (<Telegram color={mainIconColour}/>), (<AppleFacetime color={mainIconColour}/>), (<GoogleMaps color={mainIconColour}/>), (<Pinterest color={mainIconColour}/>),
-    (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
+    (<YoutubeMusic color={linkColor}/>), (<Signal color={linkColor}/>), (<Soundcloud color={linkColor}/>), (<Spotify color={linkColor}/>), (<AppleMusic color={linkColor}/>), (<Telegram color={linkColor}/>), (<AppleFacetime color={linkColor}/>), (<GoogleMaps color={linkColor}/>), (<Pinterest color={linkColor}/>),
+    (<Giphy color={linkColor}/>), (<Dropbox color={linkColor}/>), (<Onedrive color={linkColor}/>), (<WeTransfer color={linkColor}/>), (<Patreon color={linkColor}/>), (<Blogger color={linkColor}/>), (<Deviantart color={linkColor}/>), (<Invision color={linkColor}/>), (<Behance color={linkColor}/>), (<Dribbble color={linkColor}/>), (<GoogleDrive color={linkColor}/>)
   ]
 
-
-
   // Link Inputs
-
 
   const [isSaving, setIsSaving] = useState(false);
   const [linkInputListsWhenSaved, setLinkInputListsWhenSaved] = useState([]);
@@ -193,6 +188,10 @@ const Profile = () => {
     const updatedInputs = [...iconInputs];
     updatedInputs.splice(index, 1);
     setIconInputs(updatedInputs);
+  };
+
+  const saveIconInputs = () => {
+    seIconInputLists([...iconInputs]);
   };
 
   const [enabled, setEnabled] = useState(false)
