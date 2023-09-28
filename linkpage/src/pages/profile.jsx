@@ -18,10 +18,11 @@ import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import templateNine from '../templates/template-nine.png'
 import templateTen from '../templates/template-ten.png'
-import QRCode from 'react-qr-code';
+import QRCode from 'react-qr-code';setModifiedSVG
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch, OnlyFans } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
+import LoadingSave from '../components/loadingSave';
 
 const shortcutDisplay = [
   { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
@@ -35,15 +36,19 @@ function classNames(...classes) {
 const Profile = () => {
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
+  const [modifiedSVG, setModifiedSVG] = useState(null);
   const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
-  const [name, setName] = useState('Olivia');
   const [mylink, setMylink] = useState('hitlink.mylinkname');
-  const [updateName, setUpdateName] = useState('');
-  const [btnTitle, setBtnTitle] = useState('รวมลิงก์ต่าง ๆ');
+
+  const [name, setName] = useState('Olivia');
+  const [updateName, setUpdateName] = useState(name);
+  const [btnTitle, setBtnTitle] = useState('');
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
+  const [btnTitleWhenSaved, setBtnTitleWhenSaved] = useState('');
+
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
   const [selectedEmoji, setSelectedEmoji] = useState("");
@@ -106,13 +111,39 @@ const Profile = () => {
 
   // Link Inputs
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [linkInputListsWhenSaved, setLinkInputListsWhenSaved] = useState([]);
   const [linkInputLists, setLinkInputLists] = useState([])
+  const [IconInputListsWhenSaved, setIconInputListsWhenSaved] = useState([]);
   const [iconInputLists, setIconInputLists] = useState([])
 
+  const linkNameRef = useRef(null)
+  const linkUrlRef = useRef(null)
   const [linkNameError, setLinkNameError] = useState(false)
   const [linkNameErrorText, setLinkNameErrorText] = useState('')
   const [linkUrlError, setLinkUrlError] = useState(false)
   const [linkUrlErrorText, setLinkUrlErrorText] = useState('')
+
+  const saveData = () => {
+    setIsSaving(true);
+
+    setTimeout(() => {
+      goPrevTo('');
+      setLinkInputListsWhenSaved(linkInputLists);
+      setBtnTitleWhenSaved(btnTitle);
+    }, 1000)
+    setTimeout(() => {
+      setIsSaving(false)
+    }, 1500)
+  }
+
+  const cancelData = () => {
+    goPrevTo('');
+    setTimeout(() => {
+      setBtnTitle(btnTitleWhenSaved);
+      setLinkInputLists(linkInputListsWhenSaved)
+    }, 1500)
+  }
 
   const [linkInputs, setLinkInputs] = useState([
     { linkName: '', url: '' },
@@ -183,7 +214,7 @@ const Profile = () => {
               </div>
             </div>
           ))}
-    
+
           <button onClick={addIconInput}>Add</button>
         </div>
       </>
@@ -266,7 +297,6 @@ const Profile = () => {
       element.setAttribute('fill', newFillColor);
     });
 
-
     // Serialize the modified SVG back to a string
     const modifiedSVGString = new XMLSerializer().serializeToString(xmlDoc);
     setModifiedSVG(modifiedSVGString);
@@ -315,7 +345,7 @@ const Profile = () => {
   ]
   
   useEffect(() => {
-    const initialTemplateNumber = '1'; // Choisissez le numéro de modèle initial par défaut
+    const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
     }, []);
 
@@ -328,10 +358,20 @@ const Profile = () => {
       <header className="border-b border-b-gray-200">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
-            <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
-              <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">ยกเลิก</button>
-              <h2 className="text-gray-900 font-bold">แก้ไข</h2>
-              <button className="text-[#FF4A00] font-bold">บันทึก</button>
+            <header className='px-4 py-3 flex items-center h-[64px]'>
+              <div className='w-1/3 text-left'>
+                <button onClick={cancelData} className="text-[#FF4A00] font-bold">ยกเลิก</button>
+              </div>
+              <div className='w-1/3 text-center'>
+                <h2 className="text-gray-900 font-bold">แก้ไข</h2>
+              </div>
+              <div className='w-1/3 text-right flex justify-end'>
+                {isSaving ? (
+                  <LoadingSave />
+                ) : (
+                  <button className="text-[#FF4A00] font-bold text-right w-1/3" onClick={saveData}>บันทึก</button>
+                )}
+              </div>
             </header>
           ) : (
             <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
@@ -394,7 +434,7 @@ const Profile = () => {
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
-              <h2 className="text-[#492B07] font-bold noto">{btnTitle}</h2>
+              <h2 className="font-bold noto">{btnTitle}</h2>
             </section>
 
             <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenAddButtonModal(true)}>
@@ -478,10 +518,10 @@ const Profile = () => {
           </section>
 
           <section className="mt-[34px] p-4">
-            <h2 className="text-[#492B07] font-bold noto">{btnTitle}</h2>
+            <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
-              {linkInputLists.map((link) => 
+              {linkInputListsWhenSaved.map((link) => 
                 <div className="flex items-center gap-x-2">
                   <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
                 </div>
@@ -576,6 +616,7 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="linkName"
                                       placeholder="ชื่อลิงก์"
+                                      ref={linkNameRef}
                                       value={input.linkName}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
@@ -589,6 +630,7 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="url"
                                       placeholder="www.example.com"
+                                      ref={linkUrlRef}
                                       value={input.url}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
@@ -620,11 +662,30 @@ const Profile = () => {
                               <button
                                 className="main-btn"
                                 onClick={() => {
-                                  saveLinkInputs()
-                                  setOpenAddButtonModal(false)
-                                  setTimeout(() => {
-                                    setSelectCustomise(false)
-                                  }, 400)
+                                  if (linkNameRef.current.value === ""){
+                                    setLinkNameError(true);
+                                    setLinkNameErrorText('กรุณากรอกชื่อลิงก์')
+                                  } else {
+                                    setLinkNameError(false);
+                                  }
+
+                                  if (linkUrlRef.current.value === ""){
+                                    setLinkUrlError(true)
+                                    setLinkUrlErrorText('กรุณากรอก Url')
+                                  } else if (linkUrlRef.current.value.includes('.com') === false){
+                                    setLinkUrlError(true);
+                                    setLinkUrlErrorText('กรุณาระบุ Url ที่ถูกต้อง') 
+                                  } else {
+                                    setLinkUrlError(false)
+                                  }
+
+                                  if (!linkNameError || !linkUrlError){
+                                    saveLinkInputs()
+                                    setOpenAddButtonModal(false)
+                                    setTimeout(() => {
+                                      setSelectCustomise(false)
+                                    }, 400)
+                                  }
                                 }}
                               >
                                 ยืนยัน
@@ -909,7 +970,7 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenChangeTitle(false)}>
+                        <button className="absolute left-0" onClick={() => {setOpenChangeTitle(false);setUpdateBtnTitle(btnTitle)}}>
                           <ChevronLeft color='#667085'/>
                         </button>
                         เพิ่มหัวข้อปุ่ม
@@ -931,7 +992,7 @@ const Profile = () => {
                           onClick={() => {
                             setOpenChangeTitle(false);
                             if (updateBtnTitle === ""){
-                              setBtnTitle("รวมลิงก์ต่าง ๆ")
+                              setBtnTitle("")
                             } else {
                               setBtnTitle(updateBtnTitle)
                               showSavedNoti('เพิ่มหัวข้อปุ่มสำเร็จ')
