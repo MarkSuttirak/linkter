@@ -4,9 +4,6 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Share06, Edit05, Image01, FaceSmile, DotsVertical } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
-import Facebook from "../icons/facebook";
-import Instagram from "../icons/instagram";
-import Twitter from "../icons/twitter";
 import zaviago from '../icons/zaviago-com.svg'
 
 const EditProfile = () => {
@@ -73,12 +70,6 @@ const EditProfile = () => {
               <DotsVertical />
               <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
             </div>
-          </div>
-
-          <div className="flex justify-center gap-x-5 mt-6">
-            <Facebook color='#492B07'/>
-            <Instagram color='#492B07'/>
-            <Twitter color='#492B07'/>
           </div>
         </section>
       </main>

@@ -1,19 +1,11 @@
 import readyToUse from '../icons/ready-to-use.png'
-import { Fragment, useState, useEffect, useRef } from 'react'
-import { Dialog, Transition, Switch, RadioGroup } from '@headlessui/react'
-import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
+import { Fragment, useState, useRef, useEffect } from 'react'
+import { Dialog, Transition, RadioGroup } from '@headlessui/react'
+import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
-import { Link } from "react-router-dom";
-import bio from '../icons/icon.svg'
-import DotsVertical from "../icons/dotsVertical"; 
-import Facebook from '../icons/social/facebook';
-import Instagram from '../icons/social/instagram';
-import XTwitter from '../icons/social/XTwitter';
-import Tiktok from '../icons/social/tiktok'
-import GoogleHangouts from '../icons/social/google-hangouts';
-import Messenger from '../icons/social/messenger'
-import Spotify from '../icons/other/spotify'
+import bioIcon from '../icons/icon.svg'
+import DotsVertical from "../icons/dotsVertical";
 import UpperLink from "../icons/upperLink";
 import LowerLink from "../icons/lowerLink";
 import templateOne from '../templates/template-one.png'
@@ -26,17 +18,16 @@ import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import templateNine from '../templates/template-nine.png'
 import templateTen from '../templates/template-ten.png'
-import QRCode from 'react-qr-code';
-import Youtube from '../icons/social/youtube';
-import Gmail from '../icons/social/gmail';
-import LinkedIn from '../icons/social/linkedin';
-import Kakaotalk from '../icons/social/kakaotalk';
-import Line from '../icons/social/line';
-import WeChat from '../icons/social/wechat';
-import Tinder from '../icons/social/tinder';
-import Reddit from '../icons/social/reddit';
-import Clubhouse from '../icons/social/clubhouse';
+import QRCode from 'react-qr-code';setModifiedSVG
+import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch, OnlyFans } from '../icons/social-media'
+import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
+import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
+import LoadingSave from '../components/loadingSave';
 
+const shortcutDisplay = [
+  { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
+  { id: 2, title: 'ด้านล่างของลิงก์', img: LowerLink},
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -45,17 +36,25 @@ function classNames(...classes) {
 const Profile = () => {
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
-  const [openReady, setOpenReady] = useState(false);
+  const [modifiedSVG, setModifiedSVG] = useState(null);
+  const [bio, setBio] = useState('')
+  const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
-  const [name, setName] = useState('Olivia');
   const [mylink, setMylink] = useState('hitlink.mylinkname');
-  const [updateName, setUpdateName] = useState('');
-  const [btnTitle, setBtnTitle] = useState('รวมลิงก์ต่าง ๆ');
-  const [updateBtnTitle, setUpdateBtnTitle] = useState('');
+
+  const [name, setName] = useState('Olivia');
+  const [updateName, setUpdateName] = useState(name);
+  const [btnTitle, setBtnTitle] = useState('');
+  const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
+  const [btnTitleWhenSaved, setBtnTitleWhenSaved] = useState('');
+
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
   const [focus , setFocus] = useState(0);
+  const [selectedEmoji, setSelectedEmoji] = useState("");
+  const [imgPath, setImagepath] = useState([]);
+  const [editTemplate, setEditTemplate] = useState(false);
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
@@ -91,30 +90,182 @@ const Profile = () => {
   const [numSubTemplates, setSubNumTemplates] = useState(1);
   const [imgPath, setImagepath] = useState([]);
 
-
-  const shortcutDisplay = [
-    { id: 1, title: 'ด้านบนของลิงก์', img: <UpperLink />},
-    { id: 2, title: 'ด้านล่างของลิงก์', img: <LowerLink /> },
-  ]
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
+  const [numTemplates, setNumTemplates] = useState(0);
+  const [numSubTemplates, setSubNumTemplates] = useState(1);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
-  const [numOfLinkInputs, setNumOfLinkInputs] = useState(1);
-  const [numOfIconInputs, setNumOfIconInputs] = useState(1);
+  const [numOfIconInputs, setNumOfIconInputs] = useState(0);
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
   const [editTemplate, setEditTemplate] = useState(false);
 
+  const [mainIconColour, setMainIconColour] = useState('#2F2F2F')
+
   const socialIcons = [
-    (<Facebook />), (<Instagram />), (<XTwitter />), (<Tiktok />), (<Youtube />), (<Gmail />), (<LinkedIn />), (<Kakaotalk />), (<GoogleHangouts />), (<Line />),
-    (<WeChat />), (<Messenger />), (<Tinder />), (<Reddit />), (<Clubhouse />)
+    (<Facebook color={mainIconColour}/>), (<Instagram color={mainIconColour}/>), (<XTwitter color={mainIconColour}/>), (<Tiktok color={mainIconColour}/>), (<Youtube color={mainIconColour}/>), (<Gmail color={mainIconColour}/>), (<LinkedIn color={mainIconColour}/>), (<Kakaotalk color={mainIconColour}/>), (<GoogleHangouts color={mainIconColour}/>), (<Line color={mainIconColour}/>),
+    (<WeChat color={mainIconColour}/>), (<Messenger color={mainIconColour}/>), (<Tinder color={mainIconColour}/>), (<Reddit color={mainIconColour}/>), (<Clubhouse color={mainIconColour}/>), (<Discord color={mainIconColour}/>), (<WhatsApp color={mainIconColour}/>), (<Snapchat color={mainIconColour}/>), (<Threads color={mainIconColour}/>), (<Twitch color={mainIconColour}/>), (<OnlyFans color={mainIconColour}/>)
   ]
 
-  const titleHTML = useRef(null)
-  const [listInputs, setListInputs] = useState([{
-    key:numOfIconInputs
-  }])
+  const shoppingIcons = [
+    (<Amazon color={mainIconColour}/>), (<Lazada color={mainIconColour}/>), (<Shopee color={mainIconColour}/>), (<TiktokShop color={mainIconColour}/>), (<HomeSmile color={mainIconColour}/>), (<Ebay color={mainIconColour}/>), (<Shopify color={mainIconColour}/>), (<Globe02 color={mainIconColour}/>), (<Linemyshop color={mainIconColour}/>)
+  ]
 
+  const otherIcons = [
+    (<YoutubeMusic color={mainIconColour}/>), (<Signal color={mainIconColour}/>), (<Soundcloud color={mainIconColour}/>), (<Spotify color={mainIconColour}/>), (<AppleMusic color={mainIconColour}/>), (<Telegram color={mainIconColour}/>), (<AppleFacetime color={mainIconColour}/>), (<GoogleMaps color={mainIconColour}/>), (<Pinterest color={mainIconColour}/>),
+    (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
+  ]
+
+
+  // Link Inputs
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [linkInputListsWhenSaved, setLinkInputListsWhenSaved] = useState([]);
+  const [linkInputLists, setLinkInputLists] = useState([])
+  const [IconInputListsWhenSaved, setIconInputListsWhenSaved] = useState([]);
+  const [iconInputLists, setIconInputLists] = useState([])
+
+  const linkNameRef = useRef(null)
+  const linkUrlRef = useRef(null)
+  const [linkNameError, setLinkNameError] = useState(false)
+  const [linkNameErrorText, setLinkNameErrorText] = useState('')
+  const [linkUrlError, setLinkUrlError] = useState(false)
+  const [linkUrlErrorText, setLinkUrlErrorText] = useState('')
+
+  const saveData = () => {
+    setIsSaving(true);
+
+    setTimeout(() => {
+      goPrevTo('');
+      setLinkInputListsWhenSaved(linkInputLists);
+      setBtnTitleWhenSaved(btnTitle);
+    }, 1000)
+    setTimeout(() => {
+      setIsSaving(false)
+    }, 1500)
+  }
+
+  const cancelData = () => {
+    goPrevTo('');
+    setTimeout(() => {
+      setBtnTitle(btnTitleWhenSaved);
+      setLinkInputLists(linkInputListsWhenSaved)
+    }, 1500)
+  }
+
+  const [linkInputs, setLinkInputs] = useState([
+    { linkName: '', url: '' },
+  ]);
+
+  const addLinkInput = () => {
+    setLinkInputs([
+      ...linkInputs,
+      { linkName: '', url: '' },
+    ]);
+  };
+
+  const removeLinkInput = (index) => {
+    const updatedInputs = [...linkInputs];
+    updatedInputs.splice(index, 1);
+    setLinkInputs(updatedInputs);
+    setLinkInputLists(updatedInputs)
+  };
+
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedInputs = [...linkInputs];
+    updatedInputs[index][name] = value;
+    setLinkInputs(updatedInputs);
+  };
+
+  const saveLinkInputs = () => {
+    setLinkInputLists([...linkInputs]);
+  };
+
+  // Icon Inputs
+
+  const IconInput = ({ icon }) => {
+    const [iconInputs, setIconInputs] = useState([
+      {icon: icon, url: ''}
+    ]);
+  
+    const addIconInput = () => {
+      setIconInputs([...iconInputs, {}]);
+    };
+  
+    const removeIconInput = (index) => {
+      const updatedInputs = [...iconInputs];
+      updatedInputs.splice(index, 1);
+      setIconInputs(updatedInputs);
+    };
+
+    return (
+      <>
+        <div>
+          {iconInputs.map((input, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex items-center gap-x-[10px]">
+                <div className="flex flex-col gap-y-[6px] grow">
+                  <div className="flex rounded-md flex-row-reverse">
+                    <input
+                      type="text"
+                      name="icon-link"
+                      className="form-input with-prefix"
+                      placeholder="ชื่อลิงก์"
+                    />
+                    <span className="input-addon form-prefix">{input.icon}</span>
+                  </div>
+                </div>
+                <div>
+                  <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <button onClick={addIconInput}>Add</button>
+        </div>
+      </>
+    );
+  };
+
+  const [enabled, setEnabled] = useState(false)
+
+  const [goNextSlideLeft, setGoNextSlideLeft] = useState(false);
+  const [goNextSlideRight, setGoNextSlideRight] = useState(false);
+  const [goBackSlideLeft, setGoBackSlideLeft] = useState(false);
+  const [goBackSlideRight, setGoBackSlideRight] = useState(false);
+
+  const [page, setPage] = useState('');
+
+  const goPrevTo = (p) => {
+    setGoBackSlideRight(true);
+    setTimeout(() => {
+      setGoBackSlideRight(false);
+      setGoBackSlideLeft(true);
+      setPage(p);
+    }, 600)
+    setTimeout(() => {
+      setGoBackSlideLeft(false);
+    }, 1200)
+  }
+
+  const goNextTo = (p) => {
+    setGoNextSlideLeft(true);
+    setTimeout(() => {
+      setGoNextSlideRight(true);
+      setGoNextSlideLeft(false);
+      setPage(p);
+    }, 600)
+    setTimeout(() => {
+      setGoNextSlideRight(false);
+    }, 1200)
+  }
+
+  const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
+
+  const titleHTML = useRef(null)
   const handleButtonClick = (templatenumber) => {
     setTemplate(templatenumber)
     // You can set the new template here
@@ -154,7 +305,6 @@ const Profile = () => {
     elementsToModify.forEach((element) => {
       element.setAttribute('fill', newFillColor);
     });
-
 
     // Serialize the modified SVG back to a string
     const modifiedSVGString = new XMLSerializer().serializeToString(xmlDoc);
@@ -204,7 +354,7 @@ const Profile = () => {
   ]
   
   useEffect(() => {
-    const initialTemplateNumber = '1'; // Choisissez le numéro de modèle initial par défaut
+    const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
     }, []);
 
@@ -212,112 +362,31 @@ const Profile = () => {
     setLinkColor(color)
   }
 
-  const LinkInput = ({key}) => {
-    const linkInputs = [];
-
-    for (let i = 0; i < numOfLinkInputs; i++){
-      linkInputs.push(
-        <div key={key}>
-          <div className="flex items-center gap-x-[10px]">
-            <div className="flex flex-col gap-y-[6px] grow">
-              <input type='text' className="form-input with-shadow" name='link-name' id='link-name' placeholder="ชื่อลิงก์"/>
-              <input type='text' className="form-input with-shadow" name='url' id='url' placeholder="www.example.com"/>
-              {inputError && (
-                <p className="noto text-[#F04438] text-sm">กรุณาระบุรูปแบบ Url ที่ถูกต้อง</p>
-              )}
-            </div>
-            <div>
-              <Trash01 color='#F04438' onClick={() => {
-                linkInputs.splice(key, 1);
-                setNumOfLinkInputs(numOfLinkInputs - 1)
-              }}/>
-            </div>
-          </div>
-
-          <hr className="border-gray-200 my-6"/>
-        </div>
-      )
-    }
-
-    return linkInputs;
-  }
-
-  const IconInput = ({key}) => {
-    const iconInputs = [];
-
-    for (let i = 0; i < numOfIconInputs; i++){
-      iconInputs.push(
-        <div key={key} className="mb-4">
-          <div className="flex items-center gap-x-[10px]">
-            <div>
-              <DotsVertical color='#75777A'/>
-            </div>
-            <div className="flex flex-col gap-y-[6px] grow">
-              <input type='text' className="form-input with-shadow" name='icon-link' id='icon-link' placeholder="ชื่อลิงก์"/>
-            </div>
-            <div>
-              <Trash01 color='#F04438' onClick={() => {
-                iconInputs.splice(key, 1);
-                setNumOfIconInputs(numOfIconInputs - 1)
-              }}/>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    return iconInputs;
-  }
-
-  const [enabled, setEnabled] = useState(false)
-
-  const [goNextSlideLeft, setGoNextSlideLeft] = useState(false);
-  const [goNextSlideRight, setGoNextSlideRight] = useState(false);
-  const [goBackSlideLeft, setGoBackSlideLeft] = useState(false);
-  const [goBackSlideRight, setGoBackSlideRight] = useState(false);
-
-  const [page, setPage] = useState('');
-
-  const goPrevTo = (p) => {
-    setGoBackSlideRight(true);
-    setTimeout(() => {
-      setGoBackSlideRight(false);
-      setGoBackSlideLeft(true);
-      setPage(p);
-    }, 600)
-    setTimeout(() => {
-      setGoBackSlideLeft(false);
-    }, 1200)
-  }
-
-  const goNextTo = (p) => {
-    setGoNextSlideLeft(true);
-    setTimeout(() => {
-      setGoNextSlideRight(true);
-      setGoNextSlideLeft(false);
-      setPage(p);
-    }, 600)
-    setTimeout(() => {
-      setGoNextSlideRight(false);
-    }, 1200)
-  }
-
-  const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
   return (
     <>
     <div className={`h-screen template${template}`}>
       <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
-            <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
-              <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">ยกเลิก</button>
-              <h2 className="text-gray-900 font-bold">แก้ไข</h2>
-              <button className="text-[#FF4A00] font-bold">บันทึก</button>
+            <header className='px-4 py-3 flex items-center h-[64px]'>
+              <div className='w-1/3 text-left'>
+                <button onClick={cancelData} className="text-[#FF4A00] font-bold">ยกเลิก</button>
+              </div>
+              <div className='w-1/3 text-center'>
+                <h2 className="text-gray-900 font-bold">แก้ไข</h2>
+              </div>
+              <div className='w-1/3 text-right flex justify-end'>
+                {isSaving ? (
+                  <LoadingSave />
+                ) : (
+                  <button className="text-[#FF4A00] font-bold text-right w-1/3" onClick={saveData}>บันทึก</button>
+                )}
+              </div>
             </header>
           ) : (
             <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
               <div className='flex gap-x-[10px]'>
-                <img src={bio} />
+                <img src={bioIcon} />
                 <h1 className='text-gray-900 inter font-semibold text-xl'>hitlink</h1>
               </div>
 
@@ -364,7 +433,7 @@ const Profile = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="mt-6">
                 <h2 className="noto font-bold text-xl">{name}</h2>
                 <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
@@ -383,15 +452,11 @@ const Profile = () => {
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="mt-3 flex flex-col gap-y-4">
-                <div className="flex items-center gap-x-2">
-                  <button className="linkbutton">ลิงก์ Link</button>
-                </div>
-                <div className="flex items-center gap-x-2">
-                  <button className="linkbutton">ลิงก์ Link</button>
-                </div>
-                <div className="flex items-center gap-x-2">
-                  <button className="linkbutton">ลิงก์ Link</button>
-                </div>
+                {linkInputLists.map((link) => 
+                  <div className="flex items-center gap-x-2">
+                    <button href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</button>
+                  </div>
+                )}
               </div>
             </section>
 
@@ -462,13 +527,16 @@ const Profile = () => {
             </div>
           </section>
 
-          <section className="section-profile-2">
-            <h2 ref={titleHTML} className=" font-bold noto">{btnTitle}</h2>
+
+          <section className="mt-[34px] p-4">
+            <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
-              <button className="linkbutton" >ลิงก์ Link</button>
-              <button className="linkbutton">ลิงก์ Link</button>
-              <button className="linkbutton">ลิงก์ Link</button>
+              {linkInputListsWhenSaved.map((link) => 
+                <div className="flex items-center gap-x-2">
+                  <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-center gap-x-5 mt-6">
@@ -558,31 +626,91 @@ const Profile = () => {
 
                         <div className="mt-4">
                           <div className="overflow-y-auto" style={{maxHeight:"calc(100vh - 380px)"}}>
-                            {listInputs.map((index) => 
-                              <LinkInput key={index}/>
-                            )}
-                            <button className="main-btn no-bg" onClick={() => {
-                              if (numOfLinkInputs < 10){
-                                setNumOfLinkInputs(numOfLinkInputs + 1)
-                              } else {
-                                setNumOfLinkInputs(numOfLinkInputs)
-                              }
-                            }} style={{color:"#FF4A00"}}>เพิ่มปุ่ม <span className='text-[#475467]'>({numOfLinkInputs}/10)</span></button>
-                          </div>
-                        </div>
+                            {linkInputs.map((input, index) => (
+                              <div key={index}>
+                                <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
+                                  <div className="flex flex-col gap-y-[6px] grow">
+                                    <input
+                                      type="text"
+                                      className="form-input with-shadow"
+                                      name="linkName"
+                                      placeholder="ชื่อลิงก์"
+                                      ref={linkNameRef}
+                                      value={input.linkName}
+                                      onChange={(e) => handleInputChange(index, e)}
+                                    />
+                                    {linkNameError && (
+                                      <p className="noto text-[#F04438] text-sm">
+                                        {linkNameErrorText}
+                                      </p>
+                                    )}
+                                    <input
+                                      type="text"
+                                      className="form-input with-shadow"
+                                      name="url"
+                                      placeholder="www.example.com"
+                                      ref={linkUrlRef}
+                                      value={input.url}
+                                      onChange={(e) => handleInputChange(index, e)}
+                                    />
+                                    {linkUrlError && (
+                                      <p className="noto text-[#F04438] text-sm">
+                                        {linkUrlErrorText}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div>
+                                    {linkInputs.length > 1 && (
+                                      <Trash01
+                                        color="#F04438"
+                                        onClick={() => removeLinkInput(index)}
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                      
+                                <hr className="border-gray-200 my-6" />
+                              </div>
+                            ))}
+                      
+                            <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+                              เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+                            </button>
 
-                        <div className="pt-4 flex">
-                          <button
-                            className="main-btn"
-                            onClick={() => {
-                              setOpenAddButtonModal(false);
-                              setTimeout(() => {
-                                setSelectCustomise(false)
-                              }, 400)
-                            }}
-                          >
-                            ยืนยัน
-                          </button>
+                            <div className="pt-4 flex">
+                              <button
+                                className="main-btn"
+                                onClick={() => {
+                                  if (linkNameRef.current.value === ""){
+                                    setLinkNameError(true);
+                                    setLinkNameErrorText('กรุณากรอกชื่อลิงก์')
+                                  } else {
+                                    setLinkNameError(false);
+                                  }
+
+                                  if (linkUrlRef.current.value === ""){
+                                    setLinkUrlError(true)
+                                    setLinkUrlErrorText('กรุณากรอก Url')
+                                  } else if (linkUrlRef.current.value.includes('.com') === false){
+                                    setLinkUrlError(true);
+                                    setLinkUrlErrorText('กรุณาระบุ Url ที่ถูกต้อง') 
+                                  } else {
+                                    setLinkUrlError(false)
+                                  }
+
+                                  if (!linkNameError || !linkUrlError){
+                                    saveLinkInputs()
+                                    setOpenAddButtonModal(false)
+                                    setTimeout(() => {
+                                      setSelectCustomise(false)
+                                    }, 400)
+                                  }
+                                }}
+                              >
+                                ยืนยัน
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -645,8 +773,6 @@ const Profile = () => {
                         </button>
                       </div>
                     </div>
-                    
-                      
                     )}
 
 
@@ -663,16 +789,40 @@ const Profile = () => {
                                 <button onClick={() => setShortcutMenuActive(1)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 1 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   ชอปปิ้ง
                                 </button>
-                                <label htmlFor='uploadImg' className={`inline-block text-center font-bold p-2 w-1/3 rounded-lg text-sm`}>
+                                <button onClick={() => setShortcutMenuActive(2)} className={`text-center font-bold p-2 w-1/3 rounded-lg text-sm ${shortcutMenuActive === 2 ? 'bg-[#FFE9DD] text-[#FF4A00]' : 'bg-white text-black'}`}>
                                   อื่น ๆ
-                                  <input type='file' className="hidden" id='uploadImg' />
-                                </label>
+                                </button>
                               </nav>
 
                               {shortcutMenuActive === 0 && (
-                                <div className='flex gap-x-4 gap-y-8 justify-center flex-wrap'>
-                                  {socialIcons.map((icon) => 
-                                    <button className='flex justify-center' style={{width:"calc(20% - 16px)"}}>{icon}</button>
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {socialIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
+                                  )}
+                                </div>
+                              )}
+
+                              {shortcutMenuActive === 1 && (
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {shoppingIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
+                                  )}
+                                </div>
+                              )}
+
+                              {shortcutMenuActive === 2 && (
+                                <div className='flex gap-y-8 flex-wrap'>
+                                  {otherIcons.map((icon, index) => 
+                                    <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
+                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      setAddShortcut(false);
+                                    }}>{icon}</button>
                                   )}
                                 </div>
                               )}
@@ -716,7 +866,7 @@ const Profile = () => {
                                               <span className="flex flex-1 justify-center">
                                                 <span className="flex flex-col">
                                                   <RadioGroup.Label as="span" className="block mx-auto">
-                                                    {list.img}
+                                                    {list.img(checked)}
                                                   </RadioGroup.Label>
                                                   <RadioGroup.Description as="span" className="mt-[14px] text-sm text-[#344054]">
                                                     {list.title}
@@ -849,7 +999,7 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenChangeTitle(false)}>
+                        <button className="absolute left-0" onClick={() => {setOpenChangeTitle(false);setUpdateBtnTitle(btnTitle)}}>
                           <ChevronLeft color='#667085'/>
                         </button>
                         เพิ่มหัวข้อปุ่ม
@@ -871,7 +1021,7 @@ const Profile = () => {
                           onClick={() => {
                             setOpenChangeTitle(false);
                             if (updateBtnTitle === ""){
-                              setBtnTitle("รวมลิงก์ต่าง ๆ")
+                              setBtnTitle("")
                             } else {
                               setBtnTitle(updateBtnTitle)
                               showSavedNoti('เพิ่มหัวข้อปุ่มสำเร็จ')
@@ -1096,7 +1246,7 @@ const Profile = () => {
                       <div className="flex flex-col gap-y-4 mt-[30px]">
                         <div>
                           <label htmlFor='username' className="mt-[6px] text-para text-[#344054]">ชื่อ Hitlink <span className="required">*</span></label>
-                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ"/>
+                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={name}/>
                         </div>
                         <div className="relative">
                           <label htmlFor='emoji' className="mt-[6px] text-para text-[#344054]">อิโมจิ</label>
@@ -1107,11 +1257,13 @@ const Profile = () => {
                             </div>
                           </button>
                           {showEmojiPicker ? (
-                            <div className="absolute z-10">
-                              <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
-                                setEmoji(true);
-                                setSelectedEmoji(emojiData.unified)
-                              }}/>
+                            <div className='flex h-screen fixed top-0 w-full left-0 justify-center items-center' onClick={() => setShowEmojiPicker(false)}>
+                              <div className="absolute z-10">
+                                <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
+                                  setEmoji(true);
+                                  setSelectedEmoji(emojiData.unified)
+                                }}/>
+                              </div>
                             </div>
                           ) : null}
                         </div>

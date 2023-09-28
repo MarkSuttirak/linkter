@@ -179,6 +179,7 @@ $primaryColor:#FF4A00;
   font-weight:400;
   color:#475467;
   background-color:white;
+  padding:8px;
 }
 
 .form-prefix {
@@ -1738,4 +1739,8 @@ $primaryColor:#FF4A00;
   .footer{
     color : #FFFFFF;
   }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
