@@ -10,7 +10,7 @@ import EditProfile from './pages/edit-profile'
 
 function App() {
   return (
-    <FrappeProvider>
+    <FrappeProvider >
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}/>
