@@ -181,10 +181,11 @@ const Profile = () => {
   // Icon Inputs
 
   const [iconInputs, setIconInputs] = useState([
-    {icon: '', url: ''}
+    {icon: null, url: ''}
   ]);
 
   const addIconInput = (icon) => {
+    console.log(iconInputs)
     setIconInputs([...iconInputs, {icon: icon}]);
   };
 
@@ -457,7 +458,7 @@ const Profile = () => {
           </>
         ) : page === 'profile' ? (
           <>
-            <div className="p-4 section-profile-1" style={{height:"calc(100vh - 245px)"}}>
+            <div className="p-4" style={{height:"calc(100vh - 245px)"}}>
               <div className="text-left">
                 <h1 className="main-text-title">My profile</h1>
       
@@ -796,7 +797,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {socialIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon.icon)
+                                      addIconInput(icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
@@ -807,7 +808,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {shoppingIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon.icon)
+                                      addIconInput(icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
@@ -818,7 +819,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {otherIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon.icon)
+                                      addIconInput(icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
