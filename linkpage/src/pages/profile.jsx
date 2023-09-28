@@ -38,6 +38,8 @@ const Profile = () => {
   const [surnameProfile, setSurnameProfile] = useState('Rhye')
   const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
   const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+  const [copyText, setCopyText] = useState('คัดลอก')
+  const [mylink, setMylink] = useState('hitlink.mylinkname');
 
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
@@ -45,7 +47,6 @@ const Profile = () => {
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
-  const [mylink, setMylink] = useState('hitlink.mylinkname');
 
   const [name, setName] = useState('Olivia');
   const [updateName, setUpdateName] = useState(name);
@@ -361,6 +362,12 @@ const Profile = () => {
     setLinkColor(color)
   }
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(mylink);
+    document.execCommand('copy', true, mylink);
+    setCopyText('คัดลอกแล้ว')
+  }
+
   return (
     <>
     <div className={`h-screen template${template}`}>
@@ -473,7 +480,7 @@ const Profile = () => {
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
             }}>
-              <div className="flex justify-end">
+              <div className="flex justify-end px-4">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="flex justify-center gap-x-5 mt-6">
@@ -1088,7 +1095,10 @@ const Profile = () => {
       </Transition.Root>
 
       <Transition.Root show={openShare} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpenShare}>
+        <Dialog as="div" className="relative z-10" onClose={() => {
+          setOpenShare(false);
+          setCopyText('คัดลอก')
+        }}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1126,9 +1136,9 @@ const Profile = () => {
                     <div className="p-4">
                       <div className="flex justify-between px-[10px] py-3 bg-[#F5F5F5] rounded-[10px]">
                         <p className='text-[#101828] inter underline underline-offset-2 text-base'>{mylink}</p>
-                        <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold'>
+                        <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold' onClick={copyLink}>
                           <Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>
-                          คัดลอก
+                          {copyText}
                         </button>
                       </div>
 
