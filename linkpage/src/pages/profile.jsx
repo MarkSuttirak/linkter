@@ -51,6 +51,7 @@ const Profile = () => {
 
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
+  const [focus , setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [imgPath, setImagepath] = useState([]);
   const [editTemplate, setEditTemplate] = useState(false);
@@ -71,7 +72,7 @@ const Profile = () => {
     }, 6000)
   }
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [openAddButtonModal, setOpenAddButtonModal] = useState(false)
   const [openChangeTitle, setOpenChangeTitle] = useState(false)
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -82,6 +83,12 @@ const Profile = () => {
   const [shortcutMenuActive, setShortcutMenuActive] = useState(0)
   const [addShortcut, setAddShortcut] = useState(false) // false
   const [inputError, setInputError] = useState(false);
+  const [modifiedSVG, setModifiedSVG] = useState(null);
+
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
+  const [numTemplates, setNumTemplates] = useState(1);
+  const [numSubTemplates, setSubNumTemplates] = useState(1);
+  const [imgPath, setImagepath] = useState([]);
 
   const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
   const [numTemplates, setNumTemplates] = useState(0);
@@ -92,6 +99,7 @@ const Profile = () => {
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
+  const [editTemplate, setEditTemplate] = useState(false);
 
   const [mainIconColour, setMainIconColour] = useState('#2F2F2F')
 
@@ -108,6 +116,7 @@ const Profile = () => {
     (<YoutubeMusic color={mainIconColour}/>), (<Signal color={mainIconColour}/>), (<Soundcloud color={mainIconColour}/>), (<Spotify color={mainIconColour}/>), (<AppleMusic color={mainIconColour}/>), (<Telegram color={mainIconColour}/>), (<AppleFacetime color={mainIconColour}/>), (<GoogleMaps color={mainIconColour}/>), (<Pinterest color={mainIconColour}/>),
     (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
   ]
+
 
   // Link Inputs
 
@@ -355,7 +364,8 @@ const Profile = () => {
 
   return (
     <>
-      <header className="border-b border-b-gray-200">
+    <div className={`h-screen template${template}`}>
+      <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
             <header className='px-4 py-3 flex items-center h-[64px]'>
@@ -394,7 +404,7 @@ const Profile = () => {
             <section className="flex h-[33px] items-center justify-center bg-[#FF4A00]">
               <p className="text-sm text-white">สามารถกดเพื่อเลือกสิ่งที่ต้องการแก้ไข</p>
             </section>
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenEditProfile(true)}>
+            <section className="section" onClick={() => setOpenEditProfile(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
@@ -430,14 +440,14 @@ const Profile = () => {
               </div>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenChangeTitle(true)}>
+            <section className="section" onClick={() => setOpenChangeTitle(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <h2 className="font-bold noto">{btnTitle}</h2>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenAddButtonModal(true)}>
+            <section className="section" onClick={() => setOpenAddButtonModal(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
@@ -450,7 +460,7 @@ const Profile = () => {
               </div>
             </section>
 
-            <section className="px-4 py-3" onClick={() => {
+            <section className="section-2" onClick={() => {
               setOpenAddButtonModal(true);
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
@@ -459,15 +469,15 @@ const Profile = () => {
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="flex justify-center gap-x-5 mt-6">
-                <Facebook color='#492B07'/>
-                <Instagram color='#492B07'/>
-                <XTwitter color='#492B07'/>
+                <Facebook color={linkColor}/>
+                <Instagram color={linkColor} />
+                <XTwitter color={linkColor} />
               </div>
-            </section>
+            </section>  
           </>
         ) : (
           <>
-          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200">
+          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header">
             <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {name}</h1>
             <div className="flex gap-x-2 mt-4">
               <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
@@ -484,7 +494,7 @@ const Profile = () => {
             </div>
           </section>
 
-          <section className="mt-[30px]">
+          <section className="section-profile-1">
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
@@ -517,6 +527,7 @@ const Profile = () => {
             </div>
           </section>
 
+
           <section className="mt-[34px] p-4">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
@@ -529,9 +540,9 @@ const Profile = () => {
             </div>
 
             <div className="flex justify-center gap-x-5 mt-6">
-              <Facebook color='#492B07'/>
-              <Instagram color='#492B07'/>
-              <XTwitter color='#492B07'/>
+              <Facebook color={linkColor} />
+              <Instagram color={linkColor}/>
+              <XTwitter color={linkColor}/>
             </div>
           </section>
           </>
@@ -542,11 +553,19 @@ const Profile = () => {
         <Edit01 color='white' viewBox='0 0 24 24'/>
       </button>
 
-      <footer className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className='mt-10 mb-[30px] flex justify-center items-center gap-x-1 text-[8px]'>
-          Powered by <img src={zaviago} />
+      <footer className={` ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+        <h3 className='h-full  footer'>
+          Powered by   <div>
+          {modifiedSVG && (
+            <div
+              dangerouslySetInnerHTML={{ __html: modifiedSVG }}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          )}
+        </div>
         </h3>
       </footer>
+    </div>
 
       <Transition.Root show={openAddButtonModal} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => {
@@ -583,7 +602,7 @@ const Profile = () => {
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
                         {addShortcut && (
-                          <button className="absolute left-0" onClick={() => setAddShortcut(false)}>
+                          <button className="absolute left-0" onClick={() => {setAddShortcut(false)}}>
                             <ChevronLeft color='#667085'/>
                           </button>
                         )}
@@ -591,7 +610,7 @@ const Profile = () => {
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
                         {addBtnMenuActive === 3 && <>
-                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1) }}>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1);setFocus(0) }}>
                             <ChevronLeft color='#667085'/>
                           </button>
                           เทมเพลต
@@ -697,53 +716,63 @@ const Profile = () => {
                     )}
 
                     {addBtnMenuActive === 1 && (
-                      <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
+                      <div className="overflow-y-auto  grid grid-cols-2 gap-3 p-4 " style={{height:"calc(100vh - 300px)"}}>
                         {templates.map((temp, indexTemp) => 
-                          <button key={indexTemp} onClick={() => {    
+                          <button className='rounded-lg border border-solid  border-[#EBEBEB]' key={indexTemp} onClick={() => {    
                             setNumTemplates(indexTemp)            
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
-                            setAddBtnMenuActive(3);
+                            setAddBtnMenuActive(3);``
                             setAddShortcut(true);
                           }}>
-                            <img src={temp} width='100%'/>
+                            <img className='rounded-lg border border-solid  border-[#EBEBEB]' src={temp} width='100%'/>
                           </button>
                         )}
                       </div>
                     )}
 
                     {addBtnMenuActive == 3 && (
-                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white " style={{height:"calc(100vh - 200px)"}}>
-                        <div className='row-span-3 flex items-center justify-center'>
-                          <button  className='h-75 flex items-center justify-center' onClick={() => {
-                              }}>
-                                <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
-                              </button>
-                        </div>
-                        <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
-                              {imgPath.map((path,Subindex) => 
-                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`}  key={Subindex} onClick={() => {
-                                setSubNumTemplates(Subindex + 1)
-                              }}>
-                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`} src={path} width='100%'/>
-                              </button>
-                            )}
-                          </div>
-                        <div className='flex flex-col mt-7 m-4'>
-                          <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
-                          <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
-                        </div>
-                        <div className='flex item-center justify-center shadow-md '>
-                          <button onClick={() => {
+                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white max-h-[calc(100vh-200px)] overflow-y-auto max-w-screen-xl">
+                      <div className='row-span-3 flex items-center justify-center'>
+                        <button className='h-75 flex items-center justify-center pt-4' onClick={() => { }}>
+                          <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
+                        </button>
+                      </div>
+                      <div className='row-span-2 grid grid-cols-4 gap-3 m-4 pl-6 pr-6'>
+                        {imgPath.map((path, Subindex) => (
+                          <button
+                            className={`rounded-md bg-[lightgray] w-full h-full flex  bg-center bg-cover bg-no-repeat border border-[${focus == Subindex ? '#FF7301' : '#EBEBEB'}]`}
+                            key={Subindex}
+                            onClick={() => {
+                              setSubNumTemplates(Subindex + 1);
+                              setFocus(Subindex)
+                            }}
+                          >
+                            <img className={`rounded-md bg-[lightgray] object-cover w-full h-full flex `} src={path} width='100%'/>
+                          </button>
+                        ))}
+                      </div>
+                      <div className='flex flex-col mt-7 m-4 pb-20'>
+                        <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
+                        <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
+                      </div>
+                      <div className=' absolute h-20 bottom-0 right-0 left-0 bg-white max-w-[calc(100%)]' style={{boxShadow:'0px 4px 20px 0px rgba(35, 35, 35, 0.10)'}} >
+                        <button
+                          onClick={() => {
                             handleButtonClick((numTemplates*4) + numSubTemplates);
-                            setAddBtnMenuActive(1); 
+                            setAddBtnMenuActive(1);
                             setAddShortcut(false);
                             setSubNumTemplates(1);
                             setOpenAddButtonModal(false);
-                          }
-                            } className='main-btn w-288 h-12 p-2 mt-6 m-4'>ยืนยัน</button>
-                        </div>
+                            setFocus(0);
+                          }}
+                          className='main-btn h-12 m-5'
+                          style={{width:'90%'}}
+                        >
+                          ยืนยัน
+                        </button>
                       </div>
+                    </div>
                     )}
 
 
@@ -810,7 +839,7 @@ const Profile = () => {
                                 )}
                                 <div>
                                   <button className="main-btn no-bg" onClick={() => {
-                                    setAddShortcut(true)
+                                    setAddShortcut(false)
                                     // setNumOfIconInputs(numOfIconInputs + 1)
                                   }}>เพิ่มไอคอน</button>
                                 </div>
