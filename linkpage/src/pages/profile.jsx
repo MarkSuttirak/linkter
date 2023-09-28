@@ -34,6 +34,11 @@ function classNames(...classes) {
 }
 
 const Profile = () => {
+  const [nameProfile, setNameProfile] = useState('Olivia')
+  const [surnameProfile, setSurnameProfile] = useState('Rhye')
+  const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
+  const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
   const [bio, setBio] = useState('')
@@ -162,7 +167,7 @@ const Profile = () => {
     const updatedInputs = [...linkInputs];
     updatedInputs.splice(index, 1);
     setLinkInputs(updatedInputs);
-    setLinkInputLists(updatedInputs)
+    setLinkInputLists(updatedInputs);
   };
 
   const handleInputChange = (index, event) => {
@@ -170,6 +175,7 @@ const Profile = () => {
     const updatedInputs = [...linkInputs];
     updatedInputs[index][name] = value;
     setLinkInputs(updatedInputs);
+    setLinkInputLists(updatedInputs);
   };
 
   const saveLinkInputs = () => {
@@ -349,7 +355,7 @@ const Profile = () => {
   useEffect(() => {
     const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
-    }, []);
+  }, []);
 
   const changelinkColor = (color) => {
     setLinkColor(color)
@@ -372,8 +378,17 @@ const Profile = () => {
                 {isSaving ? (
                   <LoadingSave />
                 ) : (
-                  <button className="text-[#FF4A00] font-bold text-right w-1/3" onClick={saveData}>บันทึก</button>
+                  <button className="text-[#FF4A00] font-bold" onClick={saveData}>บันทึก</button>
                 )}
+              </div>
+            </header>
+          ) : page === 'profile' ? (
+            <header className='px-4 py-3 flex items-center justify-start h-[64px]'>
+              <div className='w-1/4 text-left'>
+                <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">กลับ</button>
+              </div>
+              <div className='w-1/2 text-center'>
+                <h2 className="text-gray-900 font-bold">โปรไฟล์ของฉัน</h2>
               </div>
             </header>
           ) : (
@@ -467,6 +482,45 @@ const Profile = () => {
                 <XTwitter color={linkColor} />
               </div>
             </section>  
+          </>
+        ) : page === 'profile' ? (
+          <>
+            <div className="p-4 section-profile-1" style={{height:"calc(100vh - 245px)"}}>
+              <div className="text-left">
+                <h1 className="main-text-title">My profile</h1>
+      
+                <div className="flex gap-y-4 flex-col mt-[30px]">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-input"
+                    value={nameProfile}
+                    readonly
+                  />
+                  <input
+                    type="text"
+                    name="surname"
+                    className="form-input"
+                    value={surnameProfile}
+                    readonly
+                  />
+                  <input
+                    type="text"
+                    name="birthdate"
+                    className="form-input"
+                    value={birthdateProfile}
+                    readonly
+                  />
+                  <input
+                    type="text"
+                    name="email"
+                    className="form-input"
+                    value={emailProfile}
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           <>
@@ -1078,11 +1132,11 @@ const Profile = () => {
                         </button>
                       </div>
 
-                      <div className='mt-4 flex justify-center w-[80%] mx-auto'>
+                      <div className='-my-5 flex justify-center w-[60%] mx-auto'>
                         <QRCode value={mylink}/>
                       </div>
 
-                      <div className="flex gap-x-2 mt-4">
+                      <div className="flex gap-x-2">
                         <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
                           <Download01 />
                           บันทึกรูปภาพ
@@ -1152,13 +1206,12 @@ const Profile = () => {
                       </Dialog.Title>
 
                       <div>
-                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
+                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none' onClick={() => {
+                          setOpenAccountMenu(false);
+                          goNextTo('profile')
+                        }}>
                           <User01 color='#344054'/>
                           View profile
-                        </button>
-                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
-                          <HomeSmile color='#344054'/>
-                          Go to workspace
                         </button>
                         <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
                           <LogOut01 color='#344054'/>
