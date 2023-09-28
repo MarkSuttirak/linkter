@@ -38,6 +38,7 @@ const Profile = () => {
   const [surnameProfile, setSurnameProfile] = useState('Rhye')
   const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
   const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+  const [copyIcon, setCopyIcon] = useState(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
   const [copyText, setCopyText] = useState('คัดลอก')
   const [mylink, setMylink] = useState('hitlink.mylinkname');
 
@@ -367,6 +368,7 @@ const Profile = () => {
   const copyLink = () => {
     navigator.clipboard.writeText(mylink);
     document.execCommand('copy', true, mylink);
+    setCopyIcon(<CheckCircle color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
     setCopyText('คัดลอกแล้ว')
   }
 
@@ -1099,6 +1101,7 @@ const Profile = () => {
       <Transition.Root show={openShare} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => {
           setOpenShare(false);
+          setCopyIcon(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
           setCopyText('คัดลอก')
         }}>
           <Transition.Child
@@ -1128,7 +1131,11 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenShare(false)}>
+                        <button className="absolute left-0" onClick={() => {
+                          setOpenShare(false);
+                          setCopyIcon(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
+                          setCopyText('คัดลอก')
+                        }}>
                           <ChevronLeft color='#667085'/>
                         </button>
                         แชร์ Hitlink
@@ -1139,7 +1146,7 @@ const Profile = () => {
                       <div className="flex justify-between px-[10px] py-3 bg-[#F5F5F5] rounded-[10px]">
                         <p className='text-[#101828] inter underline underline-offset-2 text-base'>{mylink}</p>
                         <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold' onClick={copyLink}>
-                          <Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>
+                          {copyIcon}
                           {copyText}
                         </button>
                       </div>
