@@ -14,7 +14,7 @@ function App() {
     <FrappeProvider tokenParams={{
     useToken: true,
         token : () => {
-          return `04bcff4cb6fae04:9af5e096783f9a5`
+          return `7daf8e4eaf10ba8:d74f3a1f48a6af2`
         },
         type: "token"
 

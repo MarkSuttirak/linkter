@@ -23,6 +23,7 @@ import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, Whats
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
 import LoadingSave from '../components/loadingSave';
+import { useFrappeGetDoc, useFrappeDeleteDoc, useFrappeFileUpload, useFrappeUpdateDoc, useFrappeGetDocList } from 'frappe-react-sdk';
 
 const shortcutDisplay = [
   { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
@@ -33,7 +34,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+
 const Profile = () => {
+  //-----------frappe connection----------//
+
+  const { data:dataUser, loading, error } = useFrappeGetDoc('Linkpage','bricon',{fields : ['user_link','user_name', 'user_image' ]});
+
+  //-----------end here------------------//
+
+
   const [nameProfile, setNameProfile] = useState('Olivia')
   const [surnameProfile, setSurnameProfile] = useState('Rhye')
   const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
@@ -54,7 +64,7 @@ const Profile = () => {
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
   const [btnTitleWhenSaved, setBtnTitleWhenSaved] = useState('');
 
-  const [image, setImage] = useState(false)
+  const [image, setImage] = useState(true)
   const [emoji, setEmoji] = useState(false)
   const [focus, setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
@@ -356,6 +366,12 @@ const Profile = () => {
   ]
   
   useEffect(() => {
+    if (dataUser)
+    {
+      if(dataUser.user_image){
+        setImage(true)
+      };
+    }
     const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
   }, []);
@@ -428,12 +444,12 @@ const Profile = () => {
               <div className='w-[96px] m-auto relative'>
                 {image ? (
                   <div className="img-profile">
-                    <img src='' />
+                    <img src={dataUser && dataUser.user_image }  className='h-full w-full bg-blue-500 rounded-full' />
                   </div>
                 ) : (
                   <label htmlFor='uploadImg'>
                     <div className="img-profile">
-                      <Image01 color='white' />
+                      <Image01 color='white'  />
                     </div>
 
                     <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
@@ -554,7 +570,7 @@ const Profile = () => {
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
-                  <img src='' />
+                  <img src={dataUser && dataUser.user_image}  className='h-full w-full bg-blue-500 rounded-full'/>
                 </div>
               ) : (
                 <label htmlFor='uploadImg'>
@@ -1279,7 +1295,7 @@ const Profile = () => {
                       <div className='w-[96px] m-auto relative'>
                         {image ? (
                           <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                            <img src='' />
+                            <img src={dataUser && dataUser.user_image}  className='h-full w-full bg-blue-500 rounded-full'/>
                           </div>
                         ) : (
                           <label htmlFor='uploadImg'>
