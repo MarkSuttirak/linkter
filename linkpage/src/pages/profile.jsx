@@ -50,7 +50,7 @@ const Profile = () => {
 
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
-  const [focus , setFocus] = useState(0);
+  const [focus, setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
 
   const [savedNoti, setSavedNoti] = useState(false);
@@ -521,7 +521,7 @@ const Profile = () => {
           </section>
 
 
-          <section className="mt-[34px] p-4">
+          <section className="pt-[34px] p-4 section-profile-2">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
