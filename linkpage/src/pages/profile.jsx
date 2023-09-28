@@ -1,5 +1,5 @@
 import readyToUse from '../icons/ready-to-use.png'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 import { Dialog, Transition, RadioGroup } from '@headlessui/react'
 import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
@@ -16,6 +16,8 @@ import templateFive from '../templates/template-five.png'
 import templateSix from '../templates/template-six.png'
 import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
+import templateNine from '../templates/template-nine.png'
+import templateTen from '../templates/template-ten.png'
 import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch, OnlyFans } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
@@ -31,6 +33,8 @@ function classNames(...classes) {
 }
 
 const Profile = () => {
+  const [template, setTemplate] = useState('1');
+  const [linkColor, setLinkColor] = useState('#000000');
   const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -43,6 +47,8 @@ const Profile = () => {
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
   const [selectedEmoji, setSelectedEmoji] = useState("");
+  const [imgPath, setImagepath] = useState([]);
+  const [editTemplate, setEditTemplate] = useState(false);
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
@@ -72,9 +78,9 @@ const Profile = () => {
   const [addShortcut, setAddShortcut] = useState(false) // false
   const [inputError, setInputError] = useState(false);
 
-  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight];
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
   const [numTemplates, setNumTemplates] = useState(0);
-  const selectedTemplate = templates[numTemplates];
+  const [numSubTemplates, setSubNumTemplates] = useState(1);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
   const [numOfIconInputs, setNumOfIconInputs] = useState(0);
@@ -218,6 +224,104 @@ const Profile = () => {
   }
 
   const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
+
+  const titleHTML = useRef(null)
+  const handleButtonClick = (templatenumber) => {
+    setTemplate(templatenumber)
+    // You can set the new template here
+    const value = Number(templatenumber);
+    changelinkColor(tabLinkColor[value - 1][0])
+    fetch(zaviago)
+    .then(response => response.text())
+    .then(svgData => {
+      // Modify the SVG data here
+      modifySVGColor(svgData, tabLinkColor[value - 1][1]);
+    })
+    .catch(error => {
+      console.error('Error loading SVG:', error);
+    });
+  };
+
+  const generateImagePaths = (id) => {
+    const imageFolder = `./src/templates/template${id}`;
+    const imagePaths = [];
+  
+    for (let i = 1; i <= 4; i++) {
+      const imagePath = `${imageFolder}/${i}.png`;
+      imagePaths.push(imagePath);
+    }
+  
+    return imagePaths;
+  }
+
+  // Function to modify SVG fill color
+  const modifySVGColor =  (svgString, newFillColor)  => {
+    // Use DOMParser to parse the SVG string
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(svgString, 'image/svg+xml');
+
+    // Modify the fill attribute of the relevant SVG elements
+    const elementsToModify = xmlDoc.querySelectorAll('[fill]');
+    elementsToModify.forEach((element) => {
+      element.setAttribute('fill', newFillColor);
+    });
+
+
+    // Serialize the modified SVG back to a string
+    const modifiedSVGString = new XMLSerializer().serializeToString(xmlDoc);
+    setModifiedSVG(modifiedSVGString);
+  }
+  const tabLinkColor = [
+    ['#04C900' ,'#000000'],
+    ['#C90000', '#000000'],
+    ['#0050C9','#000000'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000463','#000463'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#9E6BEC','#9E6BEC'],
+    ['#59267A','#59267A'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#F5804B','#F5804B'],
+    ['#FFDF00','#383838'],
+    ['#E9C0E9','#E9C0E9'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#1D232F','#1D232F'],
+    ['#062CD3','#062CD3'],
+    ['#E15CFF','#E15CFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#181818','#000000'],
+    ['#1DB2FF','#1DB2FF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#3461FF','#3461FF'],
+    ['#625A50','#625A50'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#663800','#663800'],
+    ['#393752','#393752'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#000000','#000000'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+    ['#FFFFFF','#FFFFFF'],
+  ]
+  
+  useEffect(() => {
+    const initialTemplateNumber = '1'; // Choisissez le numéro de modèle initial par défaut
+    handleButtonClick(initialTemplateNumber);
+    }, []);
+
+  const changelinkColor = (color) => {
+    setLinkColor(color)
+  }
 
   return (
     <>
@@ -446,6 +550,12 @@ const Profile = () => {
                         {addBtnMenuActive === 0 && 'เพิ่มปุ่ม'}
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
+                        {addBtnMenuActive === 3 && <>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1) }}>
+                            <ChevronLeft color='#667085'/>
+                          </button>
+                          เทมเพลต
+                        </>}
                       </Dialog.Title>
                     </div>
 
@@ -527,16 +637,54 @@ const Profile = () => {
 
                     {addBtnMenuActive === 1 && (
                       <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
-                        {templates.map((temp, index) => 
-                          <button key={index} onClick={() => {
-                            setNumTemplates(index);
-                            setOpen(true)
+                        {templates.map((temp, indexTemp) => 
+                          <button key={indexTemp} onClick={() => {    
+                            setNumTemplates(indexTemp)            
+                            setImagepath(generateImagePaths(indexTemp+1));
+                            setEditTemplate(true);
+                            setAddBtnMenuActive(3);
+                            setAddShortcut(true);
                           }}>
                             <img src={temp} width='100%'/>
                           </button>
                         )}
                       </div>
                     )}
+
+                    {addBtnMenuActive == 3 && (
+                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white " style={{height:"calc(100vh - 200px)"}}>
+                        <div className='row-span-3 flex items-center justify-center'>
+                          <button  className='h-75 flex items-center justify-center' onClick={() => {
+                              }}>
+                                <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
+                              </button>
+                        </div>
+                        <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
+                              {imgPath.map((path,Subindex) => 
+                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`}  key={Subindex} onClick={() => {
+                                setSubNumTemplates(Subindex + 1)
+                              }}>
+                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`} src={path} width='100%'/>
+                              </button>
+                            )}
+                          </div>
+                        <div className='flex flex-col mt-7 m-4'>
+                          <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
+                          <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
+                        </div>
+                        <div className='flex item-center justify-center shadow-md '>
+                          <button onClick={() => {
+                            handleButtonClick((numTemplates*4) + numSubTemplates);
+                            setAddBtnMenuActive(1); 
+                            setAddShortcut(false);
+                            setSubNumTemplates(1);
+                            setOpenAddButtonModal(false);
+                          }
+                            } className='main-btn w-288 h-12 p-2 mt-6 m-4'>ยืนยัน</button>
+                        </div>
+                      </div>
+                    )}
+
 
                     {addBtnMenuActive === 2 && (
                       <>
