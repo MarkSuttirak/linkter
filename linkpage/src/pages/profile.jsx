@@ -55,6 +55,7 @@ const Profile = () => {
   const [updateBtnTitle, setUpdateBtnTitle] = useState('');
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
+  const [focus , setFocus] = useState(0);
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
@@ -304,7 +305,7 @@ const Profile = () => {
   const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
   return (
     <>
-    <div className={` template${template}`}>
+    <div className={`h-screen template${template}`}>
       <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
@@ -484,8 +485,8 @@ const Profile = () => {
         <Edit01 color='white' viewBox='0 0 24 24'/>
       </button>
 
-      <footer className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className=' footer'>
+      <footer className={` ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+        <h3 className='h-full  footer'>
           Powered by   <div>
           {modifiedSVG && (
             <div
@@ -541,7 +542,7 @@ const Profile = () => {
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
                         {addBtnMenuActive === 3 && <>
-                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1) }}>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1);setFocus(0) }}>
                             <ChevronLeft color='#667085'/>
                           </button>
                           เทมเพลต
@@ -587,53 +588,64 @@ const Profile = () => {
                     )}
 
                     {addBtnMenuActive === 1 && (
-                      <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
+                      <div className="overflow-y-auto  grid grid-cols-2 gap-3 p-4 " style={{height:"calc(100vh - 300px)"}}>
                         {templates.map((temp, indexTemp) => 
-                          <button key={indexTemp} onClick={() => {    
+                          <button className='rounded-lg border border-solid  border-[#EBEBEB]' key={indexTemp} onClick={() => {    
                             setNumTemplates(indexTemp)            
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
-                            setAddBtnMenuActive(3);
+                            setAddBtnMenuActive(3);``
                             setAddShortcut(true);
                           }}>
-                            <img src={temp} width='100%'/>
+                            <img className='rounded-lg border border-solid  border-[#EBEBEB]' src={temp} width='100%'/>
                           </button>
                         )}
                       </div>
                     )}
 
                     {addBtnMenuActive == 3 && (
-                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white " style={{height:"calc(100vh - 200px)"}}>
-                        <div className='row-span-3 flex items-center justify-center'>
-                          <button  className='h-75 flex items-center justify-center' onClick={() => {
-                              }}>
-                                <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
-                              </button>
-                        </div>
-                        <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
-                              {imgPath.map((path,Subindex) => 
-                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`}  key={Subindex} onClick={() => {
-                                setSubNumTemplates(Subindex + 1)
-                              }}>
-                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`} src={path} width='100%'/>
-                              </button>
-                            )}
-                          </div>
-                        <div className='flex flex-col mt-7 m-4'>
-                          <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
-                          <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
-                        </div>
-                        <div className='flex item-center justify-center shadow-md '>
-                          <button onClick={() => {
+                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white max-h-[calc(100vh-200px)] overflow-y-auto max-w-screen-xl">
+                      <div className='row-span-3 flex items-center justify-center'>
+                        <button className='h-75 flex items-center justify-center pt-4' onClick={() => { }}>
+                          <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
+                        </button>
+                      </div>
+                      <div className='row-span-2 grid grid-cols-4 gap-3 m-4 pl-6 pr-6'>
+                        {imgPath.map((path, Subindex) => (
+                          <button
+                            className={`rounded-md bg-[lightgray] w-full h-full flex  bg-center bg-cover bg-no-repeat border border-[${focus == Subindex ? '#FF7301' : '#EBEBEB'}]`}
+                            key={Subindex}
+                            onClick={() => {
+                              setSubNumTemplates(Subindex + 1);
+                              setFocus(Subindex)
+                            }}
+                          >
+                            <img className={`rounded-md bg-[lightgray] object-cover w-full h-full flex `} src={path} width='100%'/>
+                          </button>
+                        ))}
+                      </div>
+                      <div className='flex flex-col mt-7 m-4 pb-20'>
+                        <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
+                        <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
+                      </div>
+                      <div className=' absolute h-20 bottom-0 right-0 left-0 bg-white max-w-[calc(100%)]' style={{boxShadow:'0px 4px 20px 0px rgba(35, 35, 35, 0.10)'}} >
+                        <button
+                          onClick={() => {
                             handleButtonClick((numTemplates*4) + numSubTemplates);
-                            setAddBtnMenuActive(1); 
+                            setAddBtnMenuActive(1);
                             setAddShortcut(false);
                             setSubNumTemplates(1);
                             setOpenAddButtonModal(false);
-                          }
-                            } className='main-btn w-288 h-12 p-2 mt-6 m-4'>ยืนยัน</button>
-                        </div>
+                            setFocus(0);
+                          }}
+                          className='main-btn h-12 m-5'
+                          style={{width:'90%'}}
+                        >
+                          ยืนยัน
+                        </button>
                       </div>
+                    </div>
+                    
                       
                     )}
 
