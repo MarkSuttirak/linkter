@@ -18,7 +18,7 @@ import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
 import templateNine from '../templates/template-nine.png'
 import templateTen from '../templates/template-ten.png'
-import QRCode from 'react-qr-code';setModifiedSVG
+import QRCode from 'react-qr-code';
 import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, WhatsApp, Youtube, Gmail, LinkedIn, Kakaotalk, Line, WeChat, Tinder, Reddit, Clubhouse, Discord, Snapchat, Threads, Twitch, OnlyFans } from '../icons/social-media'
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
@@ -36,7 +36,6 @@ function classNames(...classes) {
 const Profile = () => {
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
-  const [modifiedSVG, setModifiedSVG] = useState(null);
   const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -53,8 +52,6 @@ const Profile = () => {
   const [emoji, setEmoji] = useState(false)
   const [focus , setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
-  const [imgPath, setImagepath] = useState([]);
-  const [editTemplate, setEditTemplate] = useState(false);
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
@@ -89,10 +86,6 @@ const Profile = () => {
   const [numTemplates, setNumTemplates] = useState(1);
   const [numSubTemplates, setSubNumTemplates] = useState(1);
   const [imgPath, setImagepath] = useState([]);
-
-  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
-  const [numTemplates, setNumTemplates] = useState(0);
-  const [numSubTemplates, setSubNumTemplates] = useState(1);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
   const [numOfIconInputs, setNumOfIconInputs] = useState(0);
