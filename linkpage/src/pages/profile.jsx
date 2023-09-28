@@ -86,7 +86,6 @@ const Profile = () => {
   const [addBtnMenuActive, setAddBtnMenuActive] = useState(0)
   const [shortcutMenuActive, setShortcutMenuActive] = useState(0)
   const [addShortcut, setAddShortcut] = useState(false) // false
-  const [inputError, setInputError] = useState(false);
   const [modifiedSVG, setModifiedSVG] = useState(null);
 
   const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
@@ -128,13 +127,6 @@ const Profile = () => {
   const [IconInputListsWhenSaved, setIconInputListsWhenSaved] = useState([]);
   const [iconInputLists, setIconInputLists] = useState([])
 
-  const linkNameRef = useRef(null)
-  const linkUrlRef = useRef(null)
-  const [linkNameError, setLinkNameError] = useState(false)
-  const [linkNameErrorText, setLinkNameErrorText] = useState('')
-  const [linkUrlError, setLinkUrlError] = useState(false)
-  const [linkUrlErrorText, setLinkUrlErrorText] = useState('')
-
   const saveData = () => {
     setIsSaving(true);
 
@@ -157,13 +149,13 @@ const Profile = () => {
   }
 
   const [linkInputs, setLinkInputs] = useState([
-    { linkName: '', url: '' },
+    { linkName: '', url: '', inputError: false, inputUrlError: false, linkNameErrorText: '', linkUrlErrorText: '' },
   ]);
 
   const addLinkInput = () => {
     setLinkInputs([
       ...linkInputs,
-      { linkName: '', url: '' },
+      { linkName: '', url: '', inputError: false, inputUrlError: false, linkNameErrorText: '', linkUrlErrorText: '' },
     ]);
   };
 
@@ -188,49 +180,18 @@ const Profile = () => {
 
   // Icon Inputs
 
-  const IconInput = ({ icon }) => {
-    const [iconInputs, setIconInputs] = useState([
-      {icon: icon, url: ''}
-    ]);
-  
-    const addIconInput = () => {
-      setIconInputs([...iconInputs, {}]);
-    };
-  
-    const removeIconInput = (index) => {
-      const updatedInputs = [...iconInputs];
-      updatedInputs.splice(index, 1);
-      setIconInputs(updatedInputs);
-    };
+  const [iconInputs, setIconInputs] = useState([
+    {icon: '', url: ''}
+  ]);
 
-    return (
-      <>
-        <div>
-          {iconInputs.map((input, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex items-center gap-x-[10px]">
-                <div className="flex flex-col gap-y-[6px] grow">
-                  <div className="flex rounded-md flex-row-reverse">
-                    <input
-                      type="text"
-                      name="icon-link"
-                      className="form-input with-prefix"
-                      placeholder="ชื่อลิงก์"
-                    />
-                    <span className="input-addon form-prefix">{input.icon}</span>
-                  </div>
-                </div>
-                <div>
-                  <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
-                </div>
-              </div>
-            </div>
-          ))}
+  const addIconInput = (icon) => {
+    setIconInputs([...iconInputs, {icon: icon}]);
+  };
 
-          <button onClick={addIconInput}>Add</button>
-        </div>
-      </>
-    );
+  const removeIconInput = (index) => {
+    const updatedInputs = [...iconInputs];
+    updatedInputs.splice(index, 1);
+    setIconInputs(updatedInputs);
   };
 
   const [enabled, setEnabled] = useState(false)
@@ -374,7 +335,7 @@ const Profile = () => {
 
   return (
     <>
-    <div className={`h-screen template${template}`}>
+    <div className={`template${template}`}>
       <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
@@ -693,13 +654,12 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="linkName"
                                       placeholder="ชื่อลิงก์"
-                                      ref={linkNameRef}
                                       value={input.linkName}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
-                                    {linkNameError && (
+                                    {input.inputError && (
                                       <p className="noto text-[#F04438] text-sm">
-                                        {linkNameErrorText}
+                                        {input.linkNameErrorText}
                                       </p>
                                     )}
                                     <input
@@ -707,13 +667,12 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="url"
                                       placeholder="www.example.com"
-                                      ref={linkUrlRef}
                                       value={input.url}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
-                                    {linkUrlError && (
+                                    {input.inputUrlError && (
                                       <p className="noto text-[#F04438] text-sm">
-                                        {linkUrlErrorText}
+                                        {input.linkUrlErrorText}
                                       </p>
                                     )}
                                   </div>
@@ -739,30 +698,11 @@ const Profile = () => {
                               <button
                                 className="main-btn"
                                 onClick={() => {
-                                  if (linkNameRef.current.value === ""){
-                                    setLinkNameError(true);
-                                    setLinkNameErrorText('กรุณากรอกชื่อลิงก์')
-                                  } else {
-                                    setLinkNameError(false);
-                                  }
-
-                                  if (linkUrlRef.current.value === ""){
-                                    setLinkUrlError(true)
-                                    setLinkUrlErrorText('กรุณากรอก Url')
-                                  } else if (linkUrlRef.current.value.includes('.com') === false){
-                                    setLinkUrlError(true);
-                                    setLinkUrlErrorText('กรุณาระบุ Url ที่ถูกต้อง') 
-                                  } else {
-                                    setLinkUrlError(false)
-                                  }
-
-                                  if (!linkNameError || !linkUrlError){
-                                    saveLinkInputs()
-                                    setOpenAddButtonModal(false)
-                                    setTimeout(() => {
-                                      setSelectCustomise(false)
-                                    }, 400)
-                                  }
+                                  saveLinkInputs()
+                                  setOpenAddButtonModal(false)
+                                  setTimeout(() => {
+                                    setSelectCustomise(false)
+                                  }, 400)
                                 }}
                               >
                                 ยืนยัน
@@ -856,7 +796,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {socialIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
@@ -867,7 +807,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {shoppingIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
@@ -878,7 +818,7 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {otherIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon)
                                       setAddShortcut(false);
                                     }}>{icon}</button>
                                   )}
@@ -892,13 +832,29 @@ const Profile = () => {
                               </Dialog.Description>
 
                               <div className="overflow-y-auto mt-4" style={{height:"calc(100vh - 340px)"}}>
-                                {shortcutIconInputs.map((index) => 
-                                  <IconInput key={index}/>
-                                )}
+                                {iconInputs.map((input, index) => (
+                                  <div key={index} className="mb-4">
+                                    <div className="flex items-center gap-x-[10px]">
+                                      <div className="flex flex-col gap-y-[6px] grow">
+                                        <div className="flex rounded-md flex-row-reverse">
+                                          <input
+                                            type="text"
+                                            name="icon-link"
+                                            className="form-input with-prefix"
+                                            placeholder="ชื่อลิงก์"
+                                          />
+                                          <span className="input-addon form-prefix">{input.icon}</span>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
                                 <div>
                                   <button className="main-btn no-bg" onClick={() => {
-                                    setAddShortcut(false)
-                                    // setNumOfIconInputs(numOfIconInputs + 1)
+                                    setAddShortcut(true)
                                   }}>เพิ่มไอคอน</button>
                                 </div>
                                 <hr className="border-gray-200 my-6"/>
