@@ -11,7 +11,15 @@ import ViewProfile from './pages/view-profile'
 
 function App() {
   return (
-    <FrappeProvider >
+    <FrappeProvider tokenParams={{
+    useToken: true,
+        token : () => {
+          return `04bcff4cb6fae04:9af5e096783f9a5`
+        },
+        type: "token"
+
+     }} socketPort={import.meta.env.VITE_SOCKET_PORT ?? ''}
+     >
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}/>
