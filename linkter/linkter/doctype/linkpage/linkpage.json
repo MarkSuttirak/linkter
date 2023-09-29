@@ -1,45 +1,101 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:user_name",
+ "autoname": "field:name_profile",
  "creation": "2023-09-28 18:00:25.663941",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "user_link",
-  "user_name",
-  "user_image"
+  "general_tab",
+  "email_profile",
+  "description",
+  "name_profile",
+  "surname_profile",
+  "birthday_profile",
+  "style_tab",
+  "button",
+  "user_image",
+  "emoji",
+  "template"
  ],
  "fields": [
   {
-   "fieldname": "user_link",
+   "fetch_from": "email_profile.user_image",
+   "fetch_if_empty": 1,
+   "fieldname": "user_image",
+   "fieldtype": "Attach Image",
+   "label": "user_image"
+  },
+  {
+   "fieldname": "email_profile",
    "fieldtype": "Link",
    "in_global_search": 1,
    "in_list_view": 1,
-   "label": "user_link",
+   "label": "email_profile",
    "options": "User",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
-   "fetch_from": "user_link.first_name",
-   "fieldname": "user_name",
+   "fetch_from": "email_profile.full_name",
+   "fetch_if_empty": 1,
+   "fieldname": "name_profile",
    "fieldtype": "Data",
-   "label": "user_name",
+   "label": "name_profile",
    "reqd": 1,
    "unique": 1
   },
   {
-   "fetch_from": "user_link.user_image",
-   "fieldname": "user_image",
-   "fieldtype": "Attach Image",
-   "label": "user_image"
+   "fetch_from": "email_profile.first_name",
+   "fetch_if_empty": 1,
+   "fieldname": "surname_profile",
+   "fieldtype": "Data",
+   "label": "surname_profile",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "email_profile.birth_date",
+   "fetch_if_empty": 1,
+   "fieldname": "birthday_profile",
+   "fieldtype": "Date",
+   "label": "birthday_profile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "general_tab",
+   "fieldtype": "Tab Break",
+   "label": "general"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "description"
+  },
+  {
+   "fieldname": "style_tab",
+   "fieldtype": "Tab Break",
+   "label": "style"
+  },
+  {
+   "fieldname": "button",
+   "fieldtype": "Data",
+   "label": "button"
+  },
+  {
+   "fieldname": "emoji",
+   "fieldtype": "Data",
+   "label": "emoji"
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Data",
+   "label": "template"
   }
  ],
- "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-09-28 18:10:36.225618",
+ "modified": "2023-09-29 15:20:05.178118",
  "modified_by": "Administrator",
  "module": "Linkter",
  "name": "Linkpage",
@@ -60,20 +116,29 @@
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
+   "permlevel": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Administrator",
-   "select": 1,
+   "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

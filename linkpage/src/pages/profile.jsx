@@ -24,6 +24,9 @@ import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleF
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
 import LoadingSave from '../components/loadingSave';
 import { useFrappeGetDoc, useFrappeDeleteDoc, useFrappeFileUpload, useFrappeUpdateDoc, useFrappeGetDocList } from 'frappe-react-sdk';
+import { useToast} from '@chakra-ui/react';
+
+
 
 const shortcutDisplay = [
   { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
@@ -34,20 +37,92 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+const fileArgs = {
+  /** If the file access is private then set to TRUE (optional) */
+  "isPrivate": false,
+  /** Doctype associated with the file (optional) */
+  "doctype": "Linkpage",
+  /** Docname associated with the file (mandatory if doctype is present) */
+  "docname": "anatholy bricon",
+  /** Field in the document **/
+  "fieldname": "user_image"
+}
 
+var dataUpdateUser =
+{
+  'birthday_profile' : "",
+  'email_profile' :  "",
+  'name_profile' : "",
+  'surname_profile' : "",
+  'user_image' : "",
+}
 
 const Profile = () => {
+
+  const [image, setImage] = useState(null);
+  const toast = useToast();
+
+  const [nameProfile, setNameProfile] = useState('')
+  const [surnameProfile, setSurnameProfile] = useState('')
+  const [birthdateProfile, setBirthdateProfile] = useState('')
+  const [emailProfile, setEmailProfile] = useState('')
+  const [name, setName] = useState('');
+
   //-----------frappe connection----------//
 
-  const { data:dataUser, loading, error } = useFrappeGetDoc('Linkpage','bricon',{fields : ['user_link','user_name', 'user_image' ]});
+  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','anatholy bricon',{fields : ['email_profile','name', 'user_image', 'surname_profile', 'birthday_profile' ]})
+  //const { data:User, error : errorUser } = useFrappeGetDoc('User','anatholyb@gmail.com')
+  const { upload :uploadImage, error:errorUploadImage } = useFrappeFileUpload();
+  const { updateDoc, error : updateError, reset} = useFrappeUpdateDoc()
 
+  const handleUploadImage =(e) => 
+  { 
+    if(e.target.files[0])
+    {
+      uploadImage(e.target.files[0], fileArgs) .then((response) => {
+        toast({
+          title: 'File updated succesfully',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        dataUpdateUser.user_image = response.file_url;
+        updateDoc('Linkpage', 'anatholy bricon', dataUpdateUser ).then((response2) =>{
+          toast({
+              title: 'Success',
+              description: 'Data saved successfully!',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+          });
+          })
+          .catch((error) =>{
+            console.log(error)
+              toast({
+                  title: 'Unexpected error while updating file',
+                  description: `${updateError?.httpStatus} ${updateError?.httpStatusText}`,
+                  status: 'error',
+                  duration: 3000,
+                  isClosable: true,
+              });          
+          })
+      })
+      .catch(() => {
+        toast({
+          title: 'Error while UploadingFile',
+          description : errorUploadImage,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+    }
+    
+  }
   //-----------end here------------------//
 
 
-  const [nameProfile, setNameProfile] = useState('Olivia')
-  const [surnameProfile, setSurnameProfile] = useState('Rhye')
-  const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
-  const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+ 
   const [copyText, setCopyText] = useState('คัดลอก')
   const [mylink, setMylink] = useState('hitlink.mylinkname');
 
@@ -57,14 +132,12 @@ const Profile = () => {
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
-
-  const [name, setName] = useState('Olivia');
   const [updateName, setUpdateName] = useState(name);
   const [btnTitle, setBtnTitle] = useState('');
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
   const [btnTitleWhenSaved, setBtnTitleWhenSaved] = useState('');
 
-  const [image, setImage] = useState(true)
+
   const [emoji, setEmoji] = useState(false)
   const [focus, setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
@@ -366,15 +439,35 @@ const Profile = () => {
   ]
   
   useEffect(() => {
+    if(errorDataUser)
+    {
+      toast({
+        title: 'Error while fetching data',
+        description : errorDataUser,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
     if (dataUser)
     {
       if(dataUser.user_image){
-        setImage(true)
+        setImage(dataUser.user_image)
       };
+      setName(dataUser.surname_profile)
+      setSurnameProfile(dataUser.surname_profile)
+      setEmailProfile(dataUser.email_profile)
+      setBirthdateProfile(dataUser.birthday_profile)
+      setNameProfile(dataUser.name)
+      dataUpdateUser.birthday_profile = dataUser.birthday_profile;
+      dataUpdateUser.email_profile = dataUser.email_profile;
+      dataUpdateUser.name_profile = dataUser.name;
+      dataUpdateUser.surname_profile = dataUser.surname_profile;
     }
+    mutateDataUser();
     const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
-  }, []);
+  }, [dataUser]);
 
   const changelinkColor = (color) => {
     setLinkColor(color)
@@ -444,7 +537,7 @@ const Profile = () => {
               <div className='w-[96px] m-auto relative'>
                 {image ? (
                   <div className="img-profile">
-                    <img src={dataUser && dataUser.user_image }  className='h-full w-full bg-blue-500 rounded-full' />
+                    <img src={image }  className='h-full w-full bg-blue-500 rounded-full' />
                   </div>
                 ) : (
                   <label htmlFor='uploadImg'>
@@ -487,7 +580,7 @@ const Profile = () => {
               <div className="mt-3 flex flex-col gap-y-4">
                 {linkInputLists.map((link) => 
                   <div className="flex items-center gap-x-2">
-                    <button href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</button>
+                    <button href={link.url} className="linkbutton">{link.linkName}</button>
                   </div>
                 )}
               </div>
@@ -570,7 +663,7 @@ const Profile = () => {
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
-                  <img src={dataUser && dataUser.user_image}  className='h-full w-full bg-blue-500 rounded-full'/>
+                  <img src={image}  className='h-full w-full bg-blue-500 rounded-full'/>
                 </div>
               ) : (
                 <label htmlFor='uploadImg'>
@@ -1228,8 +1321,8 @@ const Profile = () => {
                         </div>
 
                         <div className='text-left'>
-                          <h2 className='text-gray-700 font-semibold inter'>Olivia Rhye</h2>
-                          <p className='text-sm text-gray-600 inter'>olivia@untitledui.com</p>
+                          <h2 className='text-gray-700 font-semibold inter'>{nameProfile}</h2>
+                          <p className='text-sm text-gray-600 inter'>{emailProfile}</p>
                         </div>
                       </Dialog.Title>
 
@@ -1294,9 +1387,10 @@ const Profile = () => {
                     <div className="p-4">
                       <div className='w-[96px] m-auto relative'>
                         {image ? (
-                          <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                            <img src={dataUser && dataUser.user_image}  className='h-full w-full bg-blue-500 rounded-full'/>
-                          </div>
+                          <label htmlFor='imageUpload' className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
+                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => handleUploadImage(event)} className='hidden'/>
+                              <img src={image}  className='h-full w-full bg-blue-500 rounded-full'/>
+                          </label>
                         ) : (
                           <label htmlFor='uploadImg'>
                             <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
