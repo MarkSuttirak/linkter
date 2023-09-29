@@ -93,10 +93,6 @@ const Profile = () => {
   const [imgPath, setImagepath] = useState([]);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
-  const [numOfIconInputs, setNumOfIconInputs] = useState(0);
-  const [shortcutIconInputs, setShortcutIconInputs] = useState([{
-    key:numOfIconInputs
-  }])
   const [editTemplate, setEditTemplate] = useState(false);
   const [iconColour, setIconColour] = useState('#2F2F2F')
 
@@ -126,7 +122,7 @@ const Profile = () => {
   
   const [shoppingIcons, setShoppingIcons] = useState([
     { icon: <Amazon color={iconColour}/>, selected: false },
-    { icon: <Lazada color={iconColour}/>, selected: false }, // Initially selected
+    { icon: <Lazada color={iconColour}/>, selected: false },
     { icon: <Shopee color={iconColour}/>, selected: false },
     { icon: <TiktokShop color={iconColour}/>, selected: false },
     { icon: <HomeSmile color={iconColour}/>, selected: false },
@@ -138,7 +134,7 @@ const Profile = () => {
   
   const [otherIcons, setOtherIcons] = useState([
     { icon: <YoutubeMusic color={iconColour}/>, selected: false },
-    { icon: <Signal color={iconColour}/>, selected: false }, // Initially selected
+    { icon: <Signal color={iconColour}/>, selected: false },
     { icon: <Soundcloud color={iconColour}/>, selected: false },
     { icon: <Spotify color={iconColour}/>, selected: false },
     { icon: <AppleMusic color={iconColour}/>, selected: false },
@@ -255,8 +251,6 @@ const Profile = () => {
   const saveIconInputs = () => {
     setIconInputLists([...iconInputs]);
   };
-
-  const [enabled, setEnabled] = useState(false)
 
   const [goNextSlideLeft, setGoNextSlideLeft] = useState(false);
   const [goNextSlideRight, setGoNextSlideRight] = useState(false);
