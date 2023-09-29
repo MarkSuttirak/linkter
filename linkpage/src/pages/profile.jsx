@@ -101,19 +101,64 @@ const Profile = () => {
   const [editTemplate, setEditTemplate] = useState(false);
   const [iconColour, setIconColour] = useState('#2F2F2F')
 
-  const socialIcons = [
-    (<Facebook color={iconColour}/>), (<Instagram color={iconColour}/>), (<XTwitter color={iconColour}/>), (<Tiktok color={iconColour}/>), (<Youtube color={iconColour}/>), (<Gmail color={iconColour}/>), (<LinkedIn color={iconColour}/>), (<Kakaotalk color={iconColour}/>), (<GoogleHangouts color={iconColour}/>), (<Line color={iconColour}/>),
-    (<WeChat color={iconColour}/>), (<Messenger color={iconColour}/>), (<Tinder color={iconColour}/>), (<Reddit color={iconColour}/>), (<Clubhouse color={iconColour}/>), (<Discord color={iconColour}/>), (<WhatsApp color={iconColour}/>), (<Snapchat color={iconColour}/>), (<Threads color={iconColour}/>), (<Twitch color={iconColour}/>), (<OnlyFans color={iconColour}/>)
-  ]
-
-  const shoppingIcons = [
-    (<Amazon color={iconColour}/>), (<Lazada color={iconColour}/>), (<Shopee color={iconColour}/>), (<TiktokShop color={iconColour}/>), (<HomeSmile color={iconColour}/>), (<Ebay color={iconColour}/>), (<Shopify color={iconColour}/>), (<Globe02 color={iconColour}/>), (<Linemyshop color={iconColour}/>)
-  ]
-
-  const otherIcons = [
-    (<YoutubeMusic color={iconColour}/>), (<Signal color={iconColour}/>), (<Soundcloud color={iconColour}/>), (<Spotify color={iconColour}/>), (<AppleMusic color={iconColour}/>), (<Telegram color={iconColour}/>), (<AppleFacetime color={iconColour}/>), (<GoogleMaps color={iconColour}/>), (<Pinterest color={iconColour}/>),
-    (<Giphy color={iconColour}/>), (<Dropbox color={iconColour}/>), (<Onedrive color={iconColour}/>), (<WeTransfer color={iconColour}/>), (<Patreon color={iconColour}/>), (<Blogger color={iconColour}/>), (<Deviantart color={iconColour}/>), (<Invision color={iconColour}/>), (<Behance color={iconColour}/>), (<Dribbble color={iconColour}/>), (<GoogleDrive color={iconColour}/>)
-  ]
+  const [socialIcons, setSocialIcons] = useState([
+    { icon: <Facebook color={iconColour}/>, selected: false },
+    { icon: <Instagram color={iconColour}/>, selected: false },
+    { icon: <XTwitter color={iconColour}/>, selected: false },
+    { icon: <Tiktok color={iconColour}/>, selected: false },
+    { icon: <Youtube color={iconColour}/>, selected: false },
+    { icon: <Gmail color={iconColour}/>, selected: false },
+    { icon: <LinkedIn color={iconColour}/>, selected: false },
+    { icon: <Kakaotalk color={iconColour}/>, selected: false },
+    { icon: <GoogleHangouts color={iconColour}/>, selected: false },
+    { icon: <Line color={iconColour}/>, selected: false },
+    { icon: <WeChat color={iconColour}/>, selected: false },
+    { icon: <Messenger color={iconColour}/>, selected: false },
+    { icon: <Tinder color={iconColour}/>, selected: false },
+    { icon: <Reddit color={iconColour}/>, selected: false },
+    { icon: <Clubhouse color={iconColour}/>, selected: false },
+    { icon: <Discord color={iconColour}/>, selected: false },
+    { icon: <WhatsApp color={iconColour}/>, selected: false },
+    { icon: <Snapchat color={iconColour}/>, selected: false },
+    { icon: <Threads color={iconColour}/>, selected: false },
+    { icon: <Twitch color={iconColour}/>, selected: false },
+    { icon: <OnlyFans color={iconColour}/>, selected: false },
+  ]);
+  
+  const [shoppingIcons, setShoppingIcons] = useState([
+    { icon: <Amazon color={iconColour}/>, selected: false },
+    { icon: <Lazada color={iconColour}/>, selected: false }, // Initially selected
+    { icon: <Shopee color={iconColour}/>, selected: false },
+    { icon: <TiktokShop color={iconColour}/>, selected: false },
+    { icon: <HomeSmile color={iconColour}/>, selected: false },
+    { icon: <Ebay color={iconColour}/>, selected: false },
+    { icon: <Shopify color={iconColour}/>, selected: false },
+    { icon: <Globe02 color={iconColour}/>, selected: false },
+    { icon: <Linemyshop color={iconColour}/>, selected: false },
+  ]);
+  
+  const [otherIcons, setOtherIcons] = useState([
+    { icon: <YoutubeMusic color={iconColour}/>, selected: false },
+    { icon: <Signal color={iconColour}/>, selected: false }, // Initially selected
+    { icon: <Soundcloud color={iconColour}/>, selected: false },
+    { icon: <Spotify color={iconColour}/>, selected: false },
+    { icon: <AppleMusic color={iconColour}/>, selected: false },
+    { icon: <Telegram color={iconColour}/>, selected: false },
+    { icon: <AppleFacetime color={iconColour}/>, selected: false },
+    { icon: <GoogleMaps color={iconColour}/>, selected: false },
+    { icon: <Pinterest color={iconColour}/>, selected: false },
+    { icon: <Giphy color={iconColour}/>, selected: false },
+    { icon: <Dropbox color={iconColour}/>, selected: false },
+    { icon: <Onedrive color={iconColour}/>, selected: false },
+    { icon: <WeTransfer color={iconColour}/>, selected: false },
+    { icon: <Patreon color={iconColour}/>, selected: false },
+    { icon: <Blogger color={iconColour}/>, selected: false },
+    { icon: <Deviantart color={iconColour}/>, selected: false },
+    { icon: <Invision color={iconColour}/>, selected: false },
+    { icon: <Behance color={iconColour}/>, selected: false },
+    { icon: <Dribbble color={iconColour}/>, selected: false },
+    { icon: <GoogleDrive color={iconColour}/>, selected: false },
+  ]);
 
   // Link Inputs
 
@@ -177,18 +222,37 @@ const Profile = () => {
   // Icon Inputs
 
   const [iconInputs, setIconInputs] = useState([
-    {icon: null, url: ''}
+    {icon: null, url: '', selected: false}
   ]);
 
-  const addIconInput = (icon) => {
-    console.log(iconInputs)
+  const addIconInput = (icon, index) => {
+    const updatedSocialIcons = [...socialIcons];
+    const updatedShoppingIcons = [...shoppingIcons];
+    const updatedOtherIcons = [...otherIcons];
+    updatedSocialIcons[index].selected = true;
+    updatedShoppingIcons[index].selected = true;
+    updatedOtherIcons[index].selected = true;
+    setSocialIcons(updatedSocialIcons);
+    setShoppingIcons(updatedShoppingIcons);
+    setOtherIcons(updatedOtherIcons);
     setIconInputs([...iconInputs, {icon: icon}]);
   };
 
   const removeIconInput = (index) => {
+    const updatedSocialIcons = [...socialIcons];
+    const updatedShoppingIcons = [...shoppingIcons];
+    const updatedOtherIcons = [...otherIcons];
     const updatedInputs = [...iconInputs];
     updatedInputs.splice(index, 1);
+    updatedSocialIcons[index].selected = false;
+    updatedShoppingIcons[index].selected = false;
+    updatedOtherIcons[index].selected = false;
+    setSocialIcons(updatedSocialIcons);
+    setShoppingIcons(updatedShoppingIcons);
+    setOtherIcons(updatedOtherIcons);
     setIconInputs(updatedInputs);
+
+    console.log(updatedInputs)
   };
 
   const saveIconInputs = () => {
@@ -797,9 +861,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {socialIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon)
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
@@ -808,9 +872,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {shoppingIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon)
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
@@ -819,9 +883,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {otherIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      addIconInput(icon)
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
