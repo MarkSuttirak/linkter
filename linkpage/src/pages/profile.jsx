@@ -41,6 +41,7 @@ const Profile = () => {
   const [copyIcon, setCopyIcon] = useState(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
   const [copyText, setCopyText] = useState('คัดลอก')
   const [mylink, setMylink] = useState('hitlink.mylinkname');
+  const [iKnowEdit, setIKnowEdit] = useState(false);
 
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
@@ -119,7 +120,7 @@ const Profile = () => {
     { icon: <Twitch color={iconColour}/>, selected: false },
     { icon: <OnlyFans color={iconColour}/>, selected: false },
   ]);
-  
+
   const [shoppingIcons, setShoppingIcons] = useState([
     { icon: <Amazon color={iconColour}/>, selected: false },
     { icon: <Lazada color={iconColour}/>, selected: false },
@@ -569,7 +570,13 @@ const Profile = () => {
           <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header bg-white">
             <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {nameProfile}</h1>
             <div className="flex gap-x-2 mt-4">
-              <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
+              <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => {
+                  if (iKnowEdit){
+                    goNextTo('edit');
+                  } else {
+                    setOpenEdit(true)
+                  }
+                }}>
                 <Edit05 />
                 แก้ไข
               </button>
@@ -590,13 +597,9 @@ const Profile = () => {
                   <img src='' />
                 </div>
               ) : (
-                <label htmlFor='uploadImg'>
-                  <div className="img-profile">
-                    <Image01 color='white' />
-                  </div>
-
-                  <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
-                </label>
+                <div className="img-profile">
+                  <Image01 color='white' />
+                </div>
               )}
 
               {emoji ? (
@@ -1464,6 +1467,7 @@ const Profile = () => {
                       onClick={() => {
                         goNextTo('edit');
                         setOpenEdit(false)
+                        setIKnowEdit(true);
                       }}
                     >
                       รับทราบ
