@@ -11,6 +11,8 @@
     "copy-html-entry": "cp ../linkter/public/linkpage/index.html ../linkter/www/linkpage.html"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
     "@babel/runtime": "^7.22.15",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
