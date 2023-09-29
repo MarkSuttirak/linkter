@@ -49,7 +49,6 @@ const Profile = () => {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
 
-  const [name, setName] = useState('Olivia');
   const [updateName, setUpdateName] = useState(name);
   const [btnTitle, setBtnTitle] = useState('');
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
@@ -251,8 +250,6 @@ const Profile = () => {
     setShoppingIcons(updatedShoppingIcons);
     setOtherIcons(updatedOtherIcons);
     setIconInputs(updatedInputs);
-
-    console.log(updatedInputs)
   };
 
   const saveIconInputs = () => {
@@ -480,7 +477,7 @@ const Profile = () => {
               </div>
 
               <div className="mt-6">
-                <h2 className="noto font-bold text-xl">{name}</h2>
+                <h2 className="noto font-bold text-xl">{nameProfile}</h2>
                 <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
               </div>
             </section>
@@ -510,51 +507,65 @@ const Profile = () => {
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
             }}>
-              <div className="flex justify-end px-4">
-                <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
+              <div>
+                <div className="flex justify-end px-4">
+                  <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
+                </div>
+                <div className="flex justify-center gap-x-5 mt-6">
+                  <Facebook color={linkColor}/>
+                  <Instagram color={linkColor} />
+                  <XTwitter color={linkColor} />
+                </div>
               </div>
-              <div className="flex justify-center gap-x-5 mt-6">
-                <Facebook color={linkColor}/>
-                <Instagram color={linkColor} />
-                <XTwitter color={linkColor} />
-              </div>
-            </section>  
+            </section>
           </>
         ) : page === 'profile' ? (
           <>
-            <div className="p-4" style={{height:"calc(100vh - 245px)"}}>
+            <div className="p-4 bg-white" style={{height:"calc(100vh - 245px)"}}>
               <div className="text-left">
                 <h1 className="main-text-title">My profile</h1>
-      
+
                 <div className="flex gap-y-4 flex-col mt-[30px]">
-                  <input
-                    type="text"
-                    name="name"
-                    className="form-input"
-                    value={nameProfile}
-                    readonly
-                  />
-                  <input
-                    type="text"
-                    name="surname"
-                    className="form-input"
-                    value={surnameProfile}
-                    readonly
-                  />
-                  <input
-                    type="text"
-                    name="birthdate"
-                    className="form-input"
-                    value={birthdateProfile}
-                    readonly
-                  />
-                  <input
-                    type="text"
-                    name="email"
-                    className="form-input"
-                    value={emailProfile}
-                    readonly
-                  />
+                  <div>
+                    <p className="text-para text-[#344054]">ชื่อ</p>
+                    <input
+                      type="text"
+                      name="name"
+                      className="form-input"
+                      value={nameProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">นามสกุล</p>
+                    <input
+                      type="text"
+                      name="surname"
+                      className="form-input"
+                      value={surnameProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">วันเกิด</p>
+                    <input
+                      type="text"
+                      name="birthdate"
+                      className="form-input"
+                      value={birthdateProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">อีเมล</p>
+                    <input
+                      type="text"
+                      name="email"
+                      className="form-input"
+                      value={emailProfile}
+                      readonly
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -562,7 +573,7 @@ const Profile = () => {
         ) : (
           <>
           <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header bg-white">
-            <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {name}</h1>
+            <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {nameProfile}</h1>
             <div className="flex gap-x-2 mt-4">
               <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
                 <Edit05 />
@@ -606,7 +617,7 @@ const Profile = () => {
             </div>
 
             <div className="mt-6">
-              <h2 className="noto font-bold text-xl">{name}</h2>
+              <h2 className="noto font-bold text-xl">{nameProfile}</h2>
               <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
             </div>
           </section>
@@ -615,18 +626,20 @@ const Profile = () => {
           <section className="pt-[34px] p-4 section-profile-2">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
-            <div className="mt-4 flex flex-col gap-y-4">
-              {linkInputListsWhenSaved.map((link) => 
-                <div className="flex items-center gap-x-2">
-                  <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
-                </div>
-              )}
-            </div>
+            <div>
+              <div className="mt-4 flex flex-col gap-y-4">
+                {linkInputListsWhenSaved.map((link) => 
+                  <div className="flex items-center gap-x-2">
+                    <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
+                  </div>
+                )}
+              </div>
 
-            <div className="flex justify-center gap-x-5 mt-6">
-              <Facebook color={linkColor} />
-              <Instagram color={linkColor}/>
-              <XTwitter color={linkColor}/>
+              <div className="flex justify-center gap-x-5 mt-6">
+                <Facebook color={linkColor} />
+                <Instagram color={linkColor}/>
+                <XTwitter color={linkColor}/>
+              </div>
             </div>
           </section>
           </>
@@ -638,7 +651,7 @@ const Profile = () => {
       </button>
 
       <footer className={` ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className='h-full  footer'>
+        <h3 className={`h-full footer`} style={{backgroundColor: page === 'profile' ? 'white' : null}}>
           Powered by   <div>
           {modifiedSVG && (
             <div
@@ -827,6 +840,7 @@ const Profile = () => {
                             setAddShortcut(false);
                             setSubNumTemplates(1);
                             setOpenAddButtonModal(false);
+                            showSavedNoti('เปลี่ยนเทมเพลตสำเร็จ')
                             setFocus(0);
                           }}
                           className='main-btn h-12 m-5'
@@ -1333,7 +1347,7 @@ const Profile = () => {
                       <div className="flex flex-col gap-y-4 mt-[30px]">
                         <div>
                           <label htmlFor='username' className="mt-[6px] text-para text-[#344054]">ชื่อ Hitlink <span className="required">*</span></label>
-                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={name}/>
+                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={nameProfile}/>
                         </div>
                         <div className="relative">
                           <label htmlFor='emoji' className="mt-[6px] text-para text-[#344054]">อิโมจิ</label>
