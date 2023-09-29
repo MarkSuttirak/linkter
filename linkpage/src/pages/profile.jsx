@@ -70,7 +70,7 @@ const Profile = () => {
 
   //-----------frappe connection----------//
 
-  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','anatholy bricon',{fields : ['email_profile','name', 'user_image', 'surname_profile', 'birthday_profile' ]})
+  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','anatholy bricon')
   //const { data:User, error : errorUser } = useFrappeGetDoc('User','anatholyb@gmail.com')
   const { upload :uploadImage, error:errorUploadImage } = useFrappeFileUpload();
   const { updateDoc, error : updateError, reset} = useFrappeUpdateDoc()
