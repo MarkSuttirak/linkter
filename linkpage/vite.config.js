@@ -11,7 +11,7 @@ export default defineConfig({
 		}
 	},
 	build: {
-		outDir: 'package.json',
+		outDir: '../linkpage',
 		emptyOutDir: true,
 		target: 'es2015',
 	},
