@@ -99,19 +99,20 @@ const Profile = () => {
     key:numOfIconInputs
   }])
   const [editTemplate, setEditTemplate] = useState(false);
+  const [iconColour, setIconColour] = useState('#2F2F2F')
 
   const socialIcons = [
-    (<Facebook color={linkColor}/>), (<Instagram color={linkColor}/>), (<XTwitter color={linkColor}/>), (<Tiktok color={linkColor}/>), (<Youtube color={linkColor}/>), (<Gmail color={linkColor}/>), (<LinkedIn color={linkColor}/>), (<Kakaotalk color={linkColor}/>), (<GoogleHangouts color={linkColor}/>), (<Line color={linkColor}/>),
-    (<WeChat color={linkColor}/>), (<Messenger color={linkColor}/>), (<Tinder color={linkColor}/>), (<Reddit color={linkColor}/>), (<Clubhouse color={linkColor}/>), (<Discord color={linkColor}/>), (<WhatsApp color={linkColor}/>), (<Snapchat color={linkColor}/>), (<Threads color={linkColor}/>), (<Twitch color={linkColor}/>), (<OnlyFans color={linkColor}/>)
+    (<Facebook color={iconColour}/>), (<Instagram color={iconColour}/>), (<XTwitter color={iconColour}/>), (<Tiktok color={iconColour}/>), (<Youtube color={iconColour}/>), (<Gmail color={iconColour}/>), (<LinkedIn color={iconColour}/>), (<Kakaotalk color={iconColour}/>), (<GoogleHangouts color={iconColour}/>), (<Line color={iconColour}/>),
+    (<WeChat color={iconColour}/>), (<Messenger color={iconColour}/>), (<Tinder color={iconColour}/>), (<Reddit color={iconColour}/>), (<Clubhouse color={iconColour}/>), (<Discord color={iconColour}/>), (<WhatsApp color={iconColour}/>), (<Snapchat color={iconColour}/>), (<Threads color={iconColour}/>), (<Twitch color={iconColour}/>), (<OnlyFans color={iconColour}/>)
   ]
 
   const shoppingIcons = [
-    (<Amazon color={linkColor}/>), (<Lazada color={linkColor}/>), (<Shopee color={linkColor}/>), (<TiktokShop color={linkColor}/>), (<HomeSmile color={linkColor}/>), (<Ebay color={linkColor}/>), (<Shopify color={linkColor}/>), (<Globe02 color={linkColor}/>), (<Linemyshop color={linkColor}/>)
+    (<Amazon color={iconColour}/>), (<Lazada color={iconColour}/>), (<Shopee color={iconColour}/>), (<TiktokShop color={iconColour}/>), (<HomeSmile color={iconColour}/>), (<Ebay color={iconColour}/>), (<Shopify color={iconColour}/>), (<Globe02 color={iconColour}/>), (<Linemyshop color={iconColour}/>)
   ]
 
   const otherIcons = [
-    (<YoutubeMusic color={linkColor}/>), (<Signal color={linkColor}/>), (<Soundcloud color={linkColor}/>), (<Spotify color={linkColor}/>), (<AppleMusic color={linkColor}/>), (<Telegram color={linkColor}/>), (<AppleFacetime color={linkColor}/>), (<GoogleMaps color={linkColor}/>), (<Pinterest color={linkColor}/>),
-    (<Giphy color={linkColor}/>), (<Dropbox color={linkColor}/>), (<Onedrive color={linkColor}/>), (<WeTransfer color={linkColor}/>), (<Patreon color={linkColor}/>), (<Blogger color={linkColor}/>), (<Deviantart color={linkColor}/>), (<Invision color={linkColor}/>), (<Behance color={linkColor}/>), (<Dribbble color={linkColor}/>), (<GoogleDrive color={linkColor}/>)
+    (<YoutubeMusic color={iconColour}/>), (<Signal color={iconColour}/>), (<Soundcloud color={iconColour}/>), (<Spotify color={iconColour}/>), (<AppleMusic color={iconColour}/>), (<Telegram color={iconColour}/>), (<AppleFacetime color={iconColour}/>), (<GoogleMaps color={iconColour}/>), (<Pinterest color={iconColour}/>),
+    (<Giphy color={iconColour}/>), (<Dropbox color={iconColour}/>), (<Onedrive color={iconColour}/>), (<WeTransfer color={iconColour}/>), (<Patreon color={iconColour}/>), (<Blogger color={iconColour}/>), (<Deviantart color={iconColour}/>), (<Invision color={iconColour}/>), (<Behance color={iconColour}/>), (<Dribbble color={iconColour}/>), (<GoogleDrive color={iconColour}/>)
   ]
 
   // Link Inputs
@@ -191,7 +192,7 @@ const Profile = () => {
   };
 
   const saveIconInputs = () => {
-    seIconInputLists([...iconInputs]);
+    setIconInputLists([...iconInputs]);
   };
 
   const [enabled, setEnabled] = useState(false)
@@ -335,11 +336,11 @@ const Profile = () => {
 
   return (
     <>
-    <div className={`template${template}`}>
+    <div className={`h-screen template${template}`}>
       <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
-            <header className='px-4 py-3 flex items-center h-[64px]'>
+            <header className='px-4 py-3 flex items-center h-[64px] bg-white'>
               <div className='w-1/3 text-left'>
                 <button onClick={cancelData} className="text-[#FF4A00] font-bold">ยกเลิก</button>
               </div>
@@ -355,7 +356,7 @@ const Profile = () => {
               </div>
             </header>
           ) : page === 'profile' ? (
-            <header className='px-4 py-3 flex items-center justify-start h-[64px]'>
+            <header className='px-4 py-3 flex items-center justify-start h-[64px] bg-white'>
               <div className='w-1/4 text-left'>
                 <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">กลับ</button>
               </div>
@@ -364,7 +365,7 @@ const Profile = () => {
               </div>
             </header>
           ) : (
-            <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
+            <header className='px-4 py-3 flex items-center justify-between h-[64px] bg-white'>
               <div className='flex gap-x-[10px]'>
                 <img src={bioIcon} />
                 <h1 className='text-gray-900 inter font-semibold text-xl'>hitlink</h1>
@@ -496,7 +497,7 @@ const Profile = () => {
           </>
         ) : (
           <>
-          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header">
+          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header bg-white">
             <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {name}</h1>
             <div className="flex gap-x-2 mt-4">
               <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
@@ -908,6 +909,7 @@ const Profile = () => {
                                 <button
                                   className="main-btn"
                                   onClick={() => {
+                                    saveIconInputs();
                                     setOpenAddButtonModal(false);
                                     setTimeout(() => {
                                       setSelectCustomise(false)
