@@ -47,8 +47,21 @@ const Register = () => {
   const [bio, setBio] = useState('');
 
   const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
-  const [numTemplates, setNumTemplates] = useState(0);
-  const selectedTemplate = templates[numTemplates];
+  const [numTemplates, setNumTemplates] = useState(1);
+  const [numSubTemplates, setSubNumTemplates] = useState(1);
+  const [imgPath, setImagepath] = useState([]);
+
+  const generateImagePaths = (id) => {
+    const imageFolder = `./src/templates/template${id}`;
+    const imagePaths = [];
+  
+    for (let i = 1; i <= 4; i++) {
+      const imagePath = `${imageFolder}/${i}.png`;
+      imagePaths.push(imagePath);
+    }
+  
+    return imagePaths;
+  }
 
   const Steps = () => {
     return (
@@ -454,9 +467,10 @@ const Register = () => {
               {templates.map((temp, index) => 
                 <button key={index} onClick={() => {
                   setNumTemplates(index);
+                  setImagepath(generateImagePaths(index+1));
                   setOpen(true)
                 }}>
-                  <img src={temp} width='100%'/>
+                  <img src={temp} width='80%'/>
                 </button>
               )}
             </div>
@@ -500,12 +514,12 @@ const Register = () => {
                       </Dialog.Title>
                     </div>
                     <div className="mt-2">
-                      <img src={selectedTemplate} className="mx-auto"/>
+                      <img src={imgPath[numSubTemplates-1]} className="mx-auto"/>
                     </div>
                     <div className='flex gap-x-2 justify-center mt-3'>
-                      <img src={templateOne} width='60'/>
-                      <img src={templateTwo} width='60'/>
-                      <img src={templateThree} width='60'/>
+                      {imgPath.map((path) => {
+                        <img src={path} />
+                      })}
                     </div>
 
                     <div className='px-4 mt-8'>
