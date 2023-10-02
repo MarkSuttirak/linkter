@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build --base=/assets/linkter/linkpage/ && yarn copy-html-entry",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "copy-html-entry": "cp ../linkter/public/linkpage/index.html ../linkter/www/linkpage.html"
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.20",
