@@ -34,16 +34,22 @@ function classNames(...classes) {
 }
 
 const Profile = () => {
+  const [nameProfile, setNameProfile] = useState('Olivia')
+  const [surnameProfile, setSurnameProfile] = useState('Rhye')
+  const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
+  const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+  const [copyIcon, setCopyIcon] = useState(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
+  const [copyText, setCopyText] = useState('คัดลอก')
+  const [mylink, setMylink] = useState('hitlink.mylinkname');
+  const [iKnowEdit, setIKnowEdit] = useState(false);
+
   const [template, setTemplate] = useState('1');
   const [linkColor, setLinkColor] = useState('#000000');
-  const [modifiedSVG, setModifiedSVG] = useState(null);
   const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
   const [openEdit, setOpenEdit] = useState(false)
-  const [mylink, setMylink] = useState('hitlink.mylinkname');
 
-  const [name, setName] = useState('Olivia');
   const [updateName, setUpdateName] = useState(name);
   const [btnTitle, setBtnTitle] = useState('');
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
@@ -51,9 +57,8 @@ const Profile = () => {
 
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
+  const [focus, setFocus] = useState(0);
   const [selectedEmoji, setSelectedEmoji] = useState("");
-  const [imgPath, setImagepath] = useState([]);
-  const [editTemplate, setEditTemplate] = useState(false);
 
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
@@ -71,7 +76,7 @@ const Profile = () => {
     }, 6000)
   }
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [openAddButtonModal, setOpenAddButtonModal] = useState(false)
   const [openChangeTitle, setOpenChangeTitle] = useState(false)
   const [openEditProfile, setOpenEditProfile] = useState(false)
@@ -81,48 +86,83 @@ const Profile = () => {
   const [addBtnMenuActive, setAddBtnMenuActive] = useState(0)
   const [shortcutMenuActive, setShortcutMenuActive] = useState(0)
   const [addShortcut, setAddShortcut] = useState(false) // false
-  const [inputError, setInputError] = useState(false);
+  const [modifiedSVG, setModifiedSVG] = useState(null);
 
   const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
-  const [numTemplates, setNumTemplates] = useState(0);
+  const [numTemplates, setNumTemplates] = useState(1);
   const [numSubTemplates, setSubNumTemplates] = useState(1);
+  const [imgPath, setImagepath] = useState([]);
 
   const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
-  const [numOfIconInputs, setNumOfIconInputs] = useState(0);
-  const [shortcutIconInputs, setShortcutIconInputs] = useState([{
-    key:numOfIconInputs
-  }])
+  const [editTemplate, setEditTemplate] = useState(false);
+  const [iconColour, setIconColour] = useState('#2F2F2F')
 
-  const [mainIconColour, setMainIconColour] = useState('#2F2F2F')
+  const [socialIcons, setSocialIcons] = useState([
+    { icon: <Facebook color={iconColour}/>, selected: false },
+    { icon: <Instagram color={iconColour}/>, selected: false },
+    { icon: <XTwitter color={iconColour}/>, selected: false },
+    { icon: <Tiktok color={iconColour}/>, selected: false },
+    { icon: <Youtube color={iconColour}/>, selected: false },
+    { icon: <Gmail color={iconColour}/>, selected: false },
+    { icon: <LinkedIn color={iconColour}/>, selected: false },
+    { icon: <Kakaotalk color={iconColour}/>, selected: false },
+    { icon: <GoogleHangouts color={iconColour}/>, selected: false },
+    { icon: <Line color={iconColour}/>, selected: false },
+    { icon: <WeChat color={iconColour}/>, selected: false },
+    { icon: <Messenger color={iconColour}/>, selected: false },
+    { icon: <Tinder color={iconColour}/>, selected: false },
+    { icon: <Reddit color={iconColour}/>, selected: false },
+    { icon: <Clubhouse color={iconColour}/>, selected: false },
+    { icon: <Discord color={iconColour}/>, selected: false },
+    { icon: <WhatsApp color={iconColour}/>, selected: false },
+    { icon: <Snapchat color={iconColour}/>, selected: false },
+    { icon: <Threads color={iconColour}/>, selected: false },
+    { icon: <Twitch color={iconColour}/>, selected: false },
+    { icon: <OnlyFans color={iconColour}/>, selected: false },
+  ]);
 
-  const socialIcons = [
-    (<Facebook color={mainIconColour}/>), (<Instagram color={mainIconColour}/>), (<XTwitter color={mainIconColour}/>), (<Tiktok color={mainIconColour}/>), (<Youtube color={mainIconColour}/>), (<Gmail color={mainIconColour}/>), (<LinkedIn color={mainIconColour}/>), (<Kakaotalk color={mainIconColour}/>), (<GoogleHangouts color={mainIconColour}/>), (<Line color={mainIconColour}/>),
-    (<WeChat color={mainIconColour}/>), (<Messenger color={mainIconColour}/>), (<Tinder color={mainIconColour}/>), (<Reddit color={mainIconColour}/>), (<Clubhouse color={mainIconColour}/>), (<Discord color={mainIconColour}/>), (<WhatsApp color={mainIconColour}/>), (<Snapchat color={mainIconColour}/>), (<Threads color={mainIconColour}/>), (<Twitch color={mainIconColour}/>), (<OnlyFans color={mainIconColour}/>)
-  ]
+  const [shoppingIcons, setShoppingIcons] = useState([
+    { icon: <Amazon color={iconColour}/>, selected: false },
+    { icon: <Lazada color={iconColour}/>, selected: false },
+    { icon: <Shopee color={iconColour}/>, selected: false },
+    { icon: <TiktokShop color={iconColour}/>, selected: false },
+    { icon: <HomeSmile color={iconColour}/>, selected: false },
+    { icon: <Ebay color={iconColour}/>, selected: false },
+    { icon: <Shopify color={iconColour}/>, selected: false },
+    { icon: <Globe02 color={iconColour}/>, selected: false },
+    { icon: <Linemyshop color={iconColour}/>, selected: false },
+  ]);
+  
+  const [otherIcons, setOtherIcons] = useState([
+    { icon: <YoutubeMusic color={iconColour}/>, selected: false },
+    { icon: <Signal color={iconColour}/>, selected: false },
+    { icon: <Soundcloud color={iconColour}/>, selected: false },
+    { icon: <Spotify color={iconColour}/>, selected: false },
+    { icon: <AppleMusic color={iconColour}/>, selected: false },
+    { icon: <Telegram color={iconColour}/>, selected: false },
+    { icon: <AppleFacetime color={iconColour}/>, selected: false },
+    { icon: <GoogleMaps color={iconColour}/>, selected: false },
+    { icon: <Pinterest color={iconColour}/>, selected: false },
+    { icon: <Giphy color={iconColour}/>, selected: false },
+    { icon: <Dropbox color={iconColour}/>, selected: false },
+    { icon: <Onedrive color={iconColour}/>, selected: false },
+    { icon: <WeTransfer color={iconColour}/>, selected: false },
+    { icon: <Patreon color={iconColour}/>, selected: false },
+    { icon: <Blogger color={iconColour}/>, selected: false },
+    { icon: <Deviantart color={iconColour}/>, selected: false },
+    { icon: <Invision color={iconColour}/>, selected: false },
+    { icon: <Behance color={iconColour}/>, selected: false },
+    { icon: <Dribbble color={iconColour}/>, selected: false },
+    { icon: <GoogleDrive color={iconColour}/>, selected: false },
+  ]);
 
-  const shoppingIcons = [
-    (<Amazon color={mainIconColour}/>), (<Lazada color={mainIconColour}/>), (<Shopee color={mainIconColour}/>), (<TiktokShop color={mainIconColour}/>), (<HomeSmile color={mainIconColour}/>), (<Ebay color={mainIconColour}/>), (<Shopify color={mainIconColour}/>), (<Globe02 color={mainIconColour}/>), (<Linemyshop color={mainIconColour}/>)
-  ]
-
-  const otherIcons = [
-    (<YoutubeMusic color={mainIconColour}/>), (<Signal color={mainIconColour}/>), (<Soundcloud color={mainIconColour}/>), (<Spotify color={mainIconColour}/>), (<AppleMusic color={mainIconColour}/>), (<Telegram color={mainIconColour}/>), (<AppleFacetime color={mainIconColour}/>), (<GoogleMaps color={mainIconColour}/>), (<Pinterest color={mainIconColour}/>),
-    (<Giphy color={mainIconColour}/>), (<Dropbox color={mainIconColour}/>), (<Onedrive color={mainIconColour}/>), (<WeTransfer color={mainIconColour}/>), (<Patreon color={mainIconColour}/>), (<Blogger color={mainIconColour}/>), (<Deviantart color={mainIconColour}/>), (<Invision color={mainIconColour}/>), (<Behance color={mainIconColour}/>), (<Dribbble color={mainIconColour}/>), (<GoogleDrive color={mainIconColour}/>)
-  ]
-
-  // Link Inputs first commit test 
+  // Link Inputs
 
   const [isSaving, setIsSaving] = useState(false);
   const [linkInputListsWhenSaved, setLinkInputListsWhenSaved] = useState([]);
   const [linkInputLists, setLinkInputLists] = useState([])
   const [IconInputListsWhenSaved, setIconInputListsWhenSaved] = useState([]);
   const [iconInputLists, setIconInputLists] = useState([])
-
-  const linkNameRef = useRef(null)
-  const linkUrlRef = useRef(null)
-  const [linkNameError, setLinkNameError] = useState(false)
-  const [linkNameErrorText, setLinkNameErrorText] = useState('')
-  const [linkUrlError, setLinkUrlError] = useState(false)
-  const [linkUrlErrorText, setLinkUrlErrorText] = useState('')
 
   const saveData = () => {
     setIsSaving(true);
@@ -146,13 +186,13 @@ const Profile = () => {
   }
 
   const [linkInputs, setLinkInputs] = useState([
-    { linkName: '', url: '' },
+    { linkName: '', url: '', inputError: false, inputUrlError: false, linkNameErrorText: '', linkUrlErrorText: '' },
   ]);
 
   const addLinkInput = () => {
     setLinkInputs([
       ...linkInputs,
-      { linkName: '', url: '' },
+      { linkName: '', url: '', inputError: false, inputUrlError: false, linkNameErrorText: '', linkUrlErrorText: '' },
     ]);
   };
 
@@ -160,7 +200,7 @@ const Profile = () => {
     const updatedInputs = [...linkInputs];
     updatedInputs.splice(index, 1);
     setLinkInputs(updatedInputs);
-    setLinkInputLists(updatedInputs)
+    setLinkInputLists(updatedInputs);
   };
 
   const handleInputChange = (index, event) => {
@@ -168,6 +208,7 @@ const Profile = () => {
     const updatedInputs = [...linkInputs];
     updatedInputs[index][name] = value;
     setLinkInputs(updatedInputs);
+    setLinkInputLists(updatedInputs);
   };
 
   const saveLinkInputs = () => {
@@ -176,52 +217,41 @@ const Profile = () => {
 
   // Icon Inputs
 
-  const IconInput = ({ icon }) => {
-    const [iconInputs, setIconInputs] = useState([
-      {icon: icon, url: ''}
-    ]);
-  
-    const addIconInput = () => {
-      setIconInputs([...iconInputs, {}]);
-    };
-  
-    const removeIconInput = (index) => {
-      const updatedInputs = [...iconInputs];
-      updatedInputs.splice(index, 1);
-      setIconInputs(updatedInputs);
-    };
+  const [iconInputs, setIconInputs] = useState([
+    {icon: null, url: '', selected: false}
+  ]);
 
-    return (
-      <>
-        <div>
-          {iconInputs.map((input, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex items-center gap-x-[10px]">
-                <div className="flex flex-col gap-y-[6px] grow">
-                  <div className="flex rounded-md flex-row-reverse">
-                    <input
-                      type="text"
-                      name="icon-link"
-                      className="form-input with-prefix"
-                      placeholder="ชื่อลิงก์"
-                    />
-                    <span className="input-addon form-prefix">{input.icon}</span>
-                  </div>
-                </div>
-                <div>
-                  <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
-                </div>
-              </div>
-            </div>
-          ))}
-
-          <button onClick={addIconInput}>Add</button>
-        </div>
-      </>
-    );
+  const addIconInput = (icon, index) => {
+    const updatedSocialIcons = [...socialIcons];
+    const updatedShoppingIcons = [...shoppingIcons];
+    const updatedOtherIcons = [...otherIcons];
+    updatedSocialIcons[index].selected = true;
+    updatedShoppingIcons[index].selected = true;
+    updatedOtherIcons[index].selected = true;
+    setSocialIcons(updatedSocialIcons);
+    setShoppingIcons(updatedShoppingIcons);
+    setOtherIcons(updatedOtherIcons);
+    setIconInputs([...iconInputs, {icon: icon}]);
   };
 
-  const [enabled, setEnabled] = useState(false)
+  const removeIconInput = (index) => {
+    const updatedSocialIcons = [...socialIcons];
+    const updatedShoppingIcons = [...shoppingIcons];
+    const updatedOtherIcons = [...otherIcons];
+    const updatedInputs = [...iconInputs];
+    updatedInputs.splice(index, 1);
+    updatedSocialIcons[index].selected = false;
+    updatedShoppingIcons[index].selected = false;
+    updatedOtherIcons[index].selected = false;
+    setSocialIcons(updatedSocialIcons);
+    setShoppingIcons(updatedShoppingIcons);
+    setOtherIcons(updatedOtherIcons);
+    setIconInputs(updatedInputs);
+  };
+
+  const saveIconInputs = () => {
+    setIconInputLists([...iconInputs]);
+  };
 
   const [goNextSlideLeft, setGoNextSlideLeft] = useState(false);
   const [goNextSlideRight, setGoNextSlideRight] = useState(false);
@@ -347,18 +377,26 @@ const Profile = () => {
   useEffect(() => {
     const initialTemplateNumber = '1';
     handleButtonClick(initialTemplateNumber);
-    }, []);
+  }, []);
 
   const changelinkColor = (color) => {
     setLinkColor(color)
   }
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(mylink);
+    document.execCommand('copy', true, mylink);
+    setCopyIcon(<CheckCircle color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
+    setCopyText('คัดลอกแล้ว')
+  }
+
   return (
     <>
-      <header className="border-b border-b-gray-200">
+    <div className={`h-screen template${template}`}>
+      <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
-            <header className='px-4 py-3 flex items-center h-[64px]'>
+            <header className='px-4 py-3 flex items-center h-[64px] bg-white'>
               <div className='w-1/3 text-left'>
                 <button onClick={cancelData} className="text-[#FF4A00] font-bold">ยกเลิก</button>
               </div>
@@ -369,12 +407,21 @@ const Profile = () => {
                 {isSaving ? (
                   <LoadingSave />
                 ) : (
-                  <button className="text-[#FF4A00] font-bold text-right w-1/3" onClick={saveData}>บันทึก</button>
+                  <button className="text-[#FF4A00] font-bold" onClick={saveData}>บันทึก</button>
                 )}
               </div>
             </header>
+          ) : page === 'profile' ? (
+            <header className='px-4 py-3 flex items-center justify-start h-[64px] bg-white'>
+              <div className='w-1/4 text-left'>
+                <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">กลับ</button>
+              </div>
+              <div className='w-1/2 text-center'>
+                <h2 className="text-gray-900 font-bold">โปรไฟล์ของฉัน</h2>
+              </div>
+            </header>
           ) : (
-            <header className='px-4 py-3 flex items-center justify-between h-[64px]'>
+            <header className='px-4 py-3 flex items-center justify-between h-[64px] bg-white'>
               <div className='flex gap-x-[10px]'>
                 <img src={bioIcon} />
                 <h1 className='text-gray-900 inter font-semibold text-xl'>hitlink</h1>
@@ -394,7 +441,7 @@ const Profile = () => {
             <section className="flex h-[33px] items-center justify-center bg-[#FF4A00]">
               <p className="text-sm text-white">สามารถกดเพื่อเลือกสิ่งที่ต้องการแก้ไข</p>
             </section>
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenEditProfile(true)}>
+            <section className="section" onClick={() => setOpenEditProfile(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
@@ -425,19 +472,19 @@ const Profile = () => {
               </div>
 
               <div className="mt-6">
-                <h2 className="noto font-bold text-xl">{name}</h2>
+                <h2 className="noto font-bold text-xl">{nameProfile}</h2>
                 <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
               </div>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenChangeTitle(true)}>
+            <section className="section" onClick={() => setOpenChangeTitle(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <h2 className="font-bold noto">{btnTitle}</h2>
             </section>
 
-            <section className="px-4 py-3 border-b border-b-[#EAECF0]" onClick={() => setOpenAddButtonModal(true)}>
+            <section className="section" onClick={() => setOpenAddButtonModal(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
@@ -450,27 +497,86 @@ const Profile = () => {
               </div>
             </section>
 
-            <section className="px-4 py-3" onClick={() => {
+            <section className="section-2" onClick={() => {
               setOpenAddButtonModal(true);
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
             }}>
-              <div className="flex justify-end">
-                <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
-              </div>
-              <div className="flex justify-center gap-x-5 mt-6">
-                <Facebook color='#492B07'/>
-                <Instagram color='#492B07'/>
-                <XTwitter color='#492B07'/>
+              <div>
+                <div className="flex justify-end px-4">
+                  <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
+                </div>
+                <div className="flex justify-center gap-x-5 mt-6">
+                  <Facebook color={linkColor}/>
+                  <Instagram color={linkColor} />
+                  <XTwitter color={linkColor} />
+                </div>
               </div>
             </section>
           </>
+        ) : page === 'profile' ? (
+          <>
+            <div className="p-4 bg-white" style={{height:"calc(100vh - 245px)"}}>
+              <div className="text-left">
+                <h1 className="main-text-title">My profile</h1>
+
+                <div className="flex gap-y-4 flex-col mt-[30px]">
+                  <div>
+                    <p className="text-para text-[#344054]">ชื่อ</p>
+                    <input
+                      type="text"
+                      name="name"
+                      className="form-input"
+                      value={nameProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">นามสกุล</p>
+                    <input
+                      type="text"
+                      name="surname"
+                      className="form-input"
+                      value={surnameProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">วันเกิด</p>
+                    <input
+                      type="text"
+                      name="birthdate"
+                      className="form-input"
+                      value={birthdateProfile}
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <p className="text-para text-[#344054]">อีเมล</p>
+                    <input
+                      type="text"
+                      name="email"
+                      className="form-input"
+                      value={emailProfile}
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <>
-          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200">
-            <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {name}</h1>
+          <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header bg-white">
+            <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {nameProfile}</h1>
             <div className="flex gap-x-2 mt-4">
-              <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
+              <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => {
+                  if (iKnowEdit){
+                    goNextTo('edit');
+                  } else {
+                    setOpenEdit(true)
+                  }
+                }}>
                 <Edit05 />
                 แก้ไข
               </button>
@@ -484,20 +590,16 @@ const Profile = () => {
             </div>
           </section>
 
-          <section className="mt-[30px]">
+          <section className="section-profile-1">
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
                   <img src='' />
                 </div>
               ) : (
-                <label htmlFor='uploadImg'>
-                  <div className="img-profile">
-                    <Image01 color='white' />
-                  </div>
-
-                  <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
-                </label>
+                <div className="img-profile">
+                  <Image01 color='white' />
+                </div>
               )}
 
               {emoji ? (
@@ -512,26 +614,29 @@ const Profile = () => {
             </div>
 
             <div className="mt-6">
-              <h2 className="noto font-bold text-xl">{name}</h2>
+              <h2 className="noto font-bold text-xl">{nameProfile}</h2>
               <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
             </div>
           </section>
 
-          <section className="mt-[34px] p-4">
+
+          <section className="pt-[34px] p-4 section-profile-2">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
-            <div className="mt-4 flex flex-col gap-y-4">
-              {linkInputListsWhenSaved.map((link) => 
-                <div className="flex items-center gap-x-2">
-                  <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
-                </div>
-              )}
-            </div>
+            <div>
+              <div className="mt-4 flex flex-col gap-y-4">
+                {linkInputListsWhenSaved.map((link) => 
+                  <div className="flex items-center gap-x-2">
+                    <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
+                  </div>
+                )}
+              </div>
 
-            <div className="flex justify-center gap-x-5 mt-6">
-              <Facebook color='#492B07'/>
-              <Instagram color='#492B07'/>
-              <XTwitter color='#492B07'/>
+              <div className="flex justify-center gap-x-5 mt-6">
+                <Facebook color={linkColor} />
+                <Instagram color={linkColor}/>
+                <XTwitter color={linkColor}/>
+              </div>
             </div>
           </section>
           </>
@@ -542,11 +647,19 @@ const Profile = () => {
         <Edit01 color='white' viewBox='0 0 24 24'/>
       </button>
 
-      <footer className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className='mt-10 mb-[30px] flex justify-center items-center gap-x-1 text-[8px]'>
-          Powered by <img src={zaviago} />
+      <footer className={` ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+        <h3 className={`h-full footer`} style={{backgroundColor: page === 'profile' ? 'white' : null}}>
+          Powered by   <div>
+          {modifiedSVG && (
+            <div
+              dangerouslySetInnerHTML={{ __html: modifiedSVG }}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          )}
+        </div>
         </h3>
       </footer>
+    </div>
 
       <Transition.Root show={openAddButtonModal} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => {
@@ -583,7 +696,7 @@ const Profile = () => {
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
                         {addShortcut && (
-                          <button className="absolute left-0" onClick={() => setAddShortcut(false)}>
+                          <button className="absolute left-0" onClick={() => {setAddShortcut(false)}}>
                             <ChevronLeft color='#667085'/>
                           </button>
                         )}
@@ -591,7 +704,7 @@ const Profile = () => {
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
                         {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
                         {addBtnMenuActive === 3 && <>
-                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1) }}>
+                          <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1);setFocus(0) }}>
                             <ChevronLeft color='#667085'/>
                           </button>
                           เทมเพลต
@@ -616,13 +729,12 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="linkName"
                                       placeholder="ชื่อลิงก์"
-                                      ref={linkNameRef}
                                       value={input.linkName}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
-                                    {linkNameError && (
+                                    {input.inputError && (
                                       <p className="noto text-[#F04438] text-sm">
-                                        {linkNameErrorText}
+                                        {input.linkNameErrorText}
                                       </p>
                                     )}
                                     <input
@@ -630,13 +742,12 @@ const Profile = () => {
                                       className="form-input with-shadow"
                                       name="url"
                                       placeholder="www.example.com"
-                                      ref={linkUrlRef}
                                       value={input.url}
                                       onChange={(e) => handleInputChange(index, e)}
                                     />
-                                    {linkUrlError && (
+                                    {input.inputUrlError && (
                                       <p className="noto text-[#F04438] text-sm">
-                                        {linkUrlErrorText}
+                                        {input.linkUrlErrorText}
                                       </p>
                                     )}
                                   </div>
@@ -662,30 +773,11 @@ const Profile = () => {
                               <button
                                 className="main-btn"
                                 onClick={() => {
-                                  if (linkNameRef.current.value === ""){
-                                    setLinkNameError(true);
-                                    setLinkNameErrorText('กรุณากรอกชื่อลิงก์')
-                                  } else {
-                                    setLinkNameError(false);
-                                  }
-
-                                  if (linkUrlRef.current.value === ""){
-                                    setLinkUrlError(true)
-                                    setLinkUrlErrorText('กรุณากรอก Url')
-                                  } else if (linkUrlRef.current.value.includes('.com') === false){
-                                    setLinkUrlError(true);
-                                    setLinkUrlErrorText('กรุณาระบุ Url ที่ถูกต้อง') 
-                                  } else {
-                                    setLinkUrlError(false)
-                                  }
-
-                                  if (!linkNameError || !linkUrlError){
-                                    saveLinkInputs()
-                                    setOpenAddButtonModal(false)
-                                    setTimeout(() => {
-                                      setSelectCustomise(false)
-                                    }, 400)
-                                  }
+                                  saveLinkInputs()
+                                  setOpenAddButtonModal(false)
+                                  setTimeout(() => {
+                                    setSelectCustomise(false)
+                                  }, 400)
                                 }}
                               >
                                 ยืนยัน
@@ -697,53 +789,64 @@ const Profile = () => {
                     )}
 
                     {addBtnMenuActive === 1 && (
-                      <div className="overflow-y-auto grid grid-cols-2 gap-3 p-4" style={{height:"calc(100vh - 200px)"}}>
+                      <div className="overflow-y-auto  grid grid-cols-2 gap-3 p-4 " style={{height:"calc(100vh - 300px)"}}>
                         {templates.map((temp, indexTemp) => 
-                          <button key={indexTemp} onClick={() => {    
+                          <button className='rounded-lg border border-solid  border-[#EBEBEB]' key={indexTemp} onClick={() => {    
                             setNumTemplates(indexTemp)            
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
-                            setAddBtnMenuActive(3);
+                            setAddBtnMenuActive(3);``
                             setAddShortcut(true);
                           }}>
-                            <img src={temp} width='100%'/>
+                            <img className='rounded-lg border border-solid  border-[#EBEBEB]' src={temp} width='100%'/>
                           </button>
                         )}
                       </div>
                     )}
 
                     {addBtnMenuActive == 3 && (
-                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white " style={{height:"calc(100vh - 200px)"}}>
-                        <div className='row-span-3 flex items-center justify-center'>
-                          <button  className='h-75 flex items-center justify-center' onClick={() => {
-                              }}>
-                                <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
-                              </button>
-                        </div>
-                        <div className='row-span-2 grid grid-cols-4 gap-1 m-4'>
-                              {imgPath.map((path,Subindex) => 
-                              <button className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`}  key={Subindex} onClick={() => {
-                                setSubNumTemplates(Subindex + 1)
-                              }}>
-                                <img className={`rounded-md bg-[lightgray] w-12 h-20 flex items-center justify-center bg-center bg-cover bg-no-repeat border border-[${tabLinkColor[((numTemplates)*4) + (Subindex )][0]}]`} src={path} width='100%'/>
-                              </button>
-                            )}
-                          </div>
-                        <div className='flex flex-col mt-7 m-4'>
-                          <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
-                          <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
-                        </div>
-                        <div className='flex item-center justify-center shadow-md '>
-                          <button onClick={() => {
+                      <div className="grid grid-rows-7 gap-1 place-item-center bg-white max-h-[calc(100vh-200px)] overflow-y-auto max-w-screen-xl">
+                      <div className='row-span-3 flex items-center justify-center'>
+                        <button className='h-75 flex items-center justify-center pt-4' onClick={() => { }}>
+                          <img className='w-40 h-75 flex-shrink-0 rounded-2xl border border-gray-300 bg-[lightgray] bg-center bg-cover bg-no-repeat' src={imgPath[numSubTemplates-1]} width='100%'/>
+                        </button>
+                      </div>
+                      <div className='row-span-2 grid grid-cols-4 gap-3 m-4 pl-6 pr-6'>
+                        {imgPath.map((path, Subindex) => (
+                          <button
+                            className={`rounded-md bg-[lightgray] w-full h-full flex  bg-center bg-cover bg-no-repeat border border-[${focus == Subindex ? '#FF7301' : '#EBEBEB'}]`}
+                            key={Subindex}
+                            onClick={() => {
+                              setSubNumTemplates(Subindex + 1);
+                              setFocus(Subindex)
+                            }}
+                          >
+                            <img className={`rounded-md bg-[lightgray] object-cover w-full h-full flex `} src={path} width='100%'/>
+                          </button>
+                        ))}
+                      </div>
+                      <div className='flex flex-col mt-7 m-4 pb-20'>
+                        <div className='self-stretch text-gray-900 font-Eventpop font-bold text-2xl leading-[25px] tracking-[0.5px]'>Pastel classic Minimal</div>
+                        <div className='text-gray-600 font-inter text-base font-normal leading-6 '>By zaviago</div>
+                      </div>
+                      <div className=' absolute h-20 bottom-0 right-0 left-0 bg-white max-w-[calc(100%)]' style={{boxShadow:'0px 4px 20px 0px rgba(35, 35, 35, 0.10)'}} >
+                        <button
+                          onClick={() => {
                             handleButtonClick((numTemplates*4) + numSubTemplates);
-                            setAddBtnMenuActive(1); 
+                            setAddBtnMenuActive(1);
                             setAddShortcut(false);
                             setSubNumTemplates(1);
                             setOpenAddButtonModal(false);
-                          }
-                            } className='main-btn w-288 h-12 p-2 mt-6 m-4'>ยืนยัน</button>
-                        </div>
+                            showSavedNoti('เปลี่ยนเทมเพลตสำเร็จ')
+                            setFocus(0);
+                          }}
+                          className='main-btn h-12 m-5'
+                          style={{width:'90%'}}
+                        >
+                          ยืนยัน
+                        </button>
                       </div>
+                    </div>
                     )}
 
 
@@ -769,9 +872,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {socialIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
@@ -780,9 +883,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {shoppingIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
@@ -791,9 +894,9 @@ const Profile = () => {
                                 <div className='flex gap-y-8 flex-wrap'>
                                   {otherIcons.map((icon, index) => 
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
-                                      setNumOfIconInputs(numOfIconInputs + 1);
+                                      addIconInput(icon.icon, index)
                                       setAddShortcut(false);
-                                    }}>{icon}</button>
+                                    }}>{icon.icon}</button>
                                   )}
                                 </div>
                               )}
@@ -805,13 +908,29 @@ const Profile = () => {
                               </Dialog.Description>
 
                               <div className="overflow-y-auto mt-4" style={{height:"calc(100vh - 340px)"}}>
-                                {shortcutIconInputs.map((index) => 
-                                  <IconInput key={index}/>
-                                )}
+                                {iconInputs.map((input, index) => (
+                                  <div key={index} className="mb-4">
+                                    <div className="flex items-center gap-x-[10px]">
+                                      <div className="flex flex-col gap-y-[6px] grow">
+                                        <div className="flex rounded-md flex-row-reverse">
+                                          <input
+                                            type="text"
+                                            name="icon-link"
+                                            className="form-input with-prefix"
+                                            placeholder="ชื่อลิงก์"
+                                          />
+                                          <span className="input-addon form-prefix">{input.icon}</span>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <Trash01 color="#F04438" onClick={() => removeIconInput(index)} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
                                 <div>
                                   <button className="main-btn no-bg" onClick={() => {
                                     setAddShortcut(true)
-                                    // setNumOfIconInputs(numOfIconInputs + 1)
                                   }}>เพิ่มไอคอน</button>
                                 </div>
                                 <hr className="border-gray-200 my-6"/>
@@ -865,6 +984,7 @@ const Profile = () => {
                                 <button
                                   className="main-btn"
                                   onClick={() => {
+                                    saveIconInputs();
                                     setOpenAddButtonModal(false);
                                     setTimeout(() => {
                                       setSelectCustomise(false)
@@ -1012,7 +1132,11 @@ const Profile = () => {
       </Transition.Root>
 
       <Transition.Root show={openShare} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpenShare}>
+        <Dialog as="div" className="relative z-10" onClose={() => {
+          setOpenShare(false);
+          setCopyIcon(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
+          setCopyText('คัดลอก')
+        }}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1040,7 +1164,11 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenShare(false)}>
+                        <button className="absolute left-0" onClick={() => {
+                          setOpenShare(false);
+                          setCopyIcon(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
+                          setCopyText('คัดลอก')
+                        }}>
                           <ChevronLeft color='#667085'/>
                         </button>
                         แชร์ Hitlink
@@ -1050,17 +1178,17 @@ const Profile = () => {
                     <div className="p-4">
                       <div className="flex justify-between px-[10px] py-3 bg-[#F5F5F5] rounded-[10px]">
                         <p className='text-[#101828] inter underline underline-offset-2 text-base'>{mylink}</p>
-                        <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold'>
-                          <Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>
-                          คัดลอก
+                        <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold' onClick={copyLink}>
+                          {copyIcon}
+                          {copyText}
                         </button>
                       </div>
 
-                      <div className='mt-4 flex justify-center w-[80%] mx-auto'>
+                      <div className='-my-5 flex justify-center w-[60%] mx-auto'>
                         <QRCode value={mylink}/>
                       </div>
 
-                      <div className="flex gap-x-2 mt-4">
+                      <div className="flex gap-x-2">
                         <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
                           <Download01 />
                           บันทึกรูปภาพ
@@ -1130,13 +1258,12 @@ const Profile = () => {
                       </Dialog.Title>
 
                       <div>
-                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
+                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none' onClick={() => {
+                          setOpenAccountMenu(false);
+                          goNextTo('profile')
+                        }}>
                           <User01 color='#344054'/>
                           View profile
-                        </button>
-                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
-                          <HomeSmile color='#344054'/>
-                          Go to workspace
                         </button>
                         <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
                           <LogOut01 color='#344054'/>
@@ -1217,7 +1344,7 @@ const Profile = () => {
                       <div className="flex flex-col gap-y-4 mt-[30px]">
                         <div>
                           <label htmlFor='username' className="mt-[6px] text-para text-[#344054]">ชื่อ Hitlink <span className="required">*</span></label>
-                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={name}/>
+                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={nameProfile}/>
                         </div>
                         <div className="relative">
                           <label htmlFor='emoji' className="mt-[6px] text-para text-[#344054]">อิโมจิ</label>
@@ -1340,6 +1467,7 @@ const Profile = () => {
                       onClick={() => {
                         goNextTo('edit');
                         setOpenEdit(false)
+                        setIKnowEdit(true);
                       }}
                     >
                       รับทราบ

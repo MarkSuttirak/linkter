@@ -127,74 +127,24 @@ const Register = () => {
     { linkName: '', url: '', inputError: false },
   ]);
 
-  const LinkInput = () => {
-    const addLinkInput = () => {
-      setLinkInputs([
-        ...linkInputs,
-        { linkName: '', url: '', inputError: false },
-      ]);
-    };
-  
-    const removeLinkInput = (index) => {
-      const updatedInputs = [...linkInputs];
-      updatedInputs.splice(index, 1);
-      setLinkInputs(updatedInputs);
-    };
-  
-    const handleInputChange = (index, event) => {
-      const { name, value } = event.target;
-      const updatedInputs = [...linkInputs];
-      updatedInputs[index][name] = value;
-      setLinkInputs(updatedInputs);
-    };
-  
-    return (
-      <div>
-        {linkInputs.map((input, index) => (
-          <div key={index}>
-            <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
-              <div className="flex flex-col gap-y-[6px] grow">
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="linkName"
-                  placeholder="ชื่อลิงก์"
-                  value={input.linkName}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="url"
-                  placeholder="www.example.com"
-                  value={input.url}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                {input.inputError && (
-                  <p className="noto text-[#F04438] text-sm">
-                    กรุณาระบุรูปแบบ Url ที่ถูกต้อง
-                  </p>
-                )}
-              </div>
-              <div>
-                {linkInputs.length > 1 && (
-                  <Trash01
-                    color="#F04438"
-                    onClick={() => removeLinkInput(index)}
-                  />
-                )}
-              </div>
-            </div>
-  
-            <hr className="border-gray-200 my-6" />
-          </div>
-        ))}
-  
-        <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
-          เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
-        </button>
-      </div>
-    );
+  const addLinkInput = () => {
+    setLinkInputs([
+      ...linkInputs,
+      { linkName: '', url: '', inputError: false },
+    ]);
+  };
+
+  const removeLinkInput = (index) => {
+    const updatedInputs = [...linkInputs];
+    updatedInputs.splice(index, 1);
+    setLinkInputs(updatedInputs);
+  };
+
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedInputs = [...linkInputs];
+    updatedInputs[index][name] = value;
+    setLinkInputs(updatedInputs);
   };
 
   const IconInput = ({key}) => {
@@ -238,7 +188,7 @@ const Register = () => {
         <div className="px-4">
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="mt-10 text-left">
-              <h1 className="text-[#101828] text-[30px] font-bold leading-[36px] tracking-[-1.2px]">Welcome to Hitlink simple link in bi<img src={bioIcon} className="inline"/>.</h1>
+              <h1 className="main-text-title">Welcome to Hitlink simple link in bi<img src={bioIcon} className="inline"/>.</h1>
               <p className="text-[#475467] text-para mt-[10px] mb-[30px]">รวมทุกสิ่งทุกอย่าง ที่คุณเป็น หรือ มี ไว้ในลิงก์เดียว สิ่งที่จะช่วยคุณแชร์ทุกสิ่งที่คุณสร้าง</p>
 
               <div className="flex rounded-md flex-row-reverse">
@@ -347,13 +297,55 @@ const Register = () => {
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="px-4 mb-[30px]">
               <div className="mt-12 text-left">
-                <h1 className="text-[#101828] text-[30px] font-bold leading-[36px] tracking-[-1.2px]">Add your social media link🔗</h1>
+                <h1 className="main-text-title">Add your social media link🔗</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เพิ่มลิงก์ตามที่คุณต้องการ โดยสามารถเพิ่มได้ มากที่สุดถึง 10 ลิงก์</p>
               </div>
             </div>
 
             <div className="overflow-y-auto px-4" style={{maxHeight:"calc(100vh - 380px)"}}>
-              <LinkInput />
+              {linkInputs.map((input, index) => (
+                <div key={index}>
+                  <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
+                    <div className="flex flex-col gap-y-[6px] grow">
+                      <input
+                        type="text"
+                        className="form-input with-shadow"
+                        name="linkName"
+                        placeholder="ชื่อลิงก์"
+                        value={input.linkName}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <input
+                        type="text"
+                        className="form-input with-shadow"
+                        name="url"
+                        placeholder="www.example.com"
+                        value={input.url}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      {input.inputError && (
+                        <p className="noto text-[#F04438] text-sm">
+                          กรุณาระบุรูปแบบ Url ที่ถูกต้อง
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      {linkInputs.length > 1 && (
+                        <Trash01
+                          color="#F04438"
+                          onClick={() => removeLinkInput(index)}
+                        />
+                      )}
+                    </div>
+                  </div>
+        
+                  <hr className="border-gray-200 my-6" />
+                </div>
+              ))}
+        
+              <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+                เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+              </button>
             </div>
           </div>
 
@@ -373,7 +365,7 @@ const Register = () => {
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="px-4 mb-[30px]">
               <div className="mt-12 text-left">
-                <h1 className="text-[#101828] text-[30px] font-bold leading-[36px] tracking-[-1.2px]">Add shortcut icon</h1>
+                <h1 className="main-text-title">Add shortcut icon</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เพิ่มไอคอนสำหรับใช้เป็นปุ่มลัด เพื่อช่วยให้ผู้เข้าชมของคุณไปยังลิงก์ที่ต้องการได้ไวขึ้น</p>
               </div>
             </div>
@@ -451,7 +443,7 @@ const Register = () => {
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="px-4 mb-[30px]">
               <div className="mt-12 text-left">
-                <h1 className="text-[#101828] text-[30px] font-bold leading-[36px] tracking-[-1.2px]">Select your style</h1>
+                <h1 className="main-text-title">Select your style</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เลือกเทมเพลตที่บ่งบอกความเป็นคุณ โดยคุณ สามารถปรับแต่งหรือเปลี่ยนแปลงได้ในภายหลัง</p>
               </div>
             </div>
