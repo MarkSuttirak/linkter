@@ -1,7 +1,7 @@
 import readyToUse from '../icons/ready-to-use.png'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import { Dialog, Transition, RadioGroup } from '@headlessui/react'
-import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01 } from "@untitled-ui/icons-react";
+import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01, Data } from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
 import bioIcon from '../icons/icon.svg'
@@ -23,6 +23,10 @@ import { Facebook, Instagram, XTwitter, Tiktok, GoogleHangouts, Messenger, Whats
 import { Spotify, YoutubeMusic, Signal, Soundcloud, AppleMusic, Telegram, AppleFacetime, GoogleMaps, Pinterest, Giphy, Dropbox, Onedrive, WeTransfer, Patreon, Blogger, Deviantart, Invision, Behance, Dribbble, GoogleDrive } from '../icons/other-icons'
 import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '../icons/shopping-icons';
 import LoadingSave from '../components/loadingSave';
+import { useFrappeGetDoc, useFrappeDeleteDoc, useFrappeFileUpload, useFrappeUpdateDoc, useFrappeGetDocList } from 'frappe-react-sdk';
+import { useToast} from '@chakra-ui/react';
+
+
 
 const shortcutDisplay = [
   { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
@@ -33,18 +37,118 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+const fileArgs = {
+  /** If the file access is private then set to TRUE (optional) */
+  "isPrivate": false,
+  /** Doctype associated with the file (optional) */
+  "doctype": "Linkpage",
+  /** Docname associated with the file (mandatory if doctype is present) */
+  "docname": "anatholy bricon",
+  /** Field in the document **/
+  "fieldname": "user_image"
+}
+
+var dataUpdateUser =
+{
+  'birthday_profile' : null,
+  'email_profile' :  null,
+  'name_profile' : null,
+  'surname_profile' : null,
+  'user_image' : null,
+  "description": null,
+  "button": null,
+  "emoji": null,
+  "template": null,
+  "link_color" : null,
+  'zaviago_color' : null
+}
+
+
 const Profile = () => {
-  const [nameProfile, setNameProfile] = useState('Olivia')
-  const [surnameProfile, setSurnameProfile] = useState('Rhye')
-  const [birthdateProfile, setBirthdateProfile] = useState('2023-05-20')
-  const [emailProfile, setEmailProfile] = useState('olivia@untitledui.com')
+  const toast = useToast();
+
+  const [image, setImage] = useState(null);
+  const [tempImage, setTempImage] = useState(null)
+  const [iKnowEdit, setIKnowEdit] = useState(false);
+ 
+  const [nameProfile, setNameProfile] = useState('')
+  const [nameTempProfile, setTempNameProfile] = useState('')
+
+  const [surnameProfile, setSurnameProfile] = useState('')
+  const [surnameTempProfile, setSurnameTempProfile] = useState('')
+
+  const [birthdateProfile, setBirthdateProfile] = useState('')
+  const [birthdateTempProfile, setBirthdateTempProfile] = useState('')
+
+  const [emailProfile, setEmailProfile] = useState('')
+  const [emailTempProfile, setEmailTempProfile] = useState('')
+
+  const [name, setName] = useState('');
+  const [nameTemp, setTempName] = useState('');
+
+  const [description, setDescription] = useState('');
+  const [descriptionTemp, setTempDescription] = useState('');
+
+  const [button, setButton] = useState(null);
+  const [buttonTemp, setTempButton] = useState(null);
+
+  const [selectedEmoji, setSelectedEmoji] = useState("");
+  const [selectedTempEmoji, setSelectedTempEmoji] = useState("");
+
+  const [template, setTemplate] = useState('');
+  const [templateTemp, setTempTemplate] = useState('');
+
+  const [linkColor, setLinkColor] = useState('');
+  const [linkColorTemp, setTempLinkColor] = useState('');
+
+  const [zaviagoColor, setZaviagoColor] = useState('');
+  const [zaviagoTempColor, setZaviagoTempColor] = useState('');
+
+  //-----------frappe connection----------//
+
+  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','anatholy bricon')
+  //const { data:User, error : errorUser } = useFrappeGetDoc('User','anatholyb@gmail.com')
+  const { upload :uploadImage, error:errorUploadImage } = useFrappeFileUpload();
+  const { updateDoc, error : updateError, reset} = useFrappeUpdateDoc()
+
+  const Update = () => {
+    updateDoc('Linkpage', 'anatholy bricon', dataUpdateUser ).then((response2) =>{
+      })
+      .catch((error) =>{      
+      })
+  }
+
+  const handleUploadImage =(e) => 
+  { 
+    if(e.target.files[0])
+    {
+      uploadImage(e.target.files[0], fileArgs) .then((response) => {
+        toast({
+          title: 'File updated succesfully',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        setTempImage(response.file_url)
+      })
+      .catch(() => {
+        toast({
+          title: 'Error while UploadingFile',
+          description : errorUploadImage,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+    }
+    
+  }
+  //-----------end here------------------//
+
   const [copyIcon, setCopyIcon] = useState(<Copy06 color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
   const [copyText, setCopyText] = useState('คัดลอก')
   const [mylink, setMylink] = useState('hitlink.mylinkname');
-  const [iKnowEdit, setIKnowEdit] = useState(false);
 
-  const [template, setTemplate] = useState('1');
-  const [linkColor, setLinkColor] = useState('#000000');
   const [bio, setBio] = useState('')
   const [openReady, setOpenReady] = useState(false)
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -55,11 +159,9 @@ const Profile = () => {
   const [updateBtnTitle, setUpdateBtnTitle] = useState(btnTitle);
   const [btnTitleWhenSaved, setBtnTitleWhenSaved] = useState('');
 
-  const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
   const [focus, setFocus] = useState(0);
-  const [selectedEmoji, setSelectedEmoji] = useState("");
-
+  
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
   const [savedNotiText, setSavedNotiText] = useState('');
@@ -166,7 +268,31 @@ const Profile = () => {
 
   const saveData = () => {
     setIsSaving(true);
-
+    setImage(tempImage)
+    setBirthdateProfile(birthdateTempProfile)
+    setButton(buttonTemp);
+    setDescription(descriptionTemp)
+    setEmailProfile(emailTempProfile)
+    setSelectedEmoji(selectedTempEmoji)
+    setLinkColor(linkColorTemp)
+    setZaviagoColor(zaviagoTempColor)
+    setNameProfile(nameTempProfile)
+    setSurnameProfile(surnameTempProfile)
+    setTemplate(templateTemp)
+    setName(surnameTempProfile)
+    dataUpdateUser.zaviago_color = zaviagoTempColor;
+    dataUpdateUser.user_image = tempImage;
+    dataUpdateUser.birthday_profile = birthdateTempProfile;
+    dataUpdateUser.button = buttonTemp;
+    dataUpdateUser.description = descriptionTemp;
+    dataUpdateUser.email_profile = emailTempProfile;
+    dataUpdateUser.emoji = selectedTempEmoji;
+    dataUpdateUser.link_color = linkColorTemp;
+    dataUpdateUser.name_profile =nameTempProfile;
+    dataUpdateUser.surname_profile = surnameTempProfile;
+    dataUpdateUser.template = templateTemp;
+    
+    Update();
     setTimeout(() => {
       goPrevTo('');
       setLinkInputListsWhenSaved(linkInputLists);
@@ -284,25 +410,26 @@ const Profile = () => {
     }, 1200)
   }
 
-  const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
 
   const titleHTML = useRef(null)
   const handleButtonClick = (templatenumber) => {
-    setTemplate(templatenumber)
+    setTempTemplate(templatenumber)
     // You can set the new template here
     const value = Number(templatenumber);
-    changelinkColor(tabLinkColor[value - 1][0])
+    changelinkColor(tabLinkColor[value - 1][0] ,tabLinkColor[value - 1][1] )
+    changeZaviagoColor(tabLinkColor[value - 1][1])
+  };
+  const changeZaviagoColor = (color) => {
     fetch(zaviago)
     .then(response => response.text())
     .then(svgData => {
       // Modify the SVG data here
-      modifySVGColor(svgData, tabLinkColor[value - 1][1]);
+      modifySVGColor(svgData, color );
     })
     .catch(error => {
       console.error('Error loading SVG:', error);
     });
-  };
-
+  }
   const generateImagePaths = (id) => {
     const imageFolder = `./src/templates/template${id}`;
     const imagePaths = [];
@@ -375,12 +502,92 @@ const Profile = () => {
   ]
   
   useEffect(() => {
-    const initialTemplateNumber = '1';
-    handleButtonClick(initialTemplateNumber);
-  }, []);
+    if(errorDataUser)
+    {
+      toast({
+        title: 'Error while fetching data',
+        description : errorDataUser,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+    if (dataUser)
+    {
+      if(dataUser.user_image){
+        setImage(dataUser.user_image)
+        setTempImage(dataUser.user_image)
+        dataUpdateUser.user_image = dataUser.user_image
+      };
+      if(dataUser.template){
+        setTemplate(dataUser.template)
+        setTempTemplate(dataUser.template)
+        dataUpdateUser.template = dataUser.template;
+      }
+      if(dataUser.surname_profile)
+      {
+        setName(dataUser.surname_profile)
+        setTempName(dataUser.surname_profile)
+        setSurnameProfile(dataUser.surname_profile)
+        setSurnameTempProfile(dataUser.surname_profile)
+        dataUpdateUser.surname_profile = dataUser.surname_profile;
+      }
+      if(dataUser.email_profile)
+      {
+        setEmailProfile(dataUser.email_profile)
+        setEmailTempProfile(dataUser.email_profile)
+        dataUpdateUser.email_profile = dataUser.email_profile;
+      }
+      if(dataUser.birthday_profile)
+      {
+        setBirthdateProfile(dataUser.birthday_profile)
+        setBirthdateTempProfile(dataUser.birthday_profile)
+        dataUpdateUser.birthday_profile = dataUser.birthday_profile;
+      }
+      if(dataUser.button)
+      {
+        setButton(dataUser.button)
+        setTempButton(dataUser.button)
+        dataUpdateUser.button = dataUser.button;
+      }
+      if(dataUser.description)
+      {
+        setDescription(dataUser.description)
+        setTempDescription(dataUser.description)
+        dataUpdateUser.description = dataUser.description;
+      }
+      if(dataUser.emoji)
+      {
+        setSelectedEmoji(dataUser.emoji)
+        setSelectedTempEmoji(dataUser.emoji)
+        setEmoji(true)
+        dataUpdateUser.emoji = dataUser.emoji;
+      }
+      if(dataUser.name_profile)
+      {
+        setNameProfile(dataUser.name)
+        setTempNameProfile(dataUser.name)
+        dataUpdateUser.name_profile = dataUser.name;
+      }
+      if(dataUser.link_color)
+      {
+        setLinkColor(dataUser.link_color);
+        setTempLinkColor(dataUser.link_color);
+        dataUpdateUser.link_color = dataUser.link_color;
+      }
+      if(dataUser.zaviago_color)
+      {
+        setZaviagoColor(dataUser.zaviago_color);
+        setZaviagoTempColor(dataUser.zaviago_color);
+        dataUpdateUser.zaviago_color = dataUser.zaviago_color;
+      }      
+    }
+    mutateDataUser();
+  }, [dataUser, dataUpdateUser]);
 
-  const changelinkColor = (color) => {
-    setLinkColor(color)
+  const changelinkColor = (color1, color2) => {
+    setTempLinkColor(color1);
+    setZaviagoTempColor(color2)
   }
 
   const copyLink = () => {
@@ -392,13 +599,28 @@ const Profile = () => {
 
   return (
     <>
-    <div className={`h-screen template${template}`}>
+    <div className={`h-screen template${templateTemp}`}>
       <header className="border-b border-b-gray-200 head">
         <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
           {page === 'edit' ? (
             <header className='px-4 py-3 flex items-center h-[64px] bg-white'>
               <div className='w-1/3 text-left'>
-                <button onClick={cancelData} className="text-[#FF4A00] font-bold">ยกเลิก</button>
+                <button onClick={() => {
+                  setTempImage(image)
+                  setBirthdateTempProfile(birthdateProfile)
+                  setTempButton(button);
+                  setTempDescription(description)
+                  setEmailTempProfile(emailProfile)
+                  setSelectedTempEmoji(selectedEmoji)
+                  setTempLinkColor(linkColor)
+                  setTempNameProfile(nameProfile)
+                  setSurnameTempProfile(surnameProfile)
+                  setTempTemplate(template)
+                  setTempName(surnameProfile)
+                  setZaviagoTempColor(zaviagoColor)
+                  changeZaviagoColor(zaviagoColor)
+                  cancelData();
+                }} className="text-[#FF4A00] font-bold">ยกเลิก</button>
               </div>
               <div className='w-1/3 text-center'>
                 <h2 className="text-gray-900 font-bold">แก้ไข</h2>
@@ -448,12 +670,12 @@ const Profile = () => {
               <div className='w-[96px] m-auto relative'>
                 {image ? (
                   <div className="img-profile">
-                    <img src='' />
+                    <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full' />
                   </div>
                 ) : (
                   <label htmlFor='uploadImg'>
                     <div className="img-profile">
-                      <Image01 color='white' />
+                      <Image01 color='white'  />
                     </div>
 
                     <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
@@ -462,7 +684,7 @@ const Profile = () => {
 
                 {emoji ? (
                   <div className='emoji-profile'>
-                    <Emoji unified={selectedEmoji} size={24}/>
+                    <Emoji unified={selectedTempEmoji} size={24}/>
                   </div>
                 ) : (
                   <div className='emoji-profile inactive'>
@@ -472,8 +694,8 @@ const Profile = () => {
               </div>
 
               <div className="mt-6">
-                <h2 className="noto font-bold text-xl">{nameProfile}</h2>
-                <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
+                <h2 className="noto font-bold text-xl">{nameTemp}</h2>
+                <p className="mt-[18px] noto">{descriptionTemp}</p>
               </div>
             </section>
 
@@ -491,7 +713,7 @@ const Profile = () => {
               <div className="mt-3 flex flex-col gap-y-4">
                 {linkInputLists.map((link) => 
                   <div className="flex items-center gap-x-2">
-                    <button href={link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</button>
+                    <button href={link.url} className="linkbutton">{link.linkName}</button>
                   </div>
                 )}
               </div>
@@ -502,15 +724,13 @@ const Profile = () => {
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
             }}>
-              <div>
-                <div className="flex justify-end px-4">
-                  <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
-                </div>
-                <div className="flex justify-center gap-x-5 mt-6">
-                  <Facebook color={linkColor}/>
-                  <Instagram color={linkColor} />
-                  <XTwitter color={linkColor} />
-                </div>
+              <div className="flex justify-end px-4">
+                <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
+              </div>
+              <div className="flex justify-center gap-x-5 mt-6">
+                <Facebook color={linkColorTemp}/>
+                <Instagram color={linkColorTemp} />
+                <XTwitter color={linkColorTemp} />
               </div>
             </section>
           </>
@@ -594,7 +814,7 @@ const Profile = () => {
             <div className='w-[96px] m-auto relative'>
               {image ? (
                 <div className="img-profile">
-                  <img src='' />
+                  <img src={image}  className='h-full w-full bg-blue-500 rounded-full'/>
                 </div>
               ) : (
                 <div className="img-profile">
@@ -614,8 +834,8 @@ const Profile = () => {
             </div>
 
             <div className="mt-6">
-              <h2 className="noto font-bold text-xl">{nameProfile}</h2>
-              <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
+              <h2 className="noto font-bold text-xl">{name}</h2>
+              <p className="mt-[18px] noto">{description}</p>
             </div>
           </section>
 
@@ -623,14 +843,13 @@ const Profile = () => {
           <section className="pt-[34px] p-4 section-profile-2">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
-            <div>
-              <div className="mt-4 flex flex-col gap-y-4">
-                {linkInputListsWhenSaved.map((link) => 
-                  <div className="flex items-center gap-x-2">
-                    <a href={'https://' + link.url} className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">{link.linkName}</a>
-                  </div>
-                )}
-              </div>
+            <div className="mt-4 flex flex-col gap-y-4">
+              {linkInputListsWhenSaved.map((link) => 
+                <div className="flex items-center gap-x-2">
+                  <a href={'https://' + link.url} className="linkbutton">{link.linkName}</a>
+                </div>
+              )}
+            </div>
 
               <div className="flex justify-center gap-x-5 mt-6">
                 <Facebook color={linkColor} />
@@ -1240,7 +1459,7 @@ const Profile = () => {
                         <div className='relative'>
                           {image ? (
                             <div className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                              <img src='' />
+                              <img src={image} className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold" />
                             </div>
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
@@ -1252,8 +1471,8 @@ const Profile = () => {
                         </div>
 
                         <div className='text-left'>
-                          <h2 className='text-gray-700 font-semibold inter'>Olivia Rhye</h2>
-                          <p className='text-sm text-gray-600 inter'>olivia@untitledui.com</p>
+                          <h2 className='text-gray-700 font-semibold inter'>{nameProfile}</h2>
+                          <p className='text-sm text-gray-600 inter'>{emailProfile}</p>
                         </div>
                       </Dialog.Title>
 
@@ -1280,7 +1499,15 @@ const Profile = () => {
       </Transition.Root>
 
       <Transition.Root show={openEditProfile} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpenEditProfile}>
+        <Dialog as="div" className="relative z-10" onClose={() => {
+            setTempImage(image)
+            setTempDescription(description)
+            setSelectedTempEmoji(selectedEmoji)
+            setSurnameTempProfile(surnameProfile)
+            setTempName(surnameProfile)
+            setOpenEditProfile(false)
+        }
+          }>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1304,11 +1531,18 @@ const Profile = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-t-[40px] bg-white text-left shadow-xl transition-all sm:my-8 w-full">
+                <Dialog.Panel 
+                  className="relative transform overflow-hidden rounded-t-[40px] bg-white text-left shadow-xl transition-all sm:my-8 w-full">
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => setOpenEditProfile(false)}>
+                        <button className="absolute left-0" onClick={() => {setOpenEditProfile(false)
+                                    setTempImage(image)
+                                    setTempDescription(description)
+                                    setSelectedTempEmoji(selectedEmoji)
+                                    setSurnameTempProfile(surnameProfile)
+                                    setTempName(surnameProfile)}}>
+
                           <ChevronLeft color='#667085'/>
                         </button>
                         แก้ไขโปรไฟล์
@@ -1318,9 +1552,10 @@ const Profile = () => {
                     <div className="p-4">
                       <div className='w-[96px] m-auto relative'>
                         {image ? (
-                          <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                            <img src='' />
-                          </div>
+                          <label htmlFor='imageUpload' className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
+                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => handleUploadImage(event)} className='hidden'/>
+                              <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full'/>
+                          </label>
                         ) : (
                           <label htmlFor='uploadImg'>
                             <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
@@ -1333,7 +1568,7 @@ const Profile = () => {
 
                         {emoji ? (
                           <div className='w-7 h-7 bg-[#FFE9DD] rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
-                            <Emoji unified={selectedEmoji} size={24}/>
+                            <Emoji unified={selectedTempEmoji} size={24}/>
                           </div>
                         ) : (
                           <div className='w-7 h-7 pt-[1px] bg-[#FFE9DD] rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
@@ -1344,12 +1579,12 @@ const Profile = () => {
                       <div className="flex flex-col gap-y-4 mt-[30px]">
                         <div>
                           <label htmlFor='username' className="mt-[6px] text-para text-[#344054]">ชื่อ Hitlink <span className="required">*</span></label>
-                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={nameProfile}/>
+                          <input type='text' className="form-input with-shadow" id='username' placeholder="กรุณากรอกชื่อของคุณ" defaultValue={nameTemp} onChange={(event) => {setTempName(event.target.value)}}/>
                         </div>
                         <div className="relative">
                           <label htmlFor='emoji' className="mt-[6px] text-para text-[#344054]">อิโมจิ</label>
                           <button className="form-input with-shadow text-left flex justify-between items-center" id='emoji' onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                            {emoji ? (<Emoji unified={selectedEmoji} size={24}/>) : <>เลือกอิโมจิ</>}
+                            {emoji ? (<Emoji unified={selectedTempEmoji} size={24}/>) : <>เลือกอิโมจิ</>}
                             <div>
                               <ChevronDown color='#667085' className={`${showEmojiPicker ? 'transition rotate-180 duration-300' : 'transition duration-300'}`}/>
                             </div>
@@ -1359,7 +1594,7 @@ const Profile = () => {
                               <div className="absolute z-10">
                                 <EmojiPicker width='100%' height='300px' onEmojiClick={(emojiData) => {
                                   setEmoji(true);
-                                  setSelectedEmoji(emojiData.unified)
+                                  setSelectedTempEmoji(emojiData.unified)
                                 }}/>
                               </div>
                             </div>
@@ -1367,8 +1602,8 @@ const Profile = () => {
                         </div>
                         <div>
                           <label htmlFor='bio' className="mt-[6px] text-para text-[#344054]">คำอธิบาย <span className="required">*</span></label>
-                          <textarea className="form-input with-shadow h-[78px] resize-none" placeholder='กรอกคำอธิบาย...' value={bio} id='bio' maxLength={80} onChange={(e) => setBio(e.target.value)}/>
-                          <p className="text-para mt-[6px] text-right">{bio.length}/80</p>
+                          <textarea className="form-input with-shadow h-[78px] resize-none"  value={descriptionTemp} id='bio' maxLength={80} onChange={(e) => {setTempDescription(e.target.value)}}/>
+                          <p className="text-para mt-[6px] text-right">{descriptionTemp.length}/80</p>
                         </div>
                       </div>
 
@@ -1376,6 +1611,7 @@ const Profile = () => {
                         <button
                           className="main-btn"
                           onClick={() => {
+                            setOpenEditProfile(false);
                             setOpenChangeTitle(false);
                           }}
                         >

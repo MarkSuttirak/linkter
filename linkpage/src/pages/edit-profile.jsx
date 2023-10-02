@@ -10,7 +10,7 @@ const EditProfile = () => {
   const [name, setName] = useState('Olivia')
   const [image, setImage] = useState(false)
   const [emoji, setEmoji] = useState(false)
-  const [occupations, setOccupations] = useState(['Editor', 'creative', 'Influencer'])
+  const [occupations, setOccupations] = useState([''])
 
   return (
     <>
@@ -50,7 +50,7 @@ const EditProfile = () => {
           
           <div className="mt-6">
             <h2 className="noto font-bold text-xl">{name}</h2>
-            <p className="mt-[18px] noto">{occupations.join(" • ")}</p>
+            <p className="mt-[18px] noto">{}</p>
           </div>
         </section>
 
@@ -60,15 +60,15 @@ const EditProfile = () => {
           <div className="mt-4 flex flex-col gap-y-4">
             <div className="flex items-center gap-x-2">
               <DotsVertical />
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+              <button className="linkbutton">ลิงก์ Link</button>
             </div>
             <div className="flex items-center gap-x-2">
               <DotsVertical />
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+              <button className="linkbutton">ลิงก์ Link</button>
             </div>
             <div className="flex items-center gap-x-2">
               <DotsVertical />
-              <button className="p-4 bg-[#F2C27A] text-[#AC6625] rounded-[999px] h-[52px] noto w-full">ลิงก์ Link</button>
+              <button className="linkbutton">ลิงก์ Link</button>
             </div>
           </div>
         </section>
