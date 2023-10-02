@@ -14,6 +14,8 @@ import templateFive from '../templates/template-five.png'
 import templateSix from '../templates/template-six.png'
 import templateSeven from '../templates/template-seven.png'
 import templateEight from '../templates/template-eight.png'
+import templateNine from '../templates/template-nine.png'
+import templateTen from '../templates/template-ten.png'
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 
 const shortcutDisplay = [
@@ -44,7 +46,7 @@ const Register = () => {
 
   const [bio, setBio] = useState('');
 
-  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight];
+  const templates = [templateOne, templateTwo, templateThree, templateFour, templateFive, templateSix, templateSeven, templateEight, templateNine, templateTen];
   const [numTemplates, setNumTemplates] = useState(0);
   const selectedTemplate = templates[numTemplates];
 
