@@ -851,11 +851,10 @@ const Profile = () => {
               )}
             </div>
 
-              <div className="flex justify-center gap-x-5 mt-6">
-                <Facebook color={linkColor} />
-                <Instagram color={linkColor}/>
-                <XTwitter color={linkColor}/>
-              </div>
+            <div className="flex justify-center gap-x-5 mt-6">
+              <Facebook color={linkColor} />
+              <Instagram color={linkColor}/>
+              <XTwitter color={linkColor}/>
             </div>
           </section>
           </>
