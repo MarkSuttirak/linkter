@@ -441,16 +441,13 @@ $primaryColor:#FF4A00;
 
 .linkbutton { 
   padding:1rem;
-  border-radius: 999px;
-  height: 52px;
-  font-family: "Noto Sans Thai";
-  width: 100%;  
+  border-radius:999px;
+  height:52px;
+  font-family:"Noto Sans Thai";
+  width:100%;  
 }
 .section {
-  padding-left: 1rem; 
-  padding-right: 1rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem; 
+  padding:0.75rem 1rem;
   border-bottom: 1px solid #EAECF0;
 }
 .section-2{
@@ -464,11 +461,10 @@ $primaryColor:#FF4A00;
 }
 .section-profile-2{
   padding: 1rem; /* Equivalent to p-4 */
-  padding: 1rem; /* Equivalent to p-4 */
 }
 .footer{
-  padding-top: 2.5rem;
-  padding-bottom: 8rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;

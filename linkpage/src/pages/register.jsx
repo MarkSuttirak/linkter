@@ -127,74 +127,24 @@ const Register = () => {
     { linkName: '', url: '', inputError: false },
   ]);
 
-  const LinkInput = () => {
-    const addLinkInput = () => {
-      setLinkInputs([
-        ...linkInputs,
-        { linkName: '', url: '', inputError: false },
-      ]);
-    };
-  
-    const removeLinkInput = (index) => {
-      const updatedInputs = [...linkInputs];
-      updatedInputs.splice(index, 1);
-      setLinkInputs(updatedInputs);
-    };
-  
-    const handleInputChange = (index, event) => {
-      const { name, value } = event.target;
-      const updatedInputs = [...linkInputs];
-      updatedInputs[index][name] = value;
-      setLinkInputs(updatedInputs);
-    };
-  
-    return (
-      <div>
-        {linkInputs.map((input, index) => (
-          <div key={index}>
-            <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
-              <div className="flex flex-col gap-y-[6px] grow">
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="linkName"
-                  placeholder="ชื่อลิงก์"
-                  value={input.linkName}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <input
-                  type="text"
-                  className="form-input with-shadow"
-                  name="url"
-                  placeholder="www.example.com"
-                  value={input.url}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                {input.inputError && (
-                  <p className="noto text-[#F04438] text-sm">
-                    กรุณาระบุรูปแบบ Url ที่ถูกต้อง
-                  </p>
-                )}
-              </div>
-              <div>
-                {linkInputs.length > 1 && (
-                  <Trash01
-                    color="#F04438"
-                    onClick={() => removeLinkInput(index)}
-                  />
-                )}
-              </div>
-            </div>
-  
-            <hr className="border-gray-200 my-6" />
-          </div>
-        ))}
-  
-        <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
-          เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
-        </button>
-      </div>
-    );
+  const addLinkInput = () => {
+    setLinkInputs([
+      ...linkInputs,
+      { linkName: '', url: '', inputError: false },
+    ]);
+  };
+
+  const removeLinkInput = (index) => {
+    const updatedInputs = [...linkInputs];
+    updatedInputs.splice(index, 1);
+    setLinkInputs(updatedInputs);
+  };
+
+  const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedInputs = [...linkInputs];
+    updatedInputs[index][name] = value;
+    setLinkInputs(updatedInputs);
   };
 
   const IconInput = ({key}) => {
@@ -353,7 +303,49 @@ const Register = () => {
             </div>
 
             <div className="overflow-y-auto px-4" style={{maxHeight:"calc(100vh - 380px)"}}>
-              <LinkInput />
+              {linkInputs.map((input, index) => (
+                <div key={index}>
+                  <div className={`flex items-center${linkInputs.length > 1 ? ' gap-x-[10px]' : ''}`}>
+                    <div className="flex flex-col gap-y-[6px] grow">
+                      <input
+                        type="text"
+                        className="form-input with-shadow"
+                        name="linkName"
+                        placeholder="ชื่อลิงก์"
+                        value={input.linkName}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <input
+                        type="text"
+                        className="form-input with-shadow"
+                        name="url"
+                        placeholder="www.example.com"
+                        value={input.url}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      {input.inputError && (
+                        <p className="noto text-[#F04438] text-sm">
+                          กรุณาระบุรูปแบบ Url ที่ถูกต้อง
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      {linkInputs.length > 1 && (
+                        <Trash01
+                          color="#F04438"
+                          onClick={() => removeLinkInput(index)}
+                        />
+                      )}
+                    </div>
+                  </div>
+        
+                  <hr className="border-gray-200 my-6" />
+                </div>
+              ))}
+        
+              <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
+                เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
+              </button>
             </div>
           </div>
 
