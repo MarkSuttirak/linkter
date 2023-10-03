@@ -8,6 +8,7 @@ import Register from './pages/register'
 import Profile from './pages/profile'
 import EditProfile from './pages/edit-profile'
 import ViewProfile from './pages/view-profile'
+import Setup from './pages/setup'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/profile' element={<Profile />}/>
           <Route path='/edit-profile' element={<EditProfile />}/>
           <Route path='/view-profile' element={<ViewProfile />}/>
+          <Route path='/setup' element={<Setup></Setup>}></Route>
         </Routes>
       </BrowserRouter>
     </FrappeProvider>
