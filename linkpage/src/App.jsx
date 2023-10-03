@@ -9,13 +9,14 @@ import Profile from './pages/profile'
 import EditProfile from './pages/edit-profile'
 import ViewProfile from './pages/view-profile'
 import Setup from './pages/setup'
+import apifetch from './assets/key'
 
 function App() {
   return (
     <FrappeProvider tokenParams={{
     useToken: true,
         token : () => {
-          return `7daf8e4eaf10ba8:d74f3a1f48a6af2`
+          return `${apifetch.key}:${apifetch.secret}`
         },
         type: "token"
 
