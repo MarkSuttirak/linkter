@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import bioIcon from '../icons/bio.svg'
-import { Image01, AlertCircle, FaceSmile, ArrowNarrowLeft, Trash01, XClose, ChevronDown, ChevronLeft } from '@untitled-ui/icons-react'
+import {ArrowNarrowLeft} from '@untitled-ui/icons-react'
 import zaviago from '../icons/zaviago-com.svg'
-import { Dialog, Transition, RadioGroup } from '@headlessui/react'
-import DotsVertical from "../icons/dotsVertical";
 import UpperLink from '../icons/upperLink'
 import LowerLink from '../icons/lowerLink'
 import Line from "../icons/other/line";
 import 'react-phone-number-input/style.css'
-import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isPossiblePhoneNumber } from 'react-phone-number-input'
+import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input'
 import {
     Input,
     FormControl,
@@ -17,9 +15,7 @@ import {
     SimpleGrid,
     Card,
     CardBody,
-    Icon,
   } from '@chakra-ui/react';
-import { transform } from 'framer-motion'
 
 
 
@@ -55,7 +51,7 @@ const Setup = () => {
             inputValue = inputValue.slice(0,6); // Truncate the input value
         }
         if (inputValue == 111111){
-            setError('กรุณาระบุรูปแบบ Url ที่ถูกต้อง');
+            setError('OTP ไม่ถูกต้อง');
             setCooldown(20)
         }else{
             setError(undefined)
@@ -229,7 +225,7 @@ const Setup = () => {
                 </div>
             )}
             {page === 3 && (
-                <div className="overflow-y-scroll px-4 w-screen" style={{ height: 'calc(100vh - 60px)' }}>
+                <div className="overflow-y-scroll px-4 w-screen pb-[150px]" style={{ height: 'calc(100vh - 60px)' }}>
                     <div  className={ `space-y-10  ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
                         <div className="mt-3 text-left space-y-4">
                             <h1 className="text-eventpop text-3xl font-bold leading-9 tracking-tight" style={{ color: '#101828' }} >ตั้งค่าบัญชีของคุณ</h1>
@@ -251,21 +247,49 @@ const Setup = () => {
                            
                             </FormControl>
                         </div>
-                        <div className="inline-flex flex-col items-start space-y-5 w-full ">
+                        <div className="inline-flex flex-col items-start space-y-10 w-full ">
                             <h1 className="text-eventpop text-3xl font-bold leading-9 tracking-tight" style={{ color: '#101828' }} >รูปแบบการใช้งาน</h1>
                             <SimpleGrid className='w-full h-full' columns={2} spacing={4}>
                                 {cardData.map((card, index) => (
                                     <Card 
                                     key = {index + 1}
                                     onClick={() => {setIsSelected(index +1 )}}
-                                    style={isSelected == index +1 ? {borderWidth : '1px', borderColor : 'var(--Primery, #FF4A00)',background: 'var(--BG, #FFE9DD)'} : {}}
+                                    style={isSelected == index +1 ? 
+                                        {borderWidth : '1px', 
+                                        borderColor : 'var(--Primery, #FF4A00)',
+                                        background: 'var(--BG, #FFE9DD)', 
+                                        display : 'flex', 
+                                        transition : 'transform 0.3s ease-in-out', 
+                                        justifyContent : 'center', 
+                                        alignItems : 'center', 
+                                        cursor : 'pointer'
+                                    } : {}}
                                     width="100%" 
-                                    height="100%"
+                                    height="10em"
                                     flexShrink={0} >
-                                    <CardBody>
-                                    { isSelected == 0 ? <div style={{fontSize: "4em", transform : `${card.mainIconAnimation ? card.mainIconAnimation : ''}`}} >{card.mainIcon}</div> : null}
-                                    {isSelected > 0 ? <div>{card.secondaryIcon.map((icon) => <div>{icon}</div>)}</div> : null}
-                                    <p className="text-gray-700 font-Eventpop text-14 font-bold leading-20">ร้านค้าหรือธุรกิจ</p>
+                                    <CardBody >
+                                    {isSelected == index +1  ? 
+                                        <div>{card.secondaryIcon.map((icon, Subindex) => 
+                                            <div 
+                                                key={Subindex} 
+                                                className={`secondary-icon-${Subindex} animate`} 
+                                                style={{
+                                                    position : "absolute", 
+                                                    top : '15%',
+                                                    left: '35%',
+                                                    display : 'flex', 
+                                                    justifyContent : 'space-between',
+                                                    alignItems : 'center', 
+                                                    pointerEvents: 'none', 
+                                                    transition : 'opacity 1s ease-in-out'}}>{icon}</div>)}
+                                            </div> : 
+                                            <div 
+                                                style={{
+                                                    fontSize: "4em", 
+                                                    transform : `${card.mainIconAnimation ? card.mainIconAnimation : ''}`}} >
+                                                {card.mainIcon}
+                                            </div>}
+                                        <p className="text-gray-700 font-Eventpop text-14 font-bold leading-20 card-text">ร้านค้าหรือธุรกิจ</p>
                                     </CardBody>
                                     </Card>
                                 ))}

@@ -1752,3 +1752,80 @@ $primaryColor:#FF4A00;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+@keyframes translation-0{
+  0% { transform: translateX(0); opacity: 0;}
+  100% { transform: translateX(-40px) rotate(8deg);opacity: 1; }
+}
+@keyframes translation-1{
+  0% { transform: translateX(0); opacity: 0;}
+  100% { transform: translateX(40px) translateY(-20px) rotate(-6deg); opacity: 1; }
+}
+@keyframes translation-2{
+  0% { transform: translateX(0); opacity: 0;}
+  100% { transform: translateY(30px) translateX(10px) rotate(10deg);opacity: 1;  }
+}
+@keyframes translation-3{
+  0% { transform: translateX(0); opacity: 0; }
+  100% { transform: translateY(20px) translateX(20px)   ; opacity: 1; }
+}
+
+
+.secondary-icon-0{
+  transform: translateX(0);
+  opacity: 0;
+}
+.secondary-icon-1 {
+  transform: translateX(0);
+  opacity: 0;
+}
+
+.secondary-icon-2 {
+  transform: translateY(0);
+  opacity: 0;
+}
+.secondary-icon-3 {
+  transform: translateY(0);
+  opacity: 0;
+  font-size: 1em;
+}
+/* Animation when secondary icons appear */
+.animate {
+  transform: scale(0.5);
+}
+
+.secondary-icon-0.animate{
+  transform: translateX(-40px) rotate(8deg);
+  animation: translation-0 0.5s ease-in-out ;
+  opacity: 1;
+  font-size: 3em;
+  
+}
+.secondary-icon-1.animate {
+  transform: translateX(40px) translateY(-20px) rotate(-6deg);
+  animation: translation-1 0.5s ease-in-out ;
+  opacity: 1;
+  font-size: 3em;
+}
+
+.secondary-icon-2.animate {
+  transform: translateY(30px) translateX(10px) rotate(10deg);
+  animation: translation-2 0.5s ease-in-out ;
+  opacity: 1;
+  font-size: 3em;
+}
+
+.secondary-icon-3.animate {
+  transform: translateY(20px) translateX(20px)  ;
+  animation: translation-3 0.5s ease-in-out ;
+  opacity: 1;
+  font-size: 1em;
+}
+.card-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1% 0; /* Adjust padding as needed */
+}
