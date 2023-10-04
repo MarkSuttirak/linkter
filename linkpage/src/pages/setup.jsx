@@ -139,7 +139,7 @@ const Setup = () => {
     return (
         <>
             <div id='return-button' className="h-[60px] relative px-4">
-                <button className={`absolute left-[16px] top-[15px] ${page >= 1 ? 'fade-in' : 'fade-out'}`} onClick={goPrev}>
+                <button className={`absolute left-[16px] top-[15px] ${page >= 1 ? 'fade-in' : 'fade-out'}`} onClick={() => {goPrev(); setIsSelected(0)}}>
                 <ArrowNarrowLeft color='#2F2F2F'/>
                 </button>
             </div>
