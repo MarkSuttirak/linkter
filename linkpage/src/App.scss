@@ -1784,11 +1784,7 @@ $primaryColor:#FF4A00;
   transform: translateY(0);
   opacity: 0;
 }
-.secondary-icon-3 {
-  transform: translateY(0);
-  opacity: 0;
-  font-size: 1em;
-}
+
 /* Animation when secondary icons appear */
 .animate {
   transform: scale(0.5);
@@ -1815,12 +1811,6 @@ $primaryColor:#FF4A00;
   font-size: 3em;
 }
 
-.secondary-icon-3.animate {
-  transform: translateY(20px) translateX(20px)  ;
-  animation: translation-3 0.2s ease-in-out ;
-  opacity: 1;
-  font-size: 1em;
-}
 .card-text {
   position: absolute;
   bottom: 1em;
@@ -1829,3 +1819,9 @@ $primaryColor:#FF4A00;
   text-align: center;
   padding: 1% 0; /* Adjust padding as needed */
 }
+
+.PhoneInputInput{
+  all:unset;
+  text-align: left;
+}
+

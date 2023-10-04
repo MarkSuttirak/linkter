@@ -16,6 +16,19 @@ import {
     Card,
     CardBody,
   } from '@chakra-ui/react';
+import Camera from '../icons/setupicons/camera';
+import Cinema from '../icons/setupicons/cinema'
+import Computer from '../icons/setupicons/computer'
+import Haircut from '../icons/setupicons/haircut'
+import Hand from '../icons/setupicons/hand'
+import Kart from '../icons/setupicons/kart'
+import Letter from '../icons/setupicons/letter'
+import Map from '../icons/setupicons/map'
+import Mic from '../icons/setupicons/mic'
+import Paint from '../icons/setupicons/paint'
+import PartyBall from '../icons/setupicons/partyball';
+import Shopping from '../icons/setupicons/shopping'
+
 
 
 
@@ -30,6 +43,7 @@ return classes.filter(Boolean).join(' ')
 
 
 const Setup = () => {
+
     const [open, setOpen] = useState(false)
 
     const [page, setPage] = useState(0);
@@ -45,6 +59,7 @@ const Setup = () => {
     const [valuePhone, setValuePhone] = useState('')
     const [OTP, setOTPValue] = useState('')
     const [error, setError] = useState('');
+    const [focus, setFocus] = useState('')
     const handleOTPChange = (event) => {
         let inputValue = event.target.value;
         if (inputValue > 999999) {
@@ -66,10 +81,10 @@ const Setup = () => {
 
     
     const cardData = [
-    { id: 1, mainIcon :'🛒', secondaryIcon : ['🛒','🛍','💈'] , animation :['']},
-    { id: 2, mainIcon :'🪩', secondaryIcon : ['🎬','🪩','🗺','✨'] , animation :[''] },
-    { id: 3, mainIcon :'🎨' ,mainIconAnimation :'rotate(-45.741deg)', secondaryIcon : ['🎤', '🎨' ,'📸'] , animation :[''] },
-    { id: 4, mainIcon :'👩‍💻', secondaryIcon : [ '✍️','✉️' ,'👩‍💻'] , animation :[''] },
+    { id: 1, mainIcon :<Kart width='80' height='80'/>, secondaryIcon : [<Kart/>,<Shopping/>,<Haircut/>] , animation :['']},
+    { id: 2, mainIcon :<PartyBall width='80' height='80'/>, secondaryIcon : [<Cinema/>,<PartyBall />,<Map/>] , animation :[''] },
+    { id: 3, mainIcon :<Paint width='80' height='80'/> ,mainIconAnimation :'rotate(-45.741deg)', secondaryIcon : [<Mic/>, <Paint/> ,<Camera />] , animation :[''] },
+    { id: 4, mainIcon :<Computer width='80' height='80'/>, secondaryIcon : [ <Hand/>,<Letter/> ,<Computer/>] , animation :[''] },
     ];
 
 
@@ -190,7 +205,10 @@ const Setup = () => {
                         <div className="inline-flex flex-col items-start space-y-3 w-full ">
                             <p className="text-eventpop text-base font-normal leading-6" style={{ color: '#475467' }} >กรุณากรอกเบอร์มือถือ</p>
                             <PhoneInput 
-                                className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"
+                                onFocus={() => {setFocus('#FF4A00')}}
+                                onBlur={() => {setFocus('#D1D5DB')}}
+                                focusInputOnCountrySelection ={false}
+                                className={`rounded-lg border border-solid border-[${focus}] border-300 bg-white w-full h-10 p-2`}
                                 defaultCountry='TH'
                                 placeholder="0885423475"
                                 value={valuePhone}
@@ -211,7 +229,7 @@ const Setup = () => {
                         <div className="inline-flex flex-col items-start space-y-3 w-full ">
                             <p className="text-eventpop text-base font-normal leading-6" style={{ color: '#475467' }} >กรุณาระบุรหัส 6 หลักที่ได้รับ</p>
                             <FormControl isInvalid={!!error}>
-                                <Input errorBorderColor='#FDA29B' value={OTP} onChange={handleOTPChange} placeholder='123456' maxLength={6}  type='number' id="otp"  className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
+                                <Input focusBorderColor='#FF4A00' errorBorderColor='#FDA29B' value={OTP} onChange={handleOTPChange} placeholder='123456' maxLength={6}  type='number' id="otp"  className="rounded-lg border border-solid border-gray border-300 bg-white w-full h-10 p-2"/>
                                 <FormErrorMessage>{error}</FormErrorMessage>
                             </FormControl>
                         </div>
@@ -231,21 +249,21 @@ const Setup = () => {
                         <FormControl className="inline-flex flex-col items-start space-y-4 w-full " >
                             <div className='w-full'>
                                 <FormLabel>ชื่อ</FormLabel>
-                                <Input type='text' placeholder='จอน' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
+                                <Input  focusBorderColor='#FF4A00' type='text' placeholder='จอน' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
                             </div>                 
                             <div className='w-full'>
                                 <FormLabel>นามสกุล</FormLabel>
-                                <Input type='text' placeholder='สโนว์' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
+                                <Input  focusBorderColor='#FF4A00'  type='text' placeholder='สโนว์' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
                             </div>
 
                             <div className='w-full'>
                                 <FormLabel>วัน-เดือน-ปีเกิด</FormLabel>
-                                <Input type='date'  errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
+                                <Input   focusBorderColor='#FF4A00' type='date'  errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
                             </div>
                                          
                             <div className='w-full'>
                                 <FormLabel>Email</FormLabel>
-                                <Input type='text'  placeholder='your@email.com' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
+                                <Input   focusBorderColor='#FF4A00' type='text'  placeholder='your@email.com' errorBorderColor='#FDA29B' className="rounded-lg border border-solid border-gray-300 bg-white w-full h-10 p-2"/>
                             </div>
                          
                         </FormControl>
@@ -287,7 +305,9 @@ const Setup = () => {
                                             </div> : 
                                             <div 
                                                 style={{
-                                                    fontSize: "4em", 
+                                                    fontSize: "4em",
+                                                    display: 'flex',
+                                                    justifyContent : 'center',
                                                     transform : `${card.mainIconAnimation ? card.mainIconAnimation : ''}`}} >
                                                 {card.mainIcon}
                                             </div>}
