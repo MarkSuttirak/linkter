@@ -25,6 +25,7 @@ import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '.
 import LoadingSave from '../components/loadingSave';
 import { useFrappeGetDoc, useFrappeDeleteDoc, useFrappeFileUpload, useFrappeUpdateDoc, useFrappeGetDocList } from 'frappe-react-sdk';
 import { useToast} from '@chakra-ui/react';
+import { compileAsync } from 'sass';
 
 
 
@@ -601,7 +602,7 @@ const Profile = () => {
 
   const qrCodeRef = useRef(null);
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async() => {
     const svgElement = qrCodeRef.current;
 
     // SVG to XML
@@ -610,46 +611,81 @@ const Profile = () => {
 
     // Créer un élément image
     const img = new Image();
-    
-    try {
-      // Demander l'accès au système de fichiers (galerie)
-      const fileHandle = await window.showOpenFilePicker();
+        // Demander l'autorisation de téléchargement
+      if(navigator.permissions.request)
+      {
+        const permissionStatus = await navigator.permissions.request({
+          name: 'download',
+        });
+        if (permissionStatus.state === 'granted') {
+          alert('Start downloading');
+          try{
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const context = canvas.getContext('2d');
+        
+              // Définir la taille du canevas en fonction de l'image
+              canvas.width = img.width;
+              canvas.height = img.height;
+        
+              // Dessiner l'image sur le canevas
+              context.drawImage(img, 0, 0);
+        
+              // Convertir le canevas en base64 PNG
+              const pngDataUrl = canvas.toDataURL('image/png');
+        
+              // Créer un lien de téléchargement
+              const downloadLink = document.createElement('a');
+              downloadLink.href = pngDataUrl;
+              downloadLink.download = 'qrcode.png';
+              downloadLink.click();
+            }
   
-      // Créer un flux de sortie vers le fichier
-      const writable = await fileHandle[0].createWritable();
-  
-      // Écrire le contenu SVG dans le fichier
-      await writable.write(svgXml);
-      await writable.close();
-  
-      alert("Téléchargement réussi !");
-    } catch (error) {
-      alert("Échec du téléchargement : " + error.message);
-    }
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
+            } catch (error) {
+              alert("Error while downloading: " + error.message);
+            }
+           // Charger l'élément image avec l'élément SVG en tant que source de données
+           const blob = new Blob([svgXml], { type: 'image/svg+xml' });
+           const url = URL.createObjectURL(blob);
+           img.src = url;
+           alert("File downloaded !");
+        } else {
+          alert('Téléchargement annulé ou non autorisé.');
+        }
+      }else{
+        alert('Start downloading');
+        try{
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+      
+            // Définir la taille du canevas en fonction de l'image
+            canvas.width = img.width;
+            canvas.height = img.height;
+      
+            // Dessiner l'image sur le canevas
+            context.drawImage(img, 0, 0);
+      
+            // Convertir le canevas en base64 PNG
+            const pngDataUrl = canvas.toDataURL('image/png');
+      
+            // Créer un lien de téléchargement
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pngDataUrl;
+            downloadLink.download = 'qrcode.png';
+            downloadLink.click();
+          }
+        } catch (error) {
+          alert("Error while downloading: " + error.message);
+        }
+        // Charger l'élément image avec l'élément SVG en tant que source de données
+        const blob = new Blob([svgXml], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        img.src = url;
+        alert("File downloaded !");
 
-      // Définir la taille du canevas en fonction de l'image
-      canvas.width = img.width;
-      canvas.height = img.height;
+      }
 
-      // Dessiner l'image sur le canevas
-      context.drawImage(img, 0, 0);
-
-      // Convertir le canevas en base64 PNG
-      const pngDataUrl = canvas.toDataURL('image/png');
-
-      // Créer un lien de téléchargement
-      const downloadLink = document.createElement('a');
-      downloadLink.href = pngDataUrl;
-      downloadLink.download = 'qrcode.png';
-      downloadLink.click();
-  };
-      // Charger l'élément image avec l'élément SVG en tant que source de données
-      const blob = new Blob([svgXml], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      img.src = url;
 }
 
 
