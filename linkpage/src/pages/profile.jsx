@@ -1,7 +1,7 @@
 import readyToUse from '../icons/ready-to-use.png'
 import { Fragment, useState, useRef, useEffect } from 'react'
 import { Dialog, Transition, RadioGroup } from '@headlessui/react'
-import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01, Data } from "@untitled-ui/icons-react";
+import { Share06, Edit05, Image01, FaceSmile, Menu02, Edit01, ChevronLeft, ChevronDown, Link01, Grid01, Trash01, CheckCircle, MagicWand01, Globe02, MusicNotePlus, ChevronRight, TypeSquare, Copy06, Download01, User01, HomeSmile, LogOut01, Data, MessageSmileCircle,XClose} from "@untitled-ui/icons-react";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import zaviago from '../icons/zaviago-com.svg'
 import bioIcon from '../icons/icon.svg'
@@ -25,7 +25,6 @@ import { Amazon, Lazada, Shopee, TiktokShop, Linemyshop, Ebay, Shopify } from '.
 import LoadingSave from '../components/loadingSave';
 import { useFrappeGetDoc, useFrappeDeleteDoc, useFrappeFileUpload, useFrappeUpdateDoc, useFrappeGetDocList } from 'frappe-react-sdk';
 import { useToast} from '@chakra-ui/react';
-import { compileAsync } from 'sass';
 
 
 
@@ -747,11 +746,14 @@ const handleShareClick = async(link) => {
             </header>
           ) : page === 'profile' ? (
             <header className='px-4 py-3 flex items-center justify-start h-[64px] bg-white'>
-              <div className='w-1/4 text-left'>
-                <button onClick={() => goPrevTo('')} className="text-[#FF4A00] font-bold">กลับ</button>
+              <div className='w-1/4 text-right'>
+         
               </div>
               <div className='w-1/2 text-center'>
-                <h2 className="text-gray-900 font-bold">โปรไฟล์ของฉัน</h2>
+                <h2 className="text-gray-900 font-Eventpop text-20 font-semibold leading-8">บัญชีและความเป็นส่วนตัว</h2>
+              </div>
+              <div className='w-1/4 text-right'>
+                <button onClick={() => goPrevTo('')} className=""><XClose color='#101828'/></button>
               </div>
             </header>
           ) : (
@@ -848,56 +850,38 @@ const handleShareClick = async(link) => {
           </>
         ) : page === 'profile' ? (
           <>
-            <div className="p-4 bg-white" style={{height:"calc(100vh - 245px)"}}>
-              <div className="text-left">
-                <h1 className="main-text-title">My profile</h1>
-
-                <div className="flex gap-y-4 flex-col mt-[30px]">
-                  <div>
-                    <p className="text-para text-[#344054]">ชื่อ</p>
-                    <input
-                      type="text"
-                      name="name"
-                      className="form-input"
-                      value={nameProfile}
-                      readonly
-                    />
-                  </div>
-                  <div>
-                    <p className="text-para text-[#344054]">นามสกุล</p>
-                    <input
-                      type="text"
-                      name="surname"
-                      className="form-input"
-                      value={surnameProfile}
-                      readonly
-                    />
-                  </div>
-                  <div>
-                    <p className="text-para text-[#344054]">วันเกิด</p>
-                    <input
-                      type="text"
-                      name="birthdate"
-                      className="form-input"
-                      value={birthdateProfile}
-                      readonly
-                    />
-                  </div>
-                  <div>
-                    <p className="text-para text-[#344054]">อีเมล</p>
-                    <input
-                      type="text"
-                      name="email"
-                      className="form-input"
-                      value={emailProfile}
-                      readonly
-                    />
-                  </div>
+            <div className="bg-white" style={{height:"calc(100vh - 245px)"}}>
+              <div className='inline-flex flex-col items-center gap-[30px] w-full'>
+                <div className='pl-4 p-r4 pt-[30px] flex flex-col items-start gap-[4px] w-full'>
+                    <h1 className='text-gray-900 font-Eventpop text-[24px] font-semibold leading-8 w-full text-left'>Olivia Rhye </h1>
+                    <p className='text-gray-600 font-Inter text-base font-normal leading-6 w-full text-left'>olivia@untitledui.com</p>
+                    <div className='w-full inline-flex'><p className=' text-gray-600 font-Inter text-base font-normal leading-6 text-left w-[15%]'>วันเกิด :</p> <p className='w-[85%] text-gray-600 font-Inter text-base font-normal leading-6 text-left'>14-02-1998</p></div>       
+                </div>
+                <div className='w-full h-[1px] bg-[#EAECF0]'></div>
+                <div className='flex flex-col items-center gap-[16px] w-full'>
+                    <h1 className=' pl-4 pr-4 text-gray-900 font-Eventpop text-[24px] font-semibold leading-8 w-full text-left'>Privacy Policy</h1>
+                    <div className='w-full h-[82-px]'>
+                        <div className='w-full inline-flex pt-[10px] pb-[10px] items-start gap-[45px] pl-4 pr-4 justify-between '>
+                          <p className='w-[222px]  text-left text-text-placeholder font-Eventpop text- font-normal leading-5 tracking-tighter'>นโยบายความเป็นส่วนตัว</p>
+                          <button><ChevronRight/></button>
+                        </div>
+                        <div className='w-full h-[1px] bg-[#EAECF0]'></div>
+                        <div className='w-full inline-flex pt-[10px] pb-[10px] items-start gap-[45px] pl-4 pr-4 justify-between'>
+                          <p className='w-[222px] text-left text-text-placeholder font-Eventpop text-[14px] font-normal leading-5 tracking-tighter'>จัดการข้อมูลความเป็นส่วนตัว</p>
+                          <button><ChevronRight/></button>
+                        </div>
+                    </div>
+                </div>
+                <div className='pl-4 pr-4 w-full'>
+                  <div className='w-full'><p className=''>Learn how we collect, use and disclose your  personal data and understand your rights by checking out our </p><p>Privacy Notice</p></div>
                 </div>
               </div>
             </div>
           </>
-        ) : (
+        ) : page === 'contact' ?(
+          <>
+          </>
+        ):(
           <>
           <section className="px-4 pb-6 pt-[30px] border-b border-b-gray-200 header bg-white">
             <h1 className="text-left text-gray-900 text-[24px] font-bold">ยินดีต้อนรับ, คุณ {nameProfile}</h1>
@@ -1569,23 +1553,9 @@ const handleShareClick = async(link) => {
                   <div className="flex justify-center flex-col border-[#EAECF0]">
                     <div className="text-center">
                       <Dialog.Title as="h3" className="flex items-center justify-start gap-x-3 px-4 py-3 border-b border-b-[#EAECF0]">
-                        <div className='relative'>
-                          {image ? (
-                            <div className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                              <img src={image} className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold" />
-                            </div>
-                          ) : (
-                            <div className="w-10 h-10 rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                              <Image01 color='white' />
-                            </div>
-                          )}
-
-                          <div className='w-[10px] h-[10px] bg-[#17B26A] rounded-full absolute bottom-0 right-0 border border-[1.5px] border-white' />
-                        </div>
-
                         <div className='text-left'>
-                          <h2 className='text-gray-700 font-semibold inter'>{nameProfile}</h2>
-                          <p className='text-sm text-gray-600 inter'>{emailProfile}</p>
+                          <h2 className='text-gray-700 font-semibold inter'>{nameProfile}Olivia Rhye</h2>
+                          <p className='text-sm text-gray-600 inter'>{emailProfile}olivia@untitledui.com</p>
                         </div>
                       </Dialog.Title>
 
@@ -1595,11 +1565,18 @@ const handleShareClick = async(link) => {
                           goNextTo('profile')
                         }}>
                           <User01 color='#344054'/>
-                          View profile
+                          บัญชีและความเป็นส่วนตัว
                         </button>
-                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none'>
+                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none' onClick={() => {
+                          setOpenAccountMenu(false);
+                          goNextTo('contact')
+                        }}>
+                          <MessageSmileCircle color='#344054'/>
+                          ติดต่อเรา
+                        </button>
+                        <button className='p-4 flex items-center gap-x-2 text-gray-700 w-full inter font-medium text-sm outline-none' onClick={() => {}}>
                           <LogOut01 color='#344054'/>
-                          Log out
+                          ออกจากระบบ
                         </button>
                       </div>
                     </div>
