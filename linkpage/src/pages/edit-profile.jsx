@@ -38,7 +38,7 @@ const EditProfile = () => {
             )}
 
             {emoji ? (
-              <div className='w-7 h-7 bg-[#FFE9DD] rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
+              <div className='w-7 h-7 bg-transparent rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
                 <Emoji unified={selectedEmoji} size={24}/>
               </div>
             ) : (

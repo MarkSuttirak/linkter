@@ -79,10 +79,10 @@ const Setup = () => {
 
     
     const cardData = [
-    { id: 1, mainIcon :<Kart width='80' height='80'/>, secondaryIcon : [<Kart/>,<Shopping/>,<Haircut/>] , animation :['']},
-    { id: 2, mainIcon :<PartyBall width='80' height='80'/>, secondaryIcon : [<Cinema/>,<PartyBall />,<Map/>,<Sprinkle width='20' height='20'/>] , animation :[''] },
-    { id: 3, mainIcon :<Paint width='80' height='80'/> ,mainIconAnimation :'rotate(-45.741deg)', secondaryIcon : [<Mic/>, <Paint/> ,<Camera />] , animation :[''] },
-    { id: 4, mainIcon :<Computer width='80' height='80'/>, secondaryIcon : [ <Hand/>,<Letter/> ,<Computer/>] , animation :[''] },
+    { id: 1, mainIcon :<Kart width='50' height='50'/>, secondaryIcon : [<Kart/>,<Shopping/>,<Haircut/>] , animation :['']},
+    { id: 2, mainIcon :<PartyBall width='50' height='50'/>, secondaryIcon : [<Cinema/>,<PartyBall />,<Map/>,<Sprinkle width='20' height='20'/>] , animation :[''] },
+    { id: 3, mainIcon :<Paint width='50' height='50'/> ,mainIconAnimation :'rotate(-45.741deg)', secondaryIcon : [<Mic/>, <Paint/> ,<Camera />] , animation :[''] },
+    { id: 4, mainIcon :<Computer width='50' height='50'/>, secondaryIcon : [ <Hand/>,<Letter/> ,<Computer/>] , animation :[''] },
     ];
 
 
@@ -148,13 +148,13 @@ const Setup = () => {
     return (
         <>
             <div id='return-button' className="h-[5em] relative px-4">
-                <button className={`absolute left-[1em] top-[3em] ${page >= 1 ? 'fade-in' : 'fade-out'}`} onClick={() => {goPrev(); setResend(false)}}>
+                <button className={`absolute left-[1em] top-[3em] ${page == 1 || page == 2 ? 'fade-in' : 'fade-out'}`} onClick={() => {goPrev(); setResend(false)}}>
                 <ArrowNarrowLeft color='#2F2F2F'/>
                 </button>
             </div>
             {page === 0 && (
-                <div className="px-4 w-screen " style={{ height: 'calc(100vh - 5em )' }}>
-                <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+                <div className=" overflow-y-scroll px-4 w-screen " style={{ height: 'calc(100vh - 5em )' }}>
+                <div className={`mb-[10em] ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
                   <div className="inline-flex flex-col items-start space-y-10"> {/* Utilisez space-y-[x] pour l'espacement vertical */}
                     <div className="flex justify-center items-center "> {/* Utilisez space-x-[x] pour l'espacement horizontal */}
                       <img src={bioIcon} className="" />
@@ -180,7 +180,7 @@ const Setup = () => {
                         หรือ
                       </p>
                     </div>
-                    <div className="w-full flex justify-center items-center inline-flex space-x-2"> {/* Utilisez space-x-[x] pour l'espacement horizontal */}
+                    <div className="w-full flex justify-center items-center inline-flex space-x-2 "> {/* Utilisez space-x-[x] pour l'espacement horizontal */}
                       <p className="text-[#475467] text-center font-Eventpop text-12 font-normal font-[400] leading-[24px]">
                         มีบัญชีอยู่แล้วหรือเปล่า ?
                       </p>
@@ -213,7 +213,7 @@ const Setup = () => {
                                 onChange={setValuePhone}
                                 error={valuePhone ? (isPossiblePhoneNumber(valuePhone) ? undefined : 'Invalid phone number') : 'Phone number required'}/>
                         </div>
-                        <button className="main-btn" onClick={() => {goNext(),setResend(false)}}>รับรหัส OTP</button>
+                        <button className="main-btn" onClick={() => {goNext(),setCooldown(20), setResend(false)}}>รับรหัส OTP</button>
                     </div>
                 </div>
             )}
@@ -231,7 +231,7 @@ const Setup = () => {
                                 <FormErrorMessage>{error}</FormErrorMessage>
                             </FormControl>
                         </div>
-                        {cooldown == 0 && !resend  ? (<button className="main-btn" onClick={() => {setCooldown(20), setResend(false)}}>รับรหัส OTP</button>) : (<button className="main-btn" onClick={goNext}>ยืนยันรหัส OTP</button>)}                            
+                        <button className="main-btn" onClick={goNext}>ยืนยันรหัส OTP</button>                    
                         {cooldown != 0 ? (<p className="text-gray-400 text-center text-[0.9rem] font-eventpop text-sm font-normal leading-5" >คุณสามารถขอรับรหัส OTP อีกครั้งได้ภายใน 0:{cooldown}</p>): null}
                         {resend ? (<button onClick={() => {setCooldown(20); setResend(false)}} className='text-center font-eventpop text-sm font-normal leading-5' style={{ color: '#101828' }}>Request OTP</button>) : null}
                     </div>
@@ -265,9 +265,9 @@ const Setup = () => {
                             </div>
                          
                         </FormControl>
-                        <div className="inline-flex flex-col items-start space-y-10 w-full ">
-                            <h1 className="text-eventpop text-3xl font-bold leading-9 tracking-tight" style={{ color: '#101828' }} >รูปแบบการใช้งาน</h1>
-                            <SimpleGrid className='w-full h-full' columns={2} spacing={5}>
+                        <div className="flex flex-col space-y-10 items-center w-full ">
+                            <h1 className="w-full text-eventpop text-3xl text-left font-bold leading-9 tracking-tight" style={{ color: '#101828' }} >รูปแบบการใช้งาน</h1>
+                            <SimpleGrid className='w-[18em] h-[18em] justify-content-center' columns={2} spacing={'0.75em'}>
                                 {cardData.map((card, index) => (
                                     <Card 
                                     key = {index + 1}
@@ -283,7 +283,7 @@ const Setup = () => {
                                         cursor : 'pointer'
                                     } : {}}
                                     width="100%" 
-                                    height="10em"
+                                    height="100%"
                                     flexShrink={0} >
                                     <CardBody >
                                     {isSelected == index +1  ? 

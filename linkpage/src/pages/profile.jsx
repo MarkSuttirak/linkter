@@ -70,7 +70,7 @@ const Profile = () => {
   const [image, setImage] = useState(null);
   const [tempImage, setTempImage] = useState(null)
   const [iKnowEdit, setIKnowEdit] = useState(false);
- 
+
   const [nameProfile, setNameProfile] = useState('')
   const [nameTempProfile, setTempNameProfile] = useState('')
 
@@ -114,12 +114,12 @@ const Profile = () => {
   const Update = () => {
     updateDoc('Linkpage', 'anatholy bricon', dataUpdateUser ).then((response2) =>{
       })
-      .catch((error) =>{      
+      .catch((error) =>{
       })
   }
 
-  const handleUploadImage =(e) => 
-  { 
+  const handleUploadImage =(e) =>
+  {
     if(e.target.files[0])
     {
       uploadImage(e.target.files[0], fileArgs) .then((response) => {
@@ -141,7 +141,7 @@ const Profile = () => {
         });
       });
     }
-    
+
   }
   //-----------end here------------------//
 
@@ -161,7 +161,7 @@ const Profile = () => {
 
   const [emoji, setEmoji] = useState(false)
   const [focus, setFocus] = useState(0);
-  
+
   const [savedNoti, setSavedNoti] = useState(false);
   const [savedNotiAnim, setSavedNotiAnim] = useState('saved-noti-fade-in');
   const [savedNotiText, setSavedNotiText] = useState('');
@@ -234,7 +234,7 @@ const Profile = () => {
     { icon: <Globe02 color={iconColour}/>, selected: false },
     { icon: <Linemyshop color={iconColour}/>, selected: false },
   ]);
-  
+
   const [otherIcons, setOtherIcons] = useState([
     { icon: <YoutubeMusic color={iconColour}/>, selected: false },
     { icon: <Signal color={iconColour}/>, selected: false },
@@ -291,7 +291,7 @@ const Profile = () => {
     dataUpdateUser.name_profile =nameTempProfile;
     dataUpdateUser.surname_profile = surnameTempProfile;
     dataUpdateUser.template = templateTemp;
-    
+
     Update();
     setTimeout(() => {
       goPrevTo('');
@@ -433,12 +433,12 @@ const Profile = () => {
   const generateImagePaths = (id) => {
     const imageFolder = `./src/templates/template${id}`;
     const imagePaths = [];
-  
+
     for (let i = 1; i <= 4; i++) {
       const imagePath = `${imageFolder}/${i}.png`;
       imagePaths.push(imagePath);
     }
-  
+
     return imagePaths;
   }
 
@@ -500,7 +500,7 @@ const Profile = () => {
     ['#FFFFFF','#FFFFFF'],
     ['#FFFFFF','#FFFFFF'],
   ]
-  
+
   useEffect(() => {
     if(errorDataUser)
     {
@@ -580,7 +580,7 @@ const Profile = () => {
         setZaviagoColor(dataUser.zaviago_color);
         setZaviagoTempColor(dataUser.zaviago_color);
         dataUpdateUser.zaviago_color = dataUser.zaviago_color;
-      }      
+      }
     }
     mutateDataUser();
   }, [dataUser, dataUpdateUser]);
@@ -596,6 +596,67 @@ const Profile = () => {
     setCopyIcon(<CheckCircle color='#FF4A00' viewBox='0 0 24 24' width='20' height='20'/>)
     setCopyText('คัดลอกแล้ว')
   }
+
+  //qr code download
+
+  const qrCodeRef = useRef(null);
+
+  const handleDownloadClick = () => {
+    const svgElement = qrCodeRef.current;
+
+    // SVG to XML
+    const serializer = new XMLSerializer();
+    const svgXml = serializer.serializeToString(svgElement);
+
+    // Créer un élément image
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      // Définir la taille du canevas en fonction de l'image
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Dessiner l'image sur le canevas
+      context.drawImage(img, 0, 0);
+
+      // Convertir le canevas en base64 PNG
+      const pngDataUrl = canvas.toDataURL('image/png');
+
+      // Créer un lien de téléchargement
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pngDataUrl;
+      downloadLink.download = 'qrcode.png';
+      downloadLink.click();
+  };
+      // Charger l'élément image avec l'élément SVG en tant que source de données
+      const blob = new Blob([svgXml], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      img.src = url;
+}
+
+
+
+//qr code share
+const handleShareClick = async(link) => {
+  // Vérifiez si le navigateur prend en charge le partage
+  if (navigator?.share) {
+    try{
+      navigator.share({
+        title: 'my link',
+        text: 'share the link',
+        url: 'https://www.youtube.com/'
+        })
+    }catch (err) {
+      onError?.(err);
+    }
+  } else {
+  };
+    // Utilisez l'API Web de partag
+}
+
 
   return (
     <>
@@ -657,7 +718,7 @@ const Profile = () => {
         </div>
       </header>
 
-      <main className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+      <main style={{ height: 'calc(100vh - 9em )'}} className={`  ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
         {page === 'edit' ? (
           <>
             <section className="flex h-[33px] items-center justify-center bg-[#FF4A00]">
@@ -683,7 +744,7 @@ const Profile = () => {
                 )}
 
                 {emoji ? (
-                  <div className='emoji-profile'>
+                  <div className='emoji-profile bg-transparent'>
                     <Emoji unified={selectedTempEmoji} size={24}/>
                   </div>
                 ) : (
@@ -711,7 +772,7 @@ const Profile = () => {
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
               </div>
               <div className="mt-3 flex flex-col gap-y-4">
-                {linkInputLists.map((link) => 
+                {linkInputLists.map((link) =>
                   <div className="flex items-center gap-x-2">
                     <button href={link.url} className="linkbutton">{link.linkName}</button>
                   </div>
@@ -823,7 +884,7 @@ const Profile = () => {
               )}
 
               {emoji ? (
-                <div className='w-7 h-7 pt-[1px] bg-[#FFE9DD] rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
+                <div className='w-7 h-7 pt-[1px] bg-transparent rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
                   <Emoji unified={selectedEmoji} size={24}/>
                 </div>
               ) : (
@@ -844,7 +905,7 @@ const Profile = () => {
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
             <div className="mt-4 flex flex-col gap-y-4">
-              {linkInputListsWhenSaved.map((link) => 
+              {linkInputListsWhenSaved.map((link) =>
                 <div className="flex items-center gap-x-2">
                   <a href={'https://' + link.url} className="linkbutton">{link.linkName}</a>
                 </div>
@@ -861,17 +922,16 @@ const Profile = () => {
         )}
       </main>
 
-      <button onClick={() => setOpenAddButtonModal(true)} className="main-btn fixed right-4 bottom-6 items-center justify-center flex w-[52px] h-[40px] opacity-0" style={{padding:0,animation:page === 'edit' ? 'fadeIn 500ms forwards, bounceAnim 6s ease-in-out infinite' : 'fadeOut 500ms forwards',animationDelay:page === 'edit' ? "800ms" : '0ms'}}>
+      <button onClick={() => setOpenAddButtonModal(true)} className="z-10 main-btn fixed right-4 bottom-6 items-center justify-center flex w-[52px] h-[40px] opacity-0" style={{padding:0,animation:page === 'edit' ? 'fadeIn 500ms forwards, bounceAnim 6s ease-in-out infinite' : 'fadeOut 500ms forwards',animationDelay:page === 'edit' ? "800ms" : '0ms'}}>
         <Edit01 color='white' viewBox='0 0 24 24'/>
       </button>
 
-      <footer className={` ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-        <h3 className={`h-full footer`} style={{backgroundColor: page === 'profile' ? 'white' : null}}>
-          Powered by   <div>
+      <footer className={`footer ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
+        <h3 className={`h-auto w-auto title`} style={{backgroundColor: page === 'profile' ? 'white' : null}}>
+          Powered by   <div className={'svg'}>
           {modifiedSVG && (
             <div
               dangerouslySetInnerHTML={{ __html: modifiedSVG }}
-              style={{ width: '100%', height: 'auto' }}
             />
           )}
         </div>
@@ -920,7 +980,10 @@ const Profile = () => {
                         )}
                         {addBtnMenuActive === 0 && 'เพิ่มปุ่ม'}
                         {addBtnMenuActive === 1 && 'เทมเพลต'}
-                        {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}</>}
+                        {addBtnMenuActive === 2 && <>{addShortcut === true ? 'เพิ่มปุ่มลัด' : 'ปรับแต่ง'}{selectCustomise === true ?
+                        <button className="absolute left-0" onClick={() => {setSelectCustomise(false);setUpdateBtnTitle(btnTitle),setAddBtnMenuActive(2),setOpenAddButtonModal(true)}}>
+                            <ChevronLeft color='#667085'/>
+                          </button> : null }</>}
                         {addBtnMenuActive === 3 && <>
                           <button className="absolute left-0" onClick={() => {setAddBtnMenuActive(1); setAddShortcut(false);setSubNumTemplates(1);setFocus(0) }}>
                             <ChevronLeft color='#667085'/>
@@ -933,7 +996,7 @@ const Profile = () => {
                     {addBtnMenuActive === 0 && (
                       <div className="p-4">
                         <Dialog.Description as='p' className='text-gray-600 text-sm text-center'>
-                          กรุณาเลือกไอคอนและระบุ Url ของไอคอน
+                          กรุณากรอกชื่อปุ่มและ Url ของปุ่ม
                         </Dialog.Description>
 
                         <div className="mt-4">
@@ -978,11 +1041,11 @@ const Profile = () => {
                                     )}
                                   </div>
                                 </div>
-                      
+
                                 <hr className="border-gray-200 my-6" />
                               </div>
                             ))}
-                      
+
                             <button onClick={linkInputs.length < 10 ? addLinkInput : null} className="main-btn no-bg">
                               เพิ่มปุ่ม <span className='text-[#475467]'>({linkInputs.length}/10)</span>
                             </button>
@@ -1008,9 +1071,9 @@ const Profile = () => {
 
                     {addBtnMenuActive === 1 && (
                       <div className="overflow-y-auto  grid grid-cols-2 gap-3 p-4 " style={{height:"calc(100vh - 300px)"}}>
-                        {templates.map((temp, indexTemp) => 
-                          <button className='rounded-lg border border-solid  border-[#EBEBEB]' key={indexTemp} onClick={() => {    
-                            setNumTemplates(indexTemp)            
+                        {templates.map((temp, indexTemp) =>
+                          <button className='rounded-lg border border-solid  border-[#EBEBEB]' key={indexTemp} onClick={() => {
+                            setNumTemplates(indexTemp)
                             setImagepath(generateImagePaths(indexTemp+1));
                             setEditTemplate(true);
                             setAddBtnMenuActive(3);``
@@ -1088,7 +1151,7 @@ const Profile = () => {
 
                               {shortcutMenuActive === 0 && (
                                 <div className='flex gap-y-8 flex-wrap'>
-                                  {socialIcons.map((icon, index) => 
+                                  {socialIcons.map((icon, index) =>
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
                                       addIconInput(icon.icon, index)
                                       setAddShortcut(false);
@@ -1099,7 +1162,7 @@ const Profile = () => {
 
                               {shortcutMenuActive === 1 && (
                                 <div className='flex gap-y-8 flex-wrap'>
-                                  {shoppingIcons.map((icon, index) => 
+                                  {shoppingIcons.map((icon, index) =>
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
                                       addIconInput(icon.icon, index)
                                       setAddShortcut(false);
@@ -1110,7 +1173,7 @@ const Profile = () => {
 
                               {shortcutMenuActive === 2 && (
                                 <div className='flex gap-y-8 flex-wrap'>
-                                  {otherIcons.map((icon, index) => 
+                                  {otherIcons.map((icon, index) =>
                                     <button key={index} className='flex justify-center' style={{width:"20%"}} onClick={() => {
                                       addIconInput(icon.icon, index)
                                       setAddShortcut(false);
@@ -1120,13 +1183,13 @@ const Profile = () => {
                               )}
                             </div>
                           ) : (
-                            <div className="p-4">
+                            <div className="p-4" >
                               <Dialog.Description as='p' className='text-gray-600 text-sm text-center'>
-                                กรุณาเลือกไอคอนและระบุ Url ของไอคอน
+                                กรุณากรอกชื่อปุ่มและ Url ของปุ่ม
                               </Dialog.Description>
 
                               <div className="overflow-y-auto mt-4" style={{height:"calc(100vh - 340px)"}}>
-                                {iconInputs.map((input, index) => (
+                                {/* {iconInputs.map((input, index) => (
                                   <div key={index} className="mb-4">
                                     <div className="flex items-center gap-x-[10px]">
                                       <div className="flex flex-col gap-y-[6px] grow">
@@ -1145,7 +1208,7 @@ const Profile = () => {
                                       </div>
                                     </div>
                                   </div>
-                                ))}
+                                ))} */}
                                 <div>
                                   <button className="main-btn no-bg" onClick={() => {
                                     setAddShortcut(true)
@@ -1160,6 +1223,7 @@ const Profile = () => {
                                     <div className="mt-4 grid grid-cols-2 gap-x-[10px]">
                                       {shortcutDisplay.map((list) => (
                                         <RadioGroup.Option
+
                                           key={list.id}
                                           value={list}
                                           className={({ checked, active }) =>
@@ -1198,7 +1262,7 @@ const Profile = () => {
                                 </div>
                               </div>
 
-                              <div className="pt-4 flex">
+                              <div className="pt-4">
                                 <button
                                   className="main-btn"
                                   onClick={() => {
@@ -1234,8 +1298,8 @@ const Profile = () => {
                               </div>
                             </button>
                             <button className='p-4 flex items-center justify-between w-full' onClick={() => {
-                              setOpenAddButtonModal(false);
-                              setOpenChangeTitle(true)
+
+                              setOpenChangeTitle(true);
                             }}>
                               <div className='flex items-center gap-x-3'>
                                 <div className='flex bg-[#1877F2] w-8 h-8 rounded-full items-center justify-center'>
@@ -1308,7 +1372,7 @@ const Profile = () => {
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
-                        <button className="absolute left-0" onClick={() => {setOpenChangeTitle(false);setUpdateBtnTitle(btnTitle)}}>
+                        <button className="absolute left-0" onClick={() => {setOpenChangeTitle(false);setUpdateBtnTitle(btnTitle),setAddBtnMenuActive(2),setOpenAddButtonModal(true)}}>
                           <ChevronLeft color='#667085'/>
                         </button>
                         เพิ่มหัวข้อปุ่ม
@@ -1378,7 +1442,7 @@ const Profile = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-t-[40px] bg-white text-left shadow-xl transition-all sm:my-8 w-full">
+                <Dialog.Panel style={{ height: 'calc(100vh - 30% )' }} className="relative transform overflow-hidden rounded-t-[40px] bg-white text-left shadow-xl transition-all sm:my-8 w-full">
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
                       <Dialog.Title as="h3" className="text-base font-bold leading-6 text-[#101828] relative">
@@ -1393,7 +1457,7 @@ const Profile = () => {
                       </Dialog.Title>
                     </div>
 
-                    <div className="p-4">
+                    <div className="p-4 m-4">
                       <div className="flex justify-between px-[10px] py-3 bg-[#F5F5F5] rounded-[10px]">
                         <p className='text-[#101828] inter underline underline-offset-2 text-base'>{mylink}</p>
                         <button className='text-[#FF4A00] flex items-center gap-x-2 text-sm font-bold' onClick={copyLink}>
@@ -1402,17 +1466,16 @@ const Profile = () => {
                         </button>
                       </div>
 
-                      <div className='-my-5 flex justify-center w-[60%] mx-auto'>
-                        <QRCode value={mylink}/>
+                      <div className=' p-4 -my-5 flex justify-center w-[60%] mx-auto'>
+                        <QRCode value={mylink} ref={qrCodeRef}/>
                       </div>
-
                       <div className="flex gap-x-2">
-                        <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => setOpenEdit(true)}>
+                        <button className="secondary-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={handleDownloadClick}>
                           <Download01 />
                           บันทึกรูปภาพ
                         </button>
                         <button
-                          className="main-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}}
+                          className="main-btn gap-x-2 flex items-center justify-center" style={{padding:"10px 0"}} onClick={() => {handleShareClick(mylink)}}
                         >
                           <Share06 />
                           แชร์เลย
@@ -1530,7 +1593,7 @@ const Profile = () => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:scale-95"
               >
-                <Dialog.Panel 
+                <Dialog.Panel
                   className="relative transform overflow-hidden rounded-t-[40px] bg-white text-left shadow-xl transition-all sm:my-8 w-full">
                   <div className="flex justify-center flex-col">
                     <div className="text-center p-4 border-b border-b-[#EAECF0]">
@@ -1566,7 +1629,7 @@ const Profile = () => {
                         )}
 
                         {emoji ? (
-                          <div className='w-7 h-7 bg-[#FFE9DD] rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
+                          <div className='w-7 h-7 bg-transparent rounded-full absolute bottom-0 right-0 flex justify-center items-center'>
                             <Emoji unified={selectedTempEmoji} size={24}/>
                           </div>
                         ) : (

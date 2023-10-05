@@ -463,13 +463,22 @@ $primaryColor:#FF4A00;
   padding: 1rem; /* Equivalent to p-4 */
 }
 .footer{
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 0.25rem;
+  position: absolute;
   font-size: 8px;
+  width: 100%;
+  height: 10em;
+  z-index: 0;
+  .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    .svg{
+      width: 10em;
+      height: 100%;    
+    }
+
+  }
 }
 
 .main-text-title {
@@ -1755,7 +1764,7 @@ $primaryColor:#FF4A00;
 
 @keyframes translation-0{
   0% { transform: translateX(0); opacity: 0;}
-  100% { transform: translateY(0.8em) translateX(-1em) rotate(8deg);opacity: 1; }
+  100% { transform: translateY(0.6em) translateX(-0.8em) rotate(8deg);opacity: 1; }
 }
 @keyframes translation-1{
   0% { transform: translateX(0); opacity: 0;}
@@ -1763,7 +1772,7 @@ $primaryColor:#FF4A00;
 }
 @keyframes translation-2{
   0% { transform: translateX(0); opacity: 0;}
-  100% { transform: translateY(0.9em) translateX(0.8em) rotate(10deg);opacity: 1;  }
+  100% { transform: translateY(0.7em) translateX(0.6em) rotate(10deg);opacity: 1;  }
 }
 @keyframes translation-3{
   0% { transform: translateX(0); opacity: 0;}
@@ -1794,7 +1803,7 @@ $primaryColor:#FF4A00;
 }
 
 .secondary-icon-0.animate{
-  transform: translateY(0.8em) translateX(-1em) rotate(8deg);
+  transform: translateY(0.6em) translateX(-0.8em) rotate(8deg);
   animation: translation-0 0.2s ease-in-out ;
   opacity: 1;
   font-size: 3em;
@@ -1808,7 +1817,7 @@ $primaryColor:#FF4A00;
 }
 
 .secondary-icon-2.animate {
-  transform: translateY(0.9em) translateX(0.8em) rotate(10deg);
+  transform: translateY(0.7em) translateX(0.6em) rotate(10deg);
   animation: translation-2 0.2s ease-in-out ;
   opacity: 1;
   font-size: 3em;

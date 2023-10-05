@@ -42,7 +42,7 @@ const ChangeTitleModal = ({open, isOpen}) => {
 
                   <div className="p-4">
                     <Dialog.Description as='p' className='text-gray-600 text-sm text-center'>
-                      กรุณาเลือกไอคอนและระบุ Url ของไอคอน
+                      กรุณากรอกชื่อปุ่มและ Url ของปุ่ม
                     </Dialog.Description>
 
                     <div className="flex gap-x-[10px] items-start mt-4">

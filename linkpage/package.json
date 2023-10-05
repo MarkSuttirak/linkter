@@ -19,6 +19,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@untitled-ui/icons-react": "^0.1.1",
+    "canvg": "^4.0.1",
     "emoji-picker-react": "^4.5.1",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
