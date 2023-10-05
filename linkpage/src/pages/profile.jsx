@@ -601,7 +601,7 @@ const Profile = () => {
 
   const qrCodeRef = useRef(null);
 
-  const handleDownloadClick = () => {
+  const handleDownloadClick = async () => {
     const svgElement = qrCodeRef.current;
 
     // SVG to XML
@@ -610,7 +610,22 @@ const Profile = () => {
 
     // Créer un élément image
     const img = new Image();
-
+    
+    try {
+      // Demander l'accès au système de fichiers (galerie)
+      const fileHandle = await window.showOpenFilePicker();
+  
+      // Créer un flux de sortie vers le fichier
+      const writable = await fileHandle[0].createWritable();
+  
+      // Écrire le contenu SVG dans le fichier
+      await writable.write(svgXml);
+      await writable.close();
+  
+      alert("Téléchargement réussi !");
+    } catch (error) {
+      alert("Échec du téléchargement : " + error.message);
+    }
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -646,8 +661,8 @@ const handleShareClick = async(link) => {
     try{
       navigator.share({
         title: 'my link',
-        text: 'share the link',
-        url: 'https://www.youtube.com/'
+        text: link,
+        url: link
         })
     }catch (err) {
       onError?.(err);
