@@ -1,6 +1,6 @@
 const Kart = ({width = '45', height = '45', color = 'none'}) => {
     return (
-        <svg width="36s" height={height} viewBox="0 0 37 37" fill={color} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg width={width} height={height} viewBox="0 0 37 37" fill={color} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 <path d="M0.330078 36.8501H36.3301V0.850078H0.330078V36.8501Z" fill="url(#pattern6)"/>
 <defs>
 <pattern id="pattern6" patternContentUnits="objectBoundingBox" width="1" height="1">
