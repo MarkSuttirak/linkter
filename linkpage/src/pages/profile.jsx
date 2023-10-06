@@ -107,7 +107,7 @@ const Profile = () => {
   //-----------frappe connection----------//
 
   const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','Suttirak Chan')
-  //const { data:User, error : errorUser } = useFrappeGetDoc('User','anatholyb@gmail.com')
+  const { data:User, error : errorUser } = useFrappeGetDoc('User','suttirak.ch@zaviago.com')
   const { upload :uploadImage, error:errorUploadImage } = useFrappeFileUpload();
   const { updateDoc, error : updateError, reset} = useFrappeUpdateDoc()
 
@@ -120,6 +120,7 @@ const Profile = () => {
 
   const handleUploadImage =(e) =>
   {
+    console.log(here)
     if(e.target.files[0])
     {
       uploadImage(e.target.files[0], fileArgs) .then((response) => {
@@ -584,6 +585,7 @@ const Profile = () => {
         setZaviagoColor(dataUser.zaviago_color);
         setZaviagoTempColor(dataUser.zaviago_color);
         dataUpdateUser.zaviago_color = dataUser.zaviago_color;
+        changeZaviagoColor(dataUser.zaviago_color)
       }
     }
     mutateDataUser();
@@ -1747,7 +1749,7 @@ const handleShareClick = async(link) => {
                       <div className='w-[96px] m-auto relative'>
                         {image ? (
                           <label htmlFor='imageUpload' className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => handleUploadImage(event)} className='hidden'/>
+                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => {handleUploadImage(event); console.log('here')}} className='hidden'/>
                               <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full'/>
                           </label>
                         ) : (
