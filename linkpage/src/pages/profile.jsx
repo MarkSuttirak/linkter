@@ -1749,16 +1749,16 @@ const handleShareClick = async(link) => {
                       <div className='w-[96px] m-auto relative'>
                         {image ? (
                           <label htmlFor='imageUpload' className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
-                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => {handleUploadImage(event); console.log('here')}} className='hidden'/>
+                              <input accept='image/*' type="file" id='imageUpload' onChange={(event) => {handleUploadImage(event)}} className='hidden'/>
                               <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full'/>
                           </label>
                         ) : (
-                          <label htmlFor='uploadImg'>
+                          <label htmlFor='uploadImg' >
                             <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
                               <Image01 color='white' />
                             </div>
-
-                            <input type='file' id='uploadImg' name='profile-img' className='hidden'/>
+                              <input accept='image/*' type="file" id='uploadImg' onChange={(event) => {handleUploadImage(event); setImage(true)}} className='hidden'/>
+                              <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full'/>
                           </label>
                         )}
 
