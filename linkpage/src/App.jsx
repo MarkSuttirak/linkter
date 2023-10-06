@@ -13,14 +13,17 @@ import apifetch from './assets/key'
 
 function App() {
   return (
-    <FrappeProvider tokenParams={{
+    <FrappeProvider 
+    url={import.meta.env.VITE_ERP_URL}
+    enableSocket={false}
+    tokenParams={{
     useToken: true,
         token : () => {
           return `${apifetch.key}:${apifetch.secret}`
         },
         type: "token"
 
-     }} socketPort={import.meta.env.VITE_SOCKET_PORT ?? ''}
+     }} 
      >
       <BrowserRouter>
         <Routes>

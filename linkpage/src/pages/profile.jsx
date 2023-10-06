@@ -43,7 +43,7 @@ const fileArgs = {
   /** Doctype associated with the file (optional) */
   "doctype": "Linkpage",
   /** Docname associated with the file (mandatory if doctype is present) */
-  "docname": "anatholy bricon",
+  "docname": "Suttirak Chan",
   /** Field in the document **/
   "fieldname": "user_image"
 }
@@ -106,13 +106,13 @@ const Profile = () => {
 
   //-----------frappe connection----------//
 
-  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','anatholy bricon')
+  const { data:dataUser, error : errorDataUser, mutate : mutateDataUser } = useFrappeGetDoc('Linkpage','Suttirak Chan')
   //const { data:User, error : errorUser } = useFrappeGetDoc('User','anatholyb@gmail.com')
   const { upload :uploadImage, error:errorUploadImage } = useFrappeFileUpload();
   const { updateDoc, error : updateError, reset} = useFrappeUpdateDoc()
 
   const Update = () => {
-    updateDoc('Linkpage', 'anatholy bricon', dataUpdateUser ).then((response2) =>{
+    updateDoc('Linkpage', 'Suttirak Chan', dataUpdateUser ).then((response2) =>{
       })
       .catch((error) =>{
       })
