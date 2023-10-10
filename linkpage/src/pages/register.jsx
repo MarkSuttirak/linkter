@@ -119,7 +119,7 @@ const Register = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [numOfIconInputs, setNumOfIconInputs] = useState(1);
 
-  const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
+  const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[1])
   const [shortcutIconInputs, setShortcutIconInputs] = useState([{
     key:numOfIconInputs
   }])
@@ -185,7 +185,7 @@ const Register = () => {
       </div>
 
       {page === 0 && (
-        <div className="px-4">
+        <div className="px-4 w-screen " style={{ height: 'calc(100vh - 5em )' }}>
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="mt-10 text-left">
               <h1 className="main-text-title">Welcome to Hitlink simple link in bi<img src={bioIcon} className="inline"/>.</h1>
@@ -220,7 +220,7 @@ const Register = () => {
       )}
 
       {page === 1 && (
-        <div className="px-4">
+        <div className="px-4 w-screen " style={{ height: 'calc(100vh - 5em )' }}>
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
             <div className="mt-10 text-left">
               <div className='w-[96px] m-auto relative'>
@@ -295,7 +295,7 @@ const Register = () => {
       {page === 2 && (
         <>
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-            <div className="px-4 mb-[30px]">
+            <div className="px-4 mb-[30px] w-screen " style={{ height: 'calc(100vh - 5em )' }}>
               <div className="mt-12 text-left">
                 <h1 className="main-text-title">Add your social media link🔗</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เพิ่มลิงก์ตามที่คุณต้องการ โดยสามารถเพิ่มได้ มากที่สุดถึง 10 ลิงก์</p>
@@ -363,7 +363,7 @@ const Register = () => {
       {page === 3 && (
         <>
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-            <div className="px-4 mb-[30px]">
+            <div className="px-4 mb-[30px] w-screen " style={{ height: 'calc(100vh - 5em )' }}>
               <div className="mt-12 text-left">
                 <h1 className="main-text-title">Add shortcut icon</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เพิ่มไอคอนสำหรับใช้เป็นปุ่มลัด เพื่อช่วยให้ผู้เข้าชมของคุณไปยังลิงก์ที่ต้องการได้ไวขึ้น</p>
@@ -441,7 +441,7 @@ const Register = () => {
       {page === 4 && (
         <>
           <div className={`${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
-            <div className="px-4 mb-[30px]">
+            <div className="px-4 mb-[30px] w-screen " style={{ height: 'calc(100vh - 5em )' }}>
               <div className="mt-12 text-left">
                 <h1 className="main-text-title">Select your style</h1>
                 <p className="text-[#475467] text-para mt-[10px]">เลือกเทมเพลตที่บ่งบอกความเป็นคุณ โดยคุณ สามารถปรับแต่งหรือเปลี่ยนแปลงได้ในภายหลัง</p>

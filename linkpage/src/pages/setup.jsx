@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useFrappeAuth, useFrappeGetCall } from 'frappe-react-sdk'
 import bioIcon from '../icons/bio.svg'
 import {ArrowNarrowLeft} from '@untitled-ui/icons-react'
 import zaviago from '../icons/zaviago-com.svg'
@@ -30,17 +31,10 @@ import PartyBall from '../icons/setupicons/partyball';
 import Shopping from '../icons/setupicons/shopping'
 import Sprinkle from '../icons/setupicons/sprinkle'
 
+import { useNavigate } from 'react-router-dom';
+import { getToken } from '../utils/helper';
+import { useUser } from '../hooks/userUser'
 
-
-
-const shortcutDisplay = [
-    { id: 1, title: 'ด้านบนของลิงก์', img: UpperLink},
-    { id: 2, title: 'ด้านล่างของลิงก์', img: LowerLink},
-]
-
-function classNames(...classes) {
-return classes.filter(Boolean).join(' ')
-}
 
 
 const Setup = () => {
@@ -61,6 +55,7 @@ const Setup = () => {
     const [OTP, setOTPValue] = useState('')
     const [error, setError] = useState('');
     const [focus, setFocus] = useState('')
+   
     const handleOTPChange = (event) => {
         let inputValue = event.target.value;
         if (inputValue.length > 6){
@@ -75,8 +70,41 @@ const Setup = () => {
     const [isSelected, setIsSelected] = useState(0);
     const [resend, setResend] = useState(false);
 
-  
+    //--------line login----------------
+      const [lineurl, setlineurl] = useState("");
+      const {login} = useUser();
+      const navigate = useNavigate();
+      const { data } = useFrappeGetCall('/linkpage_api.api_calls.linetoken.get_oauth2_authorize_url', null, ``)
 
+
+    const line = async (usr, pwd) => {
+      try {
+        return fetch(`${import.meta.env.VITE_ERP_URL}api/method/linkpage_api.api_calls.linetoken.get_oauth2_authorize_url?` + Date.now(), { method: "GET", headers: { "Content-Type": "application/json" } }).then((response) => response.json()).then((data) => {
+          setlineurl(data.message);
+        })
+      } catch (error) {
+        return error;
+      }
+    }
+
+    const {
+      isLoading,
+    } = useFrappeAuth();
+
+    useEffect(() => {
+      if (getToken()) {
+        navigate("/setup");
+        goNext();
+      }
+      line();
+    }, [])
+
+
+    function handleClick(e) {
+      const url = window.location.href = lineurl
+      navigate(url)
+    }
+  //-----------------------------------
     
     const cardData = [
     { id: 1, mainIcon :<Kart width='50' height='50'/>, secondaryIcon : [<Kart/>,<Shopping/>,<Haircut/>] , animation :['']},
@@ -152,7 +180,7 @@ const Setup = () => {
                 <ArrowNarrowLeft color='#2F2F2F'/>
                 </button>
             </div>
-            {page === 0 && (
+            {page === 0  &&  (
                 <div className=" overflow-y-scroll px-4 w-screen " style={{ height: 'calc(100vh - 5em )' }}>
                 <div className={`mb-[10em] ${goNextSlideLeft ? 'go-next-slide-left' : goNextSlideRight ? 'go-next-slide-right' : goBackSlideLeft ? 'go-back-slide-left' : goBackSlideRight ? 'go-back-slide-right' : ''}`}>
                   <div className="inline-flex flex-col items-start space-y-10"> {/* Utilisez space-y-[x] pour l'espacement vertical */}
@@ -172,7 +200,7 @@ const Setup = () => {
                   </div>
               
                   <div className="inline-flex flex-col items-start space-y-16 w-full space-y-8 mt-12"> {/* Utilisez space-y-[x] pour l'espacement vertical */}
-                    <button className="flex w-full h-[45px] px-4 py-2 justify-center items-center rounded-lg border border-solid border-green-500 bg-green-500 shadow-xs text-[#FFF] text-eventpop text-sm font-semibold leading-6 transition-transform transform hover:scale-105 active:scale-95" onClick={goNext}>
+                    <button className="flex w-full h-[45px] px-4 py-2 justify-center items-center rounded-lg border border-solid border-green-500 bg-green-500 shadow-xs text-[#FFF] text-eventpop text-sm font-semibold leading-6 transition-transform transform hover:scale-105 active:scale-95" onClick={() => {handleClick()}}>
                       สมัครใช้งานผ่านไลน์  <Line ></Line>
                     </button>
                     <div className="w-full h-[1px] bg-[#D1D5DB] flex justify-center items-center">

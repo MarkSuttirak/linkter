@@ -196,7 +196,7 @@ const Profile = () => {
   const [numSubTemplates, setSubNumTemplates] = useState(1);
   const [imgPath, setImagepath] = useState([]);
 
-  const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[0])
+  const [selectedShortcutDisplay, setSelectedShortcutDisplay] = useState(shortcutDisplay[1])
   const [editTemplate, setEditTemplate] = useState(false);
   const [iconColour, setIconColour] = useState('#2F2F2F')
 
@@ -270,6 +270,9 @@ const Profile = () => {
   const [linkInputLists, setLinkInputLists] = useState([])
   const [IconInputListsWhenSaved, setIconInputListsWhenSaved] = useState([]);
   const [iconInputLists, setIconInputLists] = useState([])
+  const [linkplacementTemp, setLinkPlacementTemp] = useState('bot')
+  const [linkplacement, setLinkPlacement] = useState('bot')
+
 
   const saveData = () => {
     setIsSaving(true);
@@ -847,6 +850,21 @@ const handleShareClick = async(link) => {
               </div>
             </section>
 
+            {linkplacementTemp === 'top' &&  (<section className="section-2" onClick={() => {
+              setOpenAddButtonModal(true);
+              setAddBtnMenuActive(2);
+              setSelectCustomise(true)
+            }}>
+              <div className="flex justify-end px-4">
+                <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
+              </div>
+              <div className="flex justify-center gap-x-5 mt-6">
+                <Facebook color={linkColorTemp}/>
+                <Instagram color={linkColorTemp} />
+                <XTwitter color={linkColorTemp} />
+              </div>
+            </section>)}
+
             <section className="section" onClick={() => setOpenChangeTitle(true)}>
               <div className="flex justify-end">
                 <Edit05 color='#FF4A00' viewBox='0 0 24 24' width='16' height='16'/>
@@ -867,7 +885,7 @@ const handleShareClick = async(link) => {
               </div>
             </section>
 
-            <section className="section-2" onClick={() => {
+            {linkplacementTemp === 'bot' &&  (<section className="section-2" onClick={() => {
               setOpenAddButtonModal(true);
               setAddBtnMenuActive(2);
               setSelectCustomise(true)
@@ -880,7 +898,7 @@ const handleShareClick = async(link) => {
                 <Instagram color={linkColorTemp} />
                 <XTwitter color={linkColorTemp} />
               </div>
-            </section>
+            </section>)}
           </>
         ) : page === 'profile' ? (
           <>
@@ -1040,8 +1058,7 @@ const handleShareClick = async(link) => {
               <p className="mt-[18px] noto">{description}</p>
             </div>
           </section>
-
-
+          {linkplacement === 'bot' &&(
           <section className="pt-[34px] p-4 section-profile-2">
             <h2 ref={titleHTML} className=" font-bold noto">{btnTitleWhenSaved}</h2>
 
@@ -1058,7 +1075,7 @@ const handleShareClick = async(link) => {
               <Instagram color={linkColor}/>
               <XTwitter color={linkColor}/>
             </div>
-          </section>
+          </section>)}
           </>
         )}
       </main>
@@ -1757,8 +1774,8 @@ const handleShareClick = async(link) => {
                             <div className="w-[96px] h-[96px] rounded-full bg-[#FF4A00] flex items-center justify-center text-[50px] text-white font-bold">
                               <Image01 color='white' />
                             </div>
-                              <input accept='image/*' type="file" id='uploadImg' onChange={(event) => {handleUploadImage(event); setImage(true)}} className='hidden'/>
-                              <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full'/>
+                              <input accept='image/*' type="file" id='uploadImg' onChange={(event) => {handleUploadImage(event); setImage(true),console.log('egwrewgwsf')}} className='hidden'/>
+                              <img src={tempImage}  className='h-full w-full bg-blue-500 rounded-full' />
                           </label>
                         )}
 
