@@ -84,7 +84,6 @@ const Setup = () => {
 
     useEffect(() => {
       if (getToken()) {
-        navigate("/setup");
         goNext();
       }
       line();
