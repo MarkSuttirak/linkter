@@ -93,7 +93,7 @@ const Setup = () => {
   const isReload = Cookies.get('full_name') === true;
 
   useEffect(() => {
-
+    setTimeout(600)
     if(isReload)
     {
      goNext()
@@ -132,7 +132,7 @@ const Setup = () => {
         if (page > 0) {
           setGoBackSlideRight(true);
           setSlideDown(true);
-          setTimeout(() => {
+           setTimeout(() => {
             setSlideDown(false);
             setSlideUp(true);
             setGoBackSlideRight(false);
