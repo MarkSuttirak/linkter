@@ -94,29 +94,9 @@ const Setup = () => {
 
   useEffect(() => {
 
-    if (isPhoneVerified) {
-      setGoNextSlideLeft(true);
-        setSlideDown(true);
-        setTimeout(() => {
-          setSlideDown(false);
-          setSlideUp(true);
-          setGoNextSlideRight(true);
-          setGoNextSlideLeft(false);
-          setPage(3);
-        }, 600)
-        setTimeout(() => {
-          setSlideUp(false);
-          setGoNextSlideRight(false);
-        }, 1200)
-    }
-
     if (token) {
       Cookies.set('username', username);
-      if (phoneverify == 'true') {
         Cookies.set('phoneverify', true);
-        navigate('/register');
-      }
-      else {
         navigate('/setup');
         setGoNextSlideLeft(true);
         setSlideDown(true);
@@ -131,19 +111,8 @@ const Setup = () => {
           setSlideUp(false);
           setGoNextSlideRight(false);
         }, 1200)
-      }
-
-      if (Cookies.get('system_user') != 'yes') {
         setToken(token)
-        navigate('/profile');
-        window.location.reload(true);
-      }
-
-
-    }
-
-
-    if (!getToken()) {
+    }else{
       line();
     }
 
