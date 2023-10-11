@@ -88,26 +88,14 @@ const Setup = () => {
   const token = new URLSearchParams(search).get("token");
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
-  const profileImage = new URLSearchParams(search).get("image")
   const [Userverify, SetUserverify] = useState(phoneverify);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
   const isReload = Cookies.get('full_name') === 'true';
 
   useEffect(() => {
 
-    if(!isReload)
+    if(isReload)
     {
-      if (token) {
-        Cookies.set('username', username);
-        Cookies.set('phoneverify', true);
-        navigate('/setup');
-        setToken(token)
-        window.location.reload(true);
-       
-    }else{
-      line();
-    }
-    }else{
       setGoNextSlideLeft(true);
       setSlideDown(true);
       setTimeout(() => {
@@ -121,11 +109,22 @@ const Setup = () => {
         setSlideUp(false);
         setGoNextSlideRight(false);
       }, 1200)
+    }else{
+      if (token) {
+        Cookies.set('username', username);
+        Cookies.set('phoneverify', true);
+        navigate('/setup');
+        setToken(token)
+        window.location.reload(true);
+       
+      }else{
+        line();
+      }
     }
    
 
 
-  },[isPhoneVerified]);
+  },[ isReload]);
 
 
 
