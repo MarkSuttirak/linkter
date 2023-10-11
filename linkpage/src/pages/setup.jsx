@@ -91,32 +91,38 @@ const Setup = () => {
   const profileImage = new URLSearchParams(search).get("image")
   const [Userverify, SetUserverify] = useState(phoneverify);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
-
+  const isReload = Cookies.get('full_name') === 'true';
 
   useEffect(() => {
 
-    if (token) {
-      Cookies.set('username', username);
+    if(!isReload)
+    {
+      if (token) {
+        Cookies.set('username', username);
         Cookies.set('phoneverify', true);
         navigate('/setup');
         setToken(token)
         window.location.reload(true);
-        setGoNextSlideLeft(true);
-        setSlideDown(true);
-        setTimeout(() => {
-          setSlideDown(false);
-          setSlideUp(true);
-          setGoNextSlideRight(true);
-          setGoNextSlideLeft(false);
-          setPage(1);
-        }, 600)
-        setTimeout(() => {
-          setSlideUp(false);
-          setGoNextSlideRight(false);
-        }, 1200)
+       
     }else{
       line();
     }
+    }else{
+      setGoNextSlideLeft(true);
+      setSlideDown(true);
+      setTimeout(() => {
+        setSlideDown(false);
+        setSlideUp(true);
+        setGoNextSlideRight(true);
+        setGoNextSlideLeft(false);
+        setPage(1);
+      }, 600)
+      setTimeout(() => {
+        setSlideUp(false);
+        setGoNextSlideRight(false);
+      }, 1200)
+    }
+   
 
 
   },[isPhoneVerified]);
