@@ -89,28 +89,41 @@ const Setup = () => {
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
   const [Userverify, SetUserverify] = useState(phoneverify);
+  const isPhoneVerified = Cookies.get('phoneverify') === 'true';
  
 
   useEffect(() => {
 
-    if(getToken())
-    {
+    if (isPhoneVerified) {
+      navigate("/setup");
       goNext()
-    }else{
-      if (token) {
-        Cookies.set('username', username);
+    }
+  
+    if (token) {
+      Cookies.set('username', username);
+      if (phoneverify == 'true') {
         Cookies.set('phoneverify', true);
-        setToken(token)
-        navigate('/setup')
-      }else{
-        line();
+        navigate("/setup");
+        goNext()
+      }
+      else {
+        navigate("/setup");
       }
     }
-    
-   
+  
+    if (Cookies.get('system_user') != 'yes') {
+      setToken(token)
+      navigate('/setup');
+      window.location.reload(true);
+    }
+
+    if (!getToken()) {
+      navigate("/setup");
+    }
+    line()
 
 
-  },[ getToken()]);
+  },[isPhoneVerified]);
 
 
 
