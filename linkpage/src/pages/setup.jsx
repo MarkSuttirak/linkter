@@ -28,7 +28,7 @@ import PartyBall from '../icons/setupicons/partyball';
 import Shopping from '../icons/setupicons/shopping'
 import Sprinkle from '../icons/setupicons/sprinkle'
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getToken, setToken } from '../utils/helper';
 
 
