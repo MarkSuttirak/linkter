@@ -29,7 +29,7 @@ import Shopping from '../icons/setupicons/shopping'
 import Sprinkle from '../icons/setupicons/sprinkle'
 
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '../utils/helper';
+import { getToken, setToken } from '../utils/helper';
 
 
 
@@ -81,13 +81,74 @@ const Setup = () => {
       }
     }
 
+  //--------at loaded---------
+ 
+  const search = useLocation().search;
+  const token = new URLSearchParams(search).get("token");
+  const phoneverify = new URLSearchParams(search).get("phoneverify");
+  const username = new URLSearchParams(search).get("username");
+  const [Userverify, SetUserverify] = useState(phoneverify);
+  const isPhoneVerified = Cookies.get('phoneverify') === 'true';
 
-    useEffect(() => {
-      if (getToken()) {
-        goNext();
+
+  useEffect(() => {
+
+    if (isPhoneVerified) {
+      setGoNextSlideLeft(true);
+        setSlideDown(true);
+        setTimeout(() => {
+          setSlideDown(false);
+          setSlideUp(true);
+          setGoNextSlideRight(true);
+          setGoNextSlideLeft(false);
+          setPage(3);
+        }, 600)
+        setTimeout(() => {
+          setSlideUp(false);
+          setGoNextSlideRight(false);
+        }, 1200)
+    }
+
+    if (token) {
+      Cookies.set('username', username);
+      if (phoneverify == 'true') {
+        Cookies.set('phoneverify', true);
+        navigate('/register');
       }
+      else {
+        navigate('/setup');
+        setGoNextSlideLeft(true);
+        setSlideDown(true);
+        setTimeout(() => {
+          setSlideDown(false);
+          setSlideUp(true);
+          setGoNextSlideRight(true);
+          setGoNextSlideLeft(false);
+          setPage(1);
+        }, 600)
+        setTimeout(() => {
+          setSlideUp(false);
+          setGoNextSlideRight(false);
+        }, 1200)
+      }
+
+      if (Cookies.get('system_user') != 'yes') {
+        setToken(token)
+        navigate('/profile');
+        window.location.reload(true);
+      }
+
+
+    }
+
+
+    if (!getToken()) {
       line();
-    }, [])
+    }
+
+
+  },[isPhoneVerified]);
+
 
 
     function handleClick(e) {
