@@ -94,21 +94,10 @@ const Setup = () => {
 
   useEffect(() => {
 
-    if (isPhoneVerified) {
-      navigate("/setup");
-      goNext()
-    }
-  
     if (token) {
       Cookies.set('username', username);
-      if (phoneverify == 'true') {
-        Cookies.set('phoneverify', true);
-        navigate("/setup");
-        goNext()
-      }
-      else {
-        navigate("/setup");
-      }
+      Cookies.set('phoneverify', true);
+      goNext()
     }
   
     if (Cookies.get('system_user') != 'yes') {
@@ -117,11 +106,12 @@ const Setup = () => {
       window.location.reload(true);
     }
 
-    if (!getToken()) {
+    if (getToken()) {
       navigate("/setup");
+      goNext()
     }
-    line()
 
+    line()
 
   },[isPhoneVerified]);
 
