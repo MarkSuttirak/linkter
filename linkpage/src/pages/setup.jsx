@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import { useFrappeAuth, useFrappeGetCall } from 'frappe-react-sdk'
 import bioIcon from '../icons/bio.svg'
 import {ArrowNarrowLeft} from '@untitled-ui/icons-react'
 import zaviago from '../icons/zaviago-com.svg'
-import UpperLink from '../icons/upperLink'
-import LowerLink from '../icons/lowerLink'
 import Line from "../icons/other/line";
 import 'react-phone-number-input/style.css'
 import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input'
@@ -33,7 +30,6 @@ import Sprinkle from '../icons/setupicons/sprinkle'
 
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/helper';
-import { useUser } from '../hooks/userUser'
 
 
 
@@ -72,9 +68,7 @@ const Setup = () => {
 
     //--------line login----------------
       const [lineurl, setlineurl] = useState("");
-      const {login} = useUser();
       const navigate = useNavigate();
-      const { data } = useFrappeGetCall('/linkpage_api.api_calls.linetoken.get_oauth2_authorize_url', null, ``)
 
 
     const line = async (usr, pwd) => {
@@ -87,9 +81,6 @@ const Setup = () => {
       }
     }
 
-    const {
-      isLoading,
-    } = useFrappeAuth();
 
     useEffect(() => {
       if (getToken()) {

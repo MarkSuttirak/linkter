@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.scss'
 import { FrappeProvider } from 'frappe-react-sdk'
 import { Routes, Route, useNavigate, useLocation  } from 'react-router-dom'
@@ -22,7 +21,6 @@ function App() {
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
   const [Userverify, SetUserverify] = useState(phoneverify);
-  const [user, setUser] = useState(null);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
 
 
@@ -70,7 +68,7 @@ function App() {
 
      }} 
      >
-      <UserProvider>
+      
         <Routes>
           <Route path='/' element={<Home />}/>
           <Route path='/register' element={<Register />}/>
@@ -79,7 +77,7 @@ function App() {
           <Route path='/view-profile' element={<ViewProfile />}/>
           <Route path='/setup' element={<Setup></Setup>}></Route>
         </Routes>
-      </UserProvider>
+  
     </FrappeProvider>
   )
 }
