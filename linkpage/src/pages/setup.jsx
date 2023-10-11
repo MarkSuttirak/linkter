@@ -99,6 +99,7 @@ const Setup = () => {
       Cookies.set('username', username);
       Cookies.set('phoneverify', true);
       setToken(token)
+      await(600)
       if (Cookies.get('system_user') != 'yes') {
         window.location.reload(true);
       }
