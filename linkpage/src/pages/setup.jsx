@@ -95,19 +95,18 @@ const Setup = () => {
   useEffect(() => {
 
     line()
-    
+    if (getToken()) {
+      goNext()
+    }
+
     if (token) {
       Cookies.set('username', username);
       Cookies.set('phoneverify', true);
     }
   
-    if (Cookies.get('system_user') != 'yes') {
+    if (Cookies.get('system_user') === 'yes') {
       setToken(token)
       window.location.reload(true);
-    }
-
-    if (getToken()) {
-      goNext()
     }
 
    
