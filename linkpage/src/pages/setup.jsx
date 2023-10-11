@@ -101,7 +101,7 @@ const Setup = () => {
         Cookies.set('username', username);
         Cookies.set('phoneverify', true);
         setToken(token)
-        window.location.reload(true);
+        navigate('/setup')
       }else{
         line();
       }
