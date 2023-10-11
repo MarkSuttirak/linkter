@@ -89,12 +89,13 @@ const Setup = () => {
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
   const [Userverify, SetUserverify] = useState(phoneverify);
-  const isCookieSet = Cookies.get('system_user') === 'yes';
+ 
 
   useEffect(() => {
-    if(isCookieSet)
+
+    if(getToken())
     {
-     goNext()
+      goNext()
     }else{
       if (token) {
         Cookies.set('username', username);
@@ -105,10 +106,11 @@ const Setup = () => {
         line();
       }
     }
+    
    
 
 
-  },[ isCookieSet]);
+  },[ getToken()]);
 
 
 
