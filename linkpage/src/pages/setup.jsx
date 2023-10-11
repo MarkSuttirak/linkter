@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import bioIcon from '../icons/bio.svg'
-import {ArrowNarrowLeft} from '@untitled-ui/icons-react'
+import {ArrowNarrowLeft, Square} from '@untitled-ui/icons-react'
 import zaviago from '../icons/zaviago-com.svg'
 import Line from "../icons/other/line";
 import 'react-phone-number-input/style.css'
@@ -88,6 +88,7 @@ const Setup = () => {
   const token = new URLSearchParams(search).get("token");
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
+  const profileImage = new URLSearchParams(search).get("image")
   const [Userverify, SetUserverify] = useState(phoneverify);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
 
@@ -98,6 +99,8 @@ const Setup = () => {
       Cookies.set('username', username);
         Cookies.set('phoneverify', true);
         navigate('/setup');
+        setToken(token)
+        window.location.reload(true);
         setGoNextSlideLeft(true);
         setSlideDown(true);
         setTimeout(() => {
@@ -111,7 +114,6 @@ const Setup = () => {
           setSlideUp(false);
           setGoNextSlideRight(false);
         }, 1200)
-        setToken(token)
     }else{
       line();
     }
