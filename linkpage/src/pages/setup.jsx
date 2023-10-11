@@ -90,11 +90,9 @@ const Setup = () => {
   const username = new URLSearchParams(search).get("username");
   const [Userverify, SetUserverify] = useState(phoneverify);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
-  const isReload = Cookies.get('full_name') === 'true';
 
   useEffect(() => {
-    console.log(isReload)
-    if(isReload)
+    if(isPhoneVerified)
     {
      goNext()
     }else{
@@ -110,7 +108,7 @@ const Setup = () => {
    
 
 
-  },[ isReload]);
+  },[ isPhoneVerified]);
 
 
 
