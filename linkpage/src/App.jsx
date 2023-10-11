@@ -8,8 +8,6 @@ import Profile from './pages/profile'
 import EditProfile from './pages/edit-profile'
 import ViewProfile from './pages/view-profile'
 import Setup from './pages/setup'
-import apifetch from './assets/key'
-import { UserProvider } from './hooks/userUser'
 import { getToken, setToken } from "./utils/helper";
 import Cookies from 'js-cookie';
 

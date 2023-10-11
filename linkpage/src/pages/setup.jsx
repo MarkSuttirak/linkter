@@ -30,6 +30,7 @@ import Sprinkle from '../icons/setupicons/sprinkle'
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getToken, setToken } from '../utils/helper';
+import Cookies from 'js-cookie';
 
 
 
