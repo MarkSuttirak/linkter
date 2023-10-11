@@ -94,24 +94,23 @@ const Setup = () => {
 
   useEffect(() => {
 
+    line()
+    
     if (token) {
       Cookies.set('username', username);
       Cookies.set('phoneverify', true);
-      goNext()
     }
   
     if (Cookies.get('system_user') != 'yes') {
       setToken(token)
-      navigate('/setup');
       window.location.reload(true);
     }
 
     if (getToken()) {
-      navigate("/setup");
       goNext()
     }
 
-    line()
+   
 
   },[isPhoneVerified]);
 
