@@ -98,12 +98,12 @@ const Setup = () => {
     if (token) {
       Cookies.set('username', username);
       Cookies.set('phoneverify', true);
+      setToken(token)
+      if (Cookies.get('system_user') != 'yes') {
+        window.location.reload(true);
+      }
     }
   
-    if (Cookies.get('system_user') != 'yes') {
-      setToken(token)
-      window.location.reload(true);
-    }
   },[isPhoneVerified]);
 
   useEffect(() => {
