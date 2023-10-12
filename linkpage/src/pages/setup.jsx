@@ -85,12 +85,16 @@ const Setup = () => {
   //--------at loaded---------
  
   const search = useLocation().search;
+  const Url = new URL(search)
   const token = new URLSearchParams(search).get("token");
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
   const [Userverify, SetUserverify] = useState(phoneverify);
   const isPhoneVerified = Cookies.get('phoneverify') === 'true';
   const reloaded = Cookies.get('reloaded') === 'true';
+  Url.searchParams.delete('username')
+  Url.searchParams.delete('phoneverify')
+  Url.searchParams.delete('token')
 
   useEffect(() => {
 
@@ -101,7 +105,7 @@ const Setup = () => {
       setToken(token)
       if(!reloaded){
         Cookies.set('reloaded', 'true')
-        navigate('/setup')
+        window.location.href = Url.toString()
       }
     }else{
       line()
