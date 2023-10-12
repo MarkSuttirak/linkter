@@ -48,20 +48,9 @@ const Setup = () => {
 
     const [slideDown, setSlideDown] = useState(false);
     const [slideUp, setSlideUp] = useState(false);
-    const [valuePhone, setValuePhone] = useState('')
-    const [OTP, setOTPValue] = useState('')
-    const [error, setError] = useState('');
-    const [focus, setFocus] = useState('')
+
    
-    const handleOTPChange = (event) => {
-        let inputValue = event.target.value;
-        if (inputValue.length > 6){
-            setError('OTP ไม่ถูกต้อง');
-        }else{
-            setError(undefined)
-        }
-        setOTPValue(inputValue)
-    }
+
   
     const [cooldown, setCooldown] = useState(0);
     const [isSelected, setIsSelected] = useState(0);
@@ -85,8 +74,6 @@ const Setup = () => {
   //--------at loaded---------
  
   const search = useLocation().search;
-  const currentURL = window.location.href;
-  const Url = new URL(currentURL)
   const token = new URLSearchParams(search).get("token");
   const phoneverify = new URLSearchParams(search).get("phoneverify");
   const username = new URLSearchParams(search).get("username");
@@ -100,24 +87,17 @@ const Setup = () => {
     if (token) {
       Cookies.set('username', username);
       Cookies.set('phoneverify', true);
-      Url.searchParams.delete('username')
-      Url.searchParams.delete('phoneverify')
-      Url.searchParams.delete('token')
       setToken(token)
       if(!reloaded){
         Cookies.set('reloaded', 'true')
-        window.location.href = Url.toString()
+        window.location.reload(true);
+      }else{
+        goNext()
       }
     }else{
       line()
     }
   },[isPhoneVerified]);
-
-  useEffect(() => {
-    if (getToken() && Cookies.get('system_user') === 'yes') {
-      goNext()
-    }
-  },[reloaded])
 
 
 
@@ -126,6 +106,104 @@ const Setup = () => {
       navigate(url)
     }
   //-----------------------------------
+
+  //------------verify phone-----------
+
+  const [valuePhone, setValuePhone] = useState('')
+  const [OTP, setOTPValue] = useState('')
+  const [error, setError] = useState('');
+  const [focus, setFocus] = useState('');
+  const [errornow, seterrornow] = useState('');
+
+  const handleOTPChange = (event) => {
+    let inputValue = event.target.value;
+    if (inputValue.length > 6){
+        setError('OTP ไม่ถูกต้อง');
+    }else{
+        setError(undefined)
+    }
+    setOTPValue(inputValue)
+  }
+  const clickverify = () => {
+    phonverifynow(valuePhone);
+  }
+
+  const phonverifynow = (phone) => {
+    try {
+      return fetch(`${import.meta.env.VITE_ERP_URL}api/method/linkpage_api.api_calls.verifyuser.getphone?userphone=` + phone, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }).then((response) => 
+      response.json()).then((data) => {
+        var res = data.message;
+
+        if (res.status == 'success') {
+          seterrornow('');
+          seterrornow(res.message);
+          goNext(2)
+        }
+        else {
+          seterrornow(res.message);
+          setDisabled(false)
+        }
+
+      })
+
+    } catch (error) {
+      return error;
+    }
+  }
+
+
+  const verifyotp = () => {
+    verifyotpnow(valuePhone, OTP, Cookies.get('username'))
+  }
+
+  const verifyotpnow = (userphone, myotp, username) => {
+
+
+    if(!myotp){
+      seterrornow('Please Enter OTP');
+      setShowConfirm(false);
+      return;
+    }
+
+
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "full_name=Guest; sid=Guest; system_user=no; user_id=Guest; user_image=");
+    myHeaders.append("Authorization", "Bearer " + Cookies.get('token'));
+
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders
+    };
+    fetch(`${import.meta.env.VITE_ERP_URL}api/method/linkpage_api.api_calls.verifyuser.verifyotp?userphone=` + userphone + "&otp=" + myotp + "&username=" + username, requestOptions)
+      .then((response) => response.json()).then((data) => {
+        var res = data.message;
+
+        if (res.status == 'success') {
+          setError('');
+          setError(res.message);
+          Cookies.set('phoneverify', false);
+          refetch().then(goNext(3))
+        }
+        else {
+          setError(res.message);
+        }
+
+      })
+      .catch(error => console.log('error', error));
+
+  }
+
+
+
+
+
+  //----------------------------------
     
     const cardData = [
     { id: 1, mainIcon :<Kart width='50' height='50'/>, secondaryIcon : [<Kart/>,<Shopping/>,<Haircut/>] , animation :['']},
@@ -135,7 +213,7 @@ const Setup = () => {
     ];
 
 
-    const goPrev = () => {
+    const goPrev = (target = null) => {
         if (page > 0) {
           setGoBackSlideRight(true);
           setSlideDown(true);
@@ -144,7 +222,7 @@ const Setup = () => {
             setSlideUp(true);
             setGoBackSlideRight(false);
             setGoBackSlideLeft(true);
-            setPage(page - 1);
+            setPage(target ? target : page - 1);
           }, 600)
           setTimeout(() => {
             setSlideUp(false);
@@ -153,7 +231,7 @@ const Setup = () => {
         }
       }
     
-      const goNext = () => {
+      const goNext = (target = null) => {
         setGoNextSlideLeft(true);
         setSlideDown(true);
         setTimeout(() => {
@@ -161,7 +239,7 @@ const Setup = () => {
           setSlideUp(true);
           setGoNextSlideRight(true);
           setGoNextSlideLeft(false);
-          setPage(page + 1);
+          setPage(target ? target : page + 1);
         }, 600)
         setTimeout(() => {
           setSlideUp(false);
@@ -260,9 +338,9 @@ const Setup = () => {
                                 placeholder="0885423475"
                                 value={valuePhone}
                                 onChange={setValuePhone}
-                                error={valuePhone ? (isPossiblePhoneNumber(valuePhone) ? undefined : 'Invalid phone number') : 'Phone number required'}/>
+                                error={ errornow ? errornow : (valuePhone ? (isPossiblePhoneNumber(valuePhone) ? undefined : 'Invalid phone number') : 'Phone number required')}/>
                         </div>
-                        <button className="main-btn" onClick={() => {goNext(),setCooldown(20), setResend(false)}}>รับรหัส OTP</button>
+                        <button className="main-btn" onClick={() => {clickverify(),setCooldown(20), setResend(false)}}>รับรหัส OTP</button>
                     </div>
                 </div>
             )}
@@ -280,9 +358,9 @@ const Setup = () => {
                                 <FormErrorMessage>{error}</FormErrorMessage>
                             </FormControl>
                         </div>
-                        <button className="main-btn" onClick={goNext}>ยืนยันรหัส OTP</button>                    
+                        <button className="main-btn" onClick={verifyotp}>ยืนยันรหัส OTP</button>                    
                         {cooldown != 0 ? (<p className="text-gray-400 text-center text-[0.9rem] font-eventpop text-sm font-normal leading-5" >คุณสามารถขอรับรหัส OTP อีกครั้งได้ภายใน 0:{cooldown}</p>): null}
-                        {resend ? (<button onClick={() => {setCooldown(20); setResend(false)}} className='text-center font-eventpop text-sm font-normal leading-5' style={{ color: '#101828' }}>Request OTP</button>) : null}
+                        {resend ? (<button onClick={() => {setCooldown(20); setResend(false); clickverify()}} className='text-center font-eventpop text-sm font-normal leading-5' style={{ color: '#101828' }}>Request OTP</button>) : null}
                     </div>
                 </div>
             )}

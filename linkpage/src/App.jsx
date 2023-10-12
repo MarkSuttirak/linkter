@@ -14,46 +14,18 @@ import Cookies from 'js-cookie';
 function App() {
 
   const navigate = useNavigate();
-  const search = useLocation().search;
-  const token = new URLSearchParams(search).get("token");
-  const phoneverify = new URLSearchParams(search).get("phoneverify");
-  const username = new URLSearchParams(search).get("username");
-  const [Userverify, SetUserverify] = useState(phoneverify);
-  const isPhoneVerified = Cookies.get('phoneverify') === 'true';
 
 
-  /*useEffect(() => {
-
-    if (isPhoneVerified) {
-      navigate('/setup');
-    }
-
-    if (token) {
-      Cookies.set('username', username);
-      if (phoneverify == 'true') {
-        Cookies.set('phoneverify', true);
-        navigate('/register');
-      }
-      else {
-        navigate('/setup');
-      }
-
-      if (Cookies.get('system_user') != 'yes') {
-        setToken(token)
-        navigate('/profile');
-        window.location.reload(true);
-      }
-
-
-    }
-
+  useEffect(() => {
 
     if (!getToken()) {
       navigate("/setup");
+    }else{
+      navigate('/profile')
     }
 
 
-  },[isPhoneVerified]);*/
+  },[]);
 
   return (
     <FrappeProvider 
